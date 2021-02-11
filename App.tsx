@@ -23,8 +23,7 @@ const App: React.FC = () => {
         100 + -30 + 2,
         100 + -30 + 2,
         20 + -30 / 2,
-    );
-
+    ); 
 
     return (
         <SafeAreaView style={styles.container}>
@@ -37,7 +36,7 @@ const App: React.FC = () => {
                     shadowColor: "grey",
                     shadowRadius: 10,
                     borderRadius: 20,
-                    backgroundColor: '#DDDDDD',
+                    backgroundColor: 'white',
                     width: 300,
                     height: 300,
                     marginBottom: 100
@@ -54,6 +53,24 @@ const App: React.FC = () => {
                     backgroundColor: '#DDDDDD',
                     width: 300,
                     height: 300,
+                    marginTop: 50,
+                    marginLeft: 50
+                }}
+                >
+                <Text></Text>
+            </Neomorph>
+            <Neomorph
+                useArt
+                // inner // <- enable shadow inside of neomorph
+                // swapShadows // <- change zIndex of each shadow color
+                style={{
+                    shadowRadius: 10,
+                    borderRadius: 25,
+                    backgroundColor: '#DDDDDD',
+                    width: 300,
+                    height: 300,
+                    marginTop: 100,
+                    marginLeft: 40
                 }}
                 >
                 <Text></Text>

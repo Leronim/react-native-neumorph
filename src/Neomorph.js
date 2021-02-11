@@ -95,8 +95,17 @@ export default class Neomorph extends React.PureComponent {
       if (useArt || Platform.OS !== 'ios') {
         return (
           <View pointerEvents={'none'}>
-            <OuterShadowART {...styleDark} />
-            <OuterShadowART {...styleLight} />
+            <OuterShadowART position="top" {...styleDark} />
+              <View
+                style={{
+                  backgroundColor,
+                  ...viewStyle,
+                  ...insideViewStyle,
+                  zIndex: 2
+                }}>
+                {children}
+              </View>
+            <OuterShadowART position="bottom" {...styleLight} />
           </View>
         );
       } else {
@@ -156,14 +165,6 @@ export default class Neomorph extends React.PureComponent {
       return (
         <View style={{ ...viewStyle, ...outsideViewStyle }} {...otherProps}>
           {renderOuter()}
-          <View
-            style={{
-              backgroundColor,
-              ...viewStyle,
-              ...insideViewStyle,
-            }}>
-            {children}
-          </View>
         </View>
       );
     }
