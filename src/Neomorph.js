@@ -93,6 +93,7 @@ export default class Neomorph extends React.PureComponent {
     }
 
     const renderOuter = () => {
+      console.log(insideViewStyle)
       if (useArt || Platform.OS !== 'ios') {
         return (
           <View pointerEvents={'none'}>

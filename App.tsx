@@ -19,6 +19,7 @@ import Shadow from './src/Shadow';
 import Neomorph from './src/Neomorph'
 import Animated, { Value, timing, Easing, useValue } from 'react-native-reanimated';
 import Test from './src/Test';
+import { AnimatedNeomorph } from './src/AnimatedNeomorph';
 import { NeomorphTwo } from './src/NeomorphTwo';
 
 const NeomorphAnim = Animated.createAnimatedComponent(Neomorph);
@@ -68,25 +69,38 @@ const App: React.FC = () => {
                     <Text></Text>
                 </Neomorph>
             </Pressable> */}
-            <AnimTest width={width}/>
-            <NeomorphAnim
-                // useArt
-                inner // <- enable shadow inside of neomorph
-                // swapShadows // <- change zIndex of each shadow color
+            {/* <AnimTest width={width}/>
+            <Neomorph
+                    inner // <- enable shadow inside of neomorph
+                    // swapShadows // <- change zIndex of each shadow color
                     style={{
                         shadowRadius: 10,
                         borderRadius: 25,
                         backgroundColor: '#DDDDDD',
-                        width: width,
-                        height: width,
+                        width: 300,
+                        height: 300,
                         marginTop: 50,
-                        marginLeft: 40
+                        marginLeft: 50
                     }}
-                >
-                <Text>{`${width}`}</Text>
-            </NeomorphAnim>
-            <Button onPress={() => startAnimation()} title="toggle"/>
+                    >
+                    <Text></Text>
+                </Neomorph>
+            <Button onPress={() => startAnimation()} title="toggle"/> */}
             <NeomorphTwo
+                // inner
+                style={{
+                    backgroundColor: '#DDDDDD',
+                    borderRadius: 25,
+                    shadowRadius: 10,
+                    marginLeft: 50,
+                    marginTop: 100,
+                    width: 300,
+                    height: 300
+                }}
+            >
+                <Text></Text>
+            </NeomorphTwo>
+            {/* <AnimatedNeomorph
                 inner
                 width={width}
                 height={width}
@@ -99,7 +113,7 @@ const App: React.FC = () => {
                 }}
             >
                 <Text>123</Text>
-            </NeomorphTwo>
+            </AnimatedNeomorph> */}
         </SafeAreaView>
     );
 };

@@ -14,7 +14,7 @@ interface InerShadowProps {
 const AnimSvg = Animated.createAnimatedComponent(Svg);
 const AnimRect = Animated.createAnimatedComponent(Rect);
 
-export const InerShadowSvg: React.FC<InerShadowProps> = ({ 
+export const AnimatedInerShadowSvg: React.FC<InerShadowProps> = ({ 
     borderRadius,
     position,
     backgroundColor,
