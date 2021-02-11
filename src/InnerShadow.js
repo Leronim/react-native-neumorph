@@ -19,7 +19,7 @@ export default class InnerShadow extends React.PureComponent {
     return (
       <View style={{ ...viewStyle, ...outsideViewStyle }} {...containerProps}>
         <View style={[styles.container, { ...viewStyle, backgroundColor }]}>
-          <InnerShadowART {...allShadowProps} />
+          <InnerShadowART position="top" {...allShadowProps} />
         </View>
         <View style={{ ...viewStyle, ...insideViewStyle }}>{children}</View>
       </View>

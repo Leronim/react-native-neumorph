@@ -1,12 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { ShadowARTType } from './types';
-import { Surface, Shape, Group } from '@react-native-community/art';
-import { getPathWithRadius, transformShadowPropsForAndroid } from './helpers';
+import { transformShadowPropsForAndroid } from './helpers';
 import { Svg, Rect, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 export default class InnerShadowART extends React.PureComponent {
-	renderStop = (backgroundColor, shadowProps, type) => {
+	renderStop = (backgroundColor, shadowProps) => {
 		return[
 				<Stop 
 					offset="0.1" 
@@ -16,8 +15,8 @@ export default class InnerShadowART extends React.PureComponent {
 				/>,
 				<Stop 
 					offset="0" 
-					stopColor={type === 'shadow' ? shadowProps.shadowColor : 'white'} 
-					stopOpacity="0.5" 
+					stopColor={shadowProps.shadowColor || 'white'} 
+					stopOpacity="0.3" 
 					key={`Box${this.props.position}Linear1`}
 				/>
 		]
@@ -27,10 +26,10 @@ export default class InnerShadowART extends React.PureComponent {
 			return(
 				<Defs>
 					<LinearGradient id="shadow1" x1="0%" x2="0%" y1="0%" y2="100%">
-						{this.renderStop(backgroundColor, shadowProps, 'shadow')}
+						{this.renderStop(backgroundColor, shadowProps)}
 					</LinearGradient>
 					<LinearGradient id="shadow2" x1="0%" y1="0%" x2="100%" y2="0%">
-						{this.renderStop(backgroundColor, shadowProps, 'shadow')}
+						{this.renderStop(backgroundColor, shadowProps)}
 					</LinearGradient>
 				</Defs>
 			)
@@ -38,10 +37,10 @@ export default class InnerShadowART extends React.PureComponent {
 			return(
 				<Defs>
 					<LinearGradient id="shadow1" x1="100%" y1="0%" x2="0%" y2="0%">
-						{this.renderStop(backgroundColor, shadowProps, 'white')}
+						{this.renderStop(backgroundColor, shadowProps)}
 					</LinearGradient>
 					<LinearGradient id="shadow2" x1="0%" x2="0%" y1="100%" y2="0%">
-						{this.renderStop(backgroundColor, shadowProps, 'white')}
+						{this.renderStop(backgroundColor, shadowProps)}
 					</LinearGradient>
 				</Defs>
 			)
@@ -74,7 +73,7 @@ export default class InnerShadowART extends React.PureComponent {
 		} else {
 			stroke += absOffsetY;
 		}
-		
+		console.log(shadowProps)
 		return (
 			<Svg height={height} width={width} style={{ position: 'absolute' }}>
 				{this.renderLinearGradient(backgroundColor, shadowProps)}
