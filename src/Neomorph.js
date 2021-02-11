@@ -95,17 +95,17 @@ export default class Neomorph extends React.PureComponent {
       if (useArt || Platform.OS !== 'ios') {
         return (
           <View pointerEvents={'none'}>
-            <OuterShadowART position="top" {...styleDark} />
+            <OuterShadowART position="bottom" {...styleDark} />
               <View
                 style={{
                   backgroundColor,
                   ...viewStyle,
                   ...insideViewStyle,
-                  zIndex: 2
+                  zIndex: 1
                 }}>
                 {children}
               </View>
-            <OuterShadowART position="bottom" {...styleLight} />
+            <OuterShadowART position="top" {...styleLight} />
           </View>
         );
       } else {
