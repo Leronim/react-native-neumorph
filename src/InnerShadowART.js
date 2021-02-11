@@ -3,8 +3,12 @@ import React from 'react';
 import { ShadowARTType } from './types';
 import { transformShadowPropsForAndroid } from './helpers';
 import { Svg, Rect, Defs, LinearGradient, Stop } from 'react-native-svg';
+import Animated from 'react-native-reanimated';
 
-export default class InnerShadowART extends React.PureComponent {
+const AnimSvg = Animated.createAnimatedComponent(Svg);
+const AnimRect = Animated.createAnimatedComponent(Rect);
+
+export default class InnerShadowART extends React.Component {
 	renderStop = (backgroundColor, shadowProps) => {
 		return[
 				<Stop 
@@ -73,13 +77,12 @@ export default class InnerShadowART extends React.PureComponent {
 		} else {
 			stroke += absOffsetY;
 		}
-		console.log(shadowProps)
 		return (
-			<Svg height={height} width={width} style={{ position: 'absolute' }}>
+			<AnimSvg height={height} width={width} style={{ position: 'absolute' }}>
 				{this.renderLinearGradient(backgroundColor, shadowProps)}
-				<Rect width={width} height={height} fill="url(#shadow1)" />
-				<Rect width={width} height={height} fill="url(#shadow2)" />
-			</Svg>
+				<AnimRect rx={borderRadius} ry={borderRadius} width={width} height={height} fill="url(#shadow1)" />
+				<AnimRect rx={borderRadius} ry={borderRadius} width={width} height={height} fill="url(#shadow2)" />
+			</AnimSvg>
 		);
 	}
 }

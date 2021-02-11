@@ -10,6 +10,7 @@ import {
 } from './helpers';
 import InnerShadowART from './InnerShadowART';
 import OuterShadowART from './OuterShadowART';
+import Animated from 'react-native-reanimated';
 
 export default class Neomorph extends React.PureComponent {
   render() {
@@ -95,8 +96,8 @@ export default class Neomorph extends React.PureComponent {
       if (useArt || Platform.OS !== 'ios') {
         return (
           <View pointerEvents={'none'}>
-            <OuterShadowART position="bottom" {...styleDark} />
-              <View
+            <OuterShadowART position="bottom" width={style.width} height={style.height} {...styleDark} />
+              <Animated.View
                 style={{
                   backgroundColor,
                   ...viewStyle,
@@ -104,8 +105,8 @@ export default class Neomorph extends React.PureComponent {
                   zIndex: 1
                 }}>
                 {children}
-              </View>
-            <OuterShadowART position="top" {...styleLight} />
+              </Animated.View>
+            <OuterShadowART position="top" width={style.width} height={style.height} {...styleLight} />
           </View>
         );
       } else {
@@ -155,8 +156,8 @@ export default class Neomorph extends React.PureComponent {
           }}
           {...otherProps}>
           <View style={[styles.containerInnerLayers, viewStyle]}>
-            <InnerShadowART position="top" {...styleDark} />
-            <InnerShadowART position="bottom" {...styleLight} />
+            <InnerShadowART position="top" width={width} {...styleDark} />
+            <InnerShadowART position="bottom" width={width} {...styleLight} />
           </View>
           <View style={{ ...viewStyle, ...insideViewStyle }}>{children}</View>
         </View>

@@ -11,25 +11,47 @@ import {
     SafeAreaView,
     StyleSheet,
     Text,
-    Pressable
+    Button,
+    View,
+    TextBase,
 } from 'react-native';
 import Shadow from './src/Shadow';
 import Neomorph from './src/Neomorph'
-import { Svg, Rect, Path } from 'react-native-svg';
-import { getPathWithRadius } from './src/helpers';
+import Animated, { Value, timing, Easing, useValue } from 'react-native-reanimated';
+import Test from './src/Test';
+import { NeomorphTwo } from './src/NeomorphTwo';
 
+const NeomorphAnim = Animated.createAnimatedComponent(Neomorph);
+const AnimTest = Animated.createAnimatedComponent(Test);
+const AnimView = Animated.createAnimatedComponent(View);
 
 const App: React.FC = () => {
-    const [isToggle, setIsToggle] = useState(false)
-    const path = getPathWithRadius(
-        100 + -30 + 2,
-        100 + -30 + 2,
-        20 + -30 / 2,
-    ); 
+
+    const width = useValue(150)
+
+    const startAnimation = () => {
+        timing(width, {
+          toValue: 300,
+          duration: 1500,
+          easing: Easing.ease
+        }).start();
+    }
+
+    const shadowOpt = {
+        width:100,
+        height:100,
+        color:"#000",
+        border:2,
+        radius:3,
+        opacity:0.2,
+        x:0,
+        y:3,
+        style:{marginVertical:5}
+    }
 
     return (
         <SafeAreaView style={styles.container}>
-            <Pressable onPressIn={() => setIsToggle(true)} onPressOut={() => setIsToggle(false)}>
+            {/* <Pressable onPressIn={() => setIsToggle(true)} onPressOut={() => setIsToggle(false)}>
                 <Neomorph
                     inner={isToggle} // <- enable shadow inside of neomorph
                     // swapShadows // <- change zIndex of each shadow color
@@ -45,24 +67,39 @@ const App: React.FC = () => {
                     >
                     <Text></Text>
                 </Neomorph>
-            </Pressable>
-            <Neomorph
+            </Pressable> */}
+            <AnimTest width={width}/>
+            <NeomorphAnim
                 // useArt
                 inner // <- enable shadow inside of neomorph
                 // swapShadows // <- change zIndex of each shadow color
-                style={{
-                    shadowRadius: 10,
-                    borderRadius: 25,
-                    backgroundColor: '#DDDDDD',
-                    width: 300,
-                    height: 300,
-                    marginTop: 50,
-                    marginLeft: 40
-                }}
+                    style={{
+                        shadowRadius: 10,
+                        borderRadius: 25,
+                        backgroundColor: '#DDDDDD',
+                        width: width,
+                        height: width,
+                        marginTop: 50,
+                        marginLeft: 40
+                    }}
                 >
-                <Text></Text>
-            </Neomorph>
-
+                <Text>{`${width}`}</Text>
+            </NeomorphAnim>
+            <Button onPress={() => startAnimation()} title="toggle"/>
+            <NeomorphTwo
+                inner
+                width={width}
+                height={width}
+                style={{
+                    backgroundColor: '#DDDDDD',
+                    borderRadius: 25,
+                    shadowRadius: 10,
+                    marginLeft: 50,
+                    marginTop: 100
+                }}
+            >
+                <Text>123</Text>
+            </NeomorphTwo>
         </SafeAreaView>
     );
 };

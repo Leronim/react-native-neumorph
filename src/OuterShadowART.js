@@ -1,13 +1,11 @@
 import React from 'react';
 import { ShadowARTType } from './types';
 import { StyleSheet } from 'react-native';
-import { Surface, Shape, Group } from '@react-native-community/art';
 import { getPathWithRadius, transformShadowPropsForAndroid } from './helpers';
 import { Rect, Svg, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 export default class OuterShadowART extends React.PureComponent {
 	renderStop = (backgroundColor, shadowProps) => {
-		console.log(shadowProps.shadowColor)
 		return[
 				<Stop 
 					offset="0" 
