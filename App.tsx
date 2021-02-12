@@ -87,6 +87,20 @@ const App: React.FC = () => {
                 </Neomorph>
             <Button onPress={() => startAnimation()} title="toggle"/> */}
             <NeomorphTwo
+                inner
+                style={{
+                    shadowRadius: 10,
+                    borderRadius: 25,
+                    backgroundColor: '#DDDDDD',
+                    width: 300,
+                    height: 300,
+                    marginTop: 50,
+                    marginLeft: 50
+                }}
+            >
+                <Text></Text>
+            </NeomorphTwo>
+            <NeomorphTwo
                 // inner
                 style={{
                     shadowRadius: 10,
@@ -98,7 +112,7 @@ const App: React.FC = () => {
                     marginLeft: 50
                 }}
             >
-                <Text>1233312</Text>
+                <Text></Text>
             </NeomorphTwo>
             {/* <Neomorph
                 // inner // <- enable shadow inside of neomorph

@@ -5,7 +5,7 @@ export const OuterShadowSvg: React.FC<any> = ({
     style,
     position
 }:any) => {
-    const { borderRadius, width, height, shadowColor, backgroundColor } = style;
+    const { borderRadius, width, height, shadowColor } = style;
 
     const top = position === 'top' ? -10 : 10;
     const left = position === 'top' ? -15 : 15;
@@ -15,19 +15,19 @@ export const OuterShadowSvg: React.FC<any> = ({
 				<Stop 
 					offset="0" 
 					stopColor={shadowColor}
-					stopOpacity="0.2"
+					stopOpacity="0.3"
 					key={`Box${position}Linear0`}
 				/>,
 				<Stop
-					offset="1"
+					offset="0.5"
 					stopColor={shadowColor}
-					stopOpacity="0.4"
+					stopOpacity="0.3"
 					key={`Box${position}Linear1`}
 				/>,
 				<Stop 
 					offset="1" 
 					stopColor={shadowColor}
-					stopOpacity="0" 
+					stopOpacity="0.1" 
 					key={`Box${position}Linear2`}
 				/>
 		]
@@ -52,7 +52,7 @@ export const OuterShadowSvg: React.FC<any> = ({
 			)
 		}
 	}
-
+	console.log(shadowColor)
     return(
         <Svg width={width} height={height} style={{ position: 'absolute', left: left, top: top }}>
             {renderLinearGradient()}
