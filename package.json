@@ -10,10 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-community/art": "^1.2.0",
+    "@react-native-community/art": "git+https://gitlab-delpoy-appcenter:nioVMDY9kwG2sD7z2CbA@gitlab.i-link.pro/front-common/art.git",
     "@react-native-community/cli-platform-android": "^4.13.0",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-neomorph-shadows": "^1.1.2",
     "react-native-reanimated": "^1.13.2",
     "react-native-shadow": "^1.2.2",
     "react-native-svg": "^12.1.0"

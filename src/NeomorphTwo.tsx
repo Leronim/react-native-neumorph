@@ -54,14 +54,22 @@ export const NeomorphTwo: React.FC<Neomorph> = ({
         shOpacityDark = calcOpacityFromRange(1 - opacity, 0, 0.35);
     }
 
+    let defaultShadowOffset = {
+        x: shadowRadius / 2,
+        y: shadowRadius / 2,
+    }
+    if(shadowOffset.x !== 0 || shadowOffset.y !== 0) {
+        defaultShadowOffset = {
+            x: shadowOffset.x || 0,
+            y: shadowOffset.y || 0
+        }
+    }
+
     let shadowDark = {
         ...styleShadow,
         shadowColor: blackShadowColor || 'black',
         shadowOpacity: shadowRadius ? shOpacityDark : 0,
-        shadowOffset: {
-            width: shadowRadius / 2,
-            height: shadowRadius / 2
-        }
+        shadowOffset: defaultShadowOffset,
     }
 
     let shadowWhite = {
@@ -69,8 +77,8 @@ export const NeomorphTwo: React.FC<Neomorph> = ({
         shadowColor: whiteShadowColor || 'white',
         shadowOpacity: shadowRadius ? shOpacityLight : 0,
         shadowOffset: {
-            width: -shadowRadius / 2,
-            height: -shadowRadius / 2
+            x: -defaultShadowOffset.x,
+            y: -defaultShadowOffset.y
         }
     }
 
@@ -88,8 +96,8 @@ export const NeomorphTwo: React.FC<Neomorph> = ({
                 backgroundColor
             }}>
                 <View>
-                    <InnerShadowSvg position="top" style={shadowDark} />
-                    <InnerShadowSvg position="bottom" style={shadowWhite} />
+                    <InnerShadowSvg position="top" {...shadowDark} />
+                    <InnerShadowSvg position="bottom" {...shadowWhite} />
                 </View>
                 <View style={{ ...viewStyle, ...insideViewStyle }}>{children}</View>
             </View>
@@ -126,7 +134,7 @@ export const NeomorphTwo: React.FC<Neomorph> = ({
         } else {
             return (
                 <View style={{ ...style, ...outsideViewStyle }}>
-                    <OuterShadowSvg position="bottom" style={shadowDark} />
+                    <OuterShadowSvg position="bottom" {...shadowDark} />
                     <View style={{
                         zIndex: 1,
                         borderRadius: style.borderRadius,
@@ -136,7 +144,7 @@ export const NeomorphTwo: React.FC<Neomorph> = ({
                     }}>
                         {children}
                     </View>
-                    <OuterShadowSvg position="top" style={shadowWhite} />
+                    <OuterShadowSvg position="top" {...shadowWhite} />
                 </View>
             )
         }

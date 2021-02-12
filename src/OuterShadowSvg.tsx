@@ -2,10 +2,16 @@ import React from 'react';
 import { Svg, Rect, LinearGradient, Defs, Stop } from 'react-native-svg';
 
 export const OuterShadowSvg: React.FC<any> = ({
-    style,
-    position
+	width,
+	height,
+	borderRadius,
+	shadowRadius,
+	shadowOffset,
+	shadowOpacity,
+	shadowColor,
+	backgroundColor,
+	position
 }:any) => {
-    const { borderRadius, width, height, shadowColor } = style;
 
     const top = position === 'top' ? -10 : 10;
     const left = position === 'top' ? -15 : 15;

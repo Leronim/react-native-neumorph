@@ -16,7 +16,7 @@ import {
     TextBase,
 } from 'react-native';
 import Shadow from './src/Shadow';
-import Neomorph from './src/Neomorph'
+import { Neomorph } from 'react-native-neomorph-shadows';
 import Animated, { Value, timing, Easing, useValue } from 'react-native-reanimated';
 import Test from './src/Test';
 import { AnimatedNeomorph } from './src/AnimatedNeomorph';
@@ -104,8 +104,13 @@ const App: React.FC = () => {
                 // inner
                 // swapShadow
                 style={{
+                    shadowOpacity: 0.8,
                     shadowRadius: 10,
-                    borderRadius: 25,
+                    borderRadius: 30,
+                    shadowOffset: {
+                        width: 2,
+                        height: 4,
+                    },
                     backgroundColor: '#DDDDDD',
                     width: 300,
                     height: 300,
@@ -115,6 +120,25 @@ const App: React.FC = () => {
             >
                 <Text>123</Text>
             </NeomorphTwo>
+            <Neomorph
+                // inner // <- enable shadow inside of neomorph
+                style={{
+                    shadowOpacity: 0.8,
+                    shadowRadius: 10,
+                    borderRadius: 40,
+                    backgroundColor: '#DDDDDD',
+                    shadowOffset: {
+                        width: 3,
+                        height: 6
+                    },
+                    width: 300,
+                    height: 300,
+                    marginTop: 50,
+                    marginLeft: 50
+                }}
+                >
+                    <Text>123</Text>
+                </Neomorph>
         </SafeAreaView>
     );
 };

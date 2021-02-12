@@ -2,23 +2,29 @@ import React from 'react';
 import { Svg, Rect, LinearGradient, Stop, Defs } from 'react-native-svg'
 
 export const InnerShadowSvg: React.FC<any> = ({
-    style,
-    position
+    width = 0,
+	height = 0,
+	borderRadius,
+	shadowRadius,
+	shadowOffset,
+	shadowOpacity,
+	shadowColor,
+	backgroundColor,
+	position
 }: any) => {
-    const { borderRadius, width, height, backgroundColor, shadowColor } = style;
-
+    console.log(shadowOffset)
     const renderStop = () => {
         return[
                 <Stop 
-                    offset="0.1" 
+                    offset={shadowRadius / 100 / 2} 
                     stopColor={backgroundColor || 'white'}
-                    stopOpacity="0"
+                    stopOpacity={1 - shadowOpacity}
                     key={`Box${position}Linear0`}
                 />,
                 <Stop 
                     offset="0" 
                     stopColor={shadowColor || 'white'} 
-                    stopOpacity="0.3" 
+                    stopOpacity={shadowOpacity ? shadowOpacity : shadowRadius / 100} 
                     key={`Box${position}Linear1`}
                 />
         ]
@@ -28,10 +34,10 @@ export const InnerShadowSvg: React.FC<any> = ({
         if(position === 'top') {
             return(
                 <Defs>
-                    <LinearGradient id="shadow1" x1="0%" x2="0%" y1="0%" y2="100%">
+                    <LinearGradient id="shadow1" x1="0%" x2="0%" y1="0%" y2={`${shadowOffset.y * 20}%`}>
                         {renderStop()}
                     </LinearGradient>
-                    <LinearGradient id="shadow2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <LinearGradient id="shadow2" x1="0%" y1="0%" x2={`${shadowOffset.x * 20}%`} y2="0%">
                         {renderStop()}
                     </LinearGradient>
                 </Defs>
@@ -39,10 +45,10 @@ export const InnerShadowSvg: React.FC<any> = ({
         } else {
             return(
                 <Defs>
-                    <LinearGradient id="shadow1" x1="100%" y1="0%" x2="0%" y2="0%">
+                    <LinearGradient id="shadow1" x1="100%" y1="0%" x2={`${50 - shadowOffset.y * 10}%`} y2="0%">
                         {renderStop()}
                     </LinearGradient>
-                    <LinearGradient id="shadow2" x1="0%" x2="0%" y1="100%" y2="0%">
+                    <LinearGradient id="shadow2" x1="0%" x2="0%" y1={`${100 + shadowOffset.x}%`} y2="0%">
                         {renderStop()}
                     </LinearGradient>
                 </Defs>
