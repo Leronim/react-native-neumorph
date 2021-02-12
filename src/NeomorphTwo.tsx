@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { InnerShadowSvg } from './InnerShadowSvg';
 import { OuterShadowSvg } from './OuterShadowSvg';
 
@@ -14,12 +14,12 @@ export const NeomorphTwo: React.FC<Neomorph> = ({
 
     const shadowDark = {
         ...style,
-        shadowColor: blackShadowColor || 'black'
+        shadowColor: blackShadowColor || 'black',
     }
 
     const shadowWhite = {
         ...style,
-        shadowColor: whiteShadowColor || 'white'
+        shadowColor: whiteShadowColor || 'white',
     }
 
     if(inner) {
@@ -35,20 +35,40 @@ export const NeomorphTwo: React.FC<Neomorph> = ({
             </View>
         )
     } else {
-        return (
-            <View style={{ ...style }}>
-                <OuterShadowSvg position="bottom" style={shadowDark}/>
-                <View style={{
-                    zIndex: 1,
-                    borderRadius: style.borderRadius,
-                    backgroundColor: style.backgroundColor,
-                    width: style.width,
-                    height: style.height
-                }}>
-                    {children}
+        if(Platform.OS === 'ios') {
+            return(
+                <>
+                    <View style={{
+                        ...shadowDark,
+                        position: 'absolute'
+                    }}/>
+                    <View style={{...style}}>
+                        {children}
+                    </View>
+                    <View
+                        style={{
+                            ...shadowWhite,
+                            position: 'absolute'
+                        }}
+                    />
+                </>
+            )
+        } else {
+            return (
+                <View style={{ ...style }}>
+                    <OuterShadowSvg position="bottom" style={shadowDark}/>
+                    <View style={{
+                        zIndex: 1,
+                        borderRadius: style.borderRadius,
+                        backgroundColor: style.backgroundColor,
+                        width: style.width,
+                        height: style.height
+                    }}>
+                        {children}
+                    </View>
+                    <OuterShadowSvg position="top" style={shadowWhite}/>
                 </View>
-                <OuterShadowSvg position="top" style={shadowWhite}/>
-            </View>
-        )
+            )
+        }
     }
 }

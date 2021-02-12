@@ -89,31 +89,32 @@ const App: React.FC = () => {
             <NeomorphTwo
                 // inner
                 style={{
-                    backgroundColor: '#DDDDDD',
-                    borderRadius: 25,
                     shadowRadius: 10,
-                    marginLeft: 50,
-                    marginTop: 100,
+                    borderRadius: 25,
+                    backgroundColor: '#DDDDDD',
                     width: 300,
-                    height: 300
+                    height: 300,
+                    marginTop: 50,
+                    marginLeft: 50
                 }}
             >
-                <Text></Text>
+                <Text>1233312</Text>
             </NeomorphTwo>
-            {/* <AnimatedNeomorph
-                inner
-                width={width}
-                height={width}
+            {/* <Neomorph
+                // inner // <- enable shadow inside of neomorph
+                // swapShadows // <- change zIndex of each shadow color
                 style={{
-                    backgroundColor: '#DDDDDD',
-                    borderRadius: 25,
                     shadowRadius: 10,
-                    marginLeft: 50,
-                    marginTop: 100
+                    borderRadius: 25,
+                    backgroundColor: '#DDDDDD',
+                    width: 300,
+                    height: 300,
+                    marginTop: 50,
+                    marginLeft: 50
                 }}
-            >
-                <Text>123</Text>
-            </AnimatedNeomorph> */}
+                >
+                <Text>123fdasfsdf</Text>
+            </Neomorph> */}
         </SafeAreaView>
     );
 };

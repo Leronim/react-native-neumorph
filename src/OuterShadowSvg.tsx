@@ -15,19 +15,19 @@ export const OuterShadowSvg: React.FC<any> = ({
 				<Stop 
 					offset="0" 
 					stopColor={shadowColor}
-					stopOpacity="0.3"
+					stopOpacity="0.2"
 					key={`Box${position}Linear0`}
 				/>,
 				<Stop
-					offset="0.5"
+					offset="1"
 					stopColor={shadowColor}
-					stopOpacity="0.3"
+					stopOpacity="0.4"
 					key={`Box${position}Linear1`}
 				/>,
 				<Stop 
 					offset="1" 
 					stopColor={shadowColor}
-					stopOpacity="0.1" 
+					stopOpacity="0" 
 					key={`Box${position}Linear2`}
 				/>
 		]

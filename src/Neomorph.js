@@ -120,6 +120,7 @@ export default class Neomorph extends React.PureComponent {
           height: styleLight.shadowOffset.y,
         };
         const shadowRadiusOuter = this.props.style?.shadowRadius;
+        console.log('++++')
         return (
           <>
             <View
