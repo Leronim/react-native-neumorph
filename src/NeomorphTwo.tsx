@@ -2,61 +2,131 @@ import React from 'react';
 import { View, Platform } from 'react-native';
 import { InnerShadowSvg } from './InnerShadowSvg';
 import { OuterShadowSvg } from './OuterShadowSvg';
+import { transformStyleProps,
+    calcOpacityFromRange,
+    brightnessToOpacity,
+    brightness
+} from './helpers';
 
 export const NeomorphTwo: React.FC<Neomorph> = ({
     inner,
     children,
     style,
     blackShadowColor = 'black',
-    whiteShadowColor = 'white'
+    whiteShadowColor = 'white',
+    swapShadow = false
 }: Neomorph) => {
-    const { backgroundColor } = style;
 
-    const shadowDark = {
-        ...style,
+    let { 
+        outsideViewStyle,
+        insideViewStyle,
+        allShadowProps: {
+            width,
+            height,
+            borderRadius,
+            shadowOpacity,
+            shadowOffset,
+            shadowRadius,
+            backgroundColor
+        }
+    } = transformStyleProps(style, true);
+
+    const viewStyle = {
+        borderRadius,
+        width,
+        height
+    }
+
+    const styleShadow = {
+        backgroundColor,
+        shadowRadius,
+        ...viewStyle
+    }
+
+    let opacity, shOpacityLight, shOpacityDark;
+
+    if(shadowOpacity) {
+        shOpacityDark = shadowOpacity;
+        shOpacityLight = shadowOpacity;
+    } else {
+        opacity = brightnessToOpacity(brightness(backgroundColor));
+        shOpacityLight = calcOpacityFromRange(opacity, 0.025, 1);
+        shOpacityDark = calcOpacityFromRange(1 - opacity, 0, 0.35);
+    }
+
+    let shadowDark = {
+        ...styleShadow,
         shadowColor: blackShadowColor || 'black',
+        shadowOpacity: shadowRadius ? shOpacityDark : 0,
+        shadowOffset: {
+            width: shadowRadius / 2,
+            height: shadowRadius / 2
+        }
     }
 
-    const shadowWhite = {
-        ...style,
+    let shadowWhite = {
+        ...styleShadow,
         shadowColor: whiteShadowColor || 'white',
+        shadowOpacity: shadowRadius ? shOpacityLight : 0,
+        shadowOffset: {
+            width: -shadowRadius / 2,
+            height: -shadowRadius / 2
+        }
     }
 
-    if(inner) {
-        return(
+    if(swapShadow) {
+        let bubble = { ...shadowWhite };
+        shadowWhite = { ...shadowDark };
+        shadowDark = bubble;
+    }
+
+    if (inner) {
+        return (
             <View style={{
-                ...style
+                ...viewStyle,
+                ...outsideViewStyle,
+                backgroundColor
             }}>
                 <View>
-                    <InnerShadowSvg position="top" style={shadowDark}/>
-                    <InnerShadowSvg position="bottom" style={shadowWhite}/>
+                    <InnerShadowSvg position="top" style={shadowDark} />
+                    <InnerShadowSvg position="bottom" style={shadowWhite} />
                 </View>
-                <View>{children}</View>
+                <View style={{ ...viewStyle, ...insideViewStyle }}>{children}</View>
             </View>
         )
     } else {
-        if(Platform.OS === 'ios') {
-            return(
-                <>
+        if (Platform.OS === 'ios') {
+            return (
+                <View style={{ ...viewStyle, ...outsideViewStyle }}>
+                    <View style={[
+                        shadowDark,
+                        {
+                            position: 'absolute',
+                            shadowRadius: style.shadowRadius,
+                        }
+                    ]} />
+                    <View
+                        style={[
+                            shadowWhite,
+                            {
+                                position: 'absolute',
+                                shadowRadius: style.shadowRadius,
+                            }
+                        ]}
+                    />
                     <View style={{
-                        ...shadowDark,
-                        position: 'absolute'
-                    }}/>
-                    <View style={{...style}}>
+                        backgroundColor,
+                        ...viewStyle,
+                        ...insideViewStyle
+                    }}>
                         {children}
                     </View>
-                    <View
-                        style={{
-                            ...shadowWhite,
-                            position: 'absolute'
-                        }}
-                    />
-                </>
+                </View>
             )
         } else {
             return (
-                <View style={{ ...style }}>
-                    <OuterShadowSvg position="bottom" style={shadowDark}/>
+                <View style={{ ...style, ...outsideViewStyle }}>
+                    <OuterShadowSvg position="bottom" style={shadowDark} />
                     <View style={{
                         zIndex: 1,
                         borderRadius: style.borderRadius,
@@ -66,7 +136,7 @@ export const NeomorphTwo: React.FC<Neomorph> = ({
                     }}>
                         {children}
                     </View>
-                    <OuterShadowSvg position="top" style={shadowWhite}/>
+                    <OuterShadowSvg position="top" style={shadowWhite} />
                 </View>
             )
         }

@@ -86,7 +86,7 @@ const App: React.FC = () => {
                     <Text></Text>
                 </Neomorph>
             <Button onPress={() => startAnimation()} title="toggle"/> */}
-            <NeomorphTwo
+            {/* <NeomorphTwo
                 inner
                 style={{
                     shadowRadius: 10,
@@ -99,9 +99,10 @@ const App: React.FC = () => {
                 }}
             >
                 <Text></Text>
-            </NeomorphTwo>
+            </NeomorphTwo> */}
             <NeomorphTwo
                 // inner
+                // swapShadow
                 style={{
                     shadowRadius: 10,
                     borderRadius: 25,
@@ -112,23 +113,8 @@ const App: React.FC = () => {
                     marginLeft: 50
                 }}
             >
-                <Text></Text>
+                <Text>123</Text>
             </NeomorphTwo>
-            {/* <Neomorph
-                // inner // <- enable shadow inside of neomorph
-                // swapShadows // <- change zIndex of each shadow color
-                style={{
-                    shadowRadius: 10,
-                    borderRadius: 25,
-                    backgroundColor: '#DDDDDD',
-                    width: 300,
-                    height: 300,
-                    marginTop: 50,
-                    marginLeft: 50
-                }}
-                >
-                <Text>123fdasfsdf</Text>
-            </Neomorph> */}
         </SafeAreaView>
     );
 };

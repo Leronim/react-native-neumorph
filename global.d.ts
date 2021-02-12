@@ -4,4 +4,5 @@ type Neomorph = {
     style: any;
     blackShadowColor?: string;
     whiteShadowColor?: string;
+    swapShadow?: boolean;
 }
