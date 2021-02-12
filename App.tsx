@@ -106,7 +106,7 @@ const App: React.FC = () => {
                 style={{
                     shadowOpacity: 0.8,
                     shadowRadius: 10,
-                    borderRadius: 30,
+                    borderRadius: 0,
                     shadowOffset: {
                         width: 2,
                         height: 4,
@@ -125,7 +125,7 @@ const App: React.FC = () => {
                 style={{
                     shadowOpacity: 0.8,
                     shadowRadius: 10,
-                    borderRadius: 40,
+                    borderRadius: 0,
                     backgroundColor: '#DDDDDD',
                     shadowOffset: {
                         width: 3,
