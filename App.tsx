@@ -15,7 +15,7 @@ import {
     View,
     TextBase,
 } from 'react-native';
-import Shadow from './src/Shadow';
+// import Shadow from './src/Shadow';
 import { Neomorph } from 'react-native-neomorph-shadows';
 import Animated, { Value, timing, Easing, useValue } from 'react-native-reanimated';
 import Test from './src/Test';
@@ -105,11 +105,11 @@ const App: React.FC = () => {
                 // swapShadow
                 style={{
                     shadowOpacity: 0.8,
-                    shadowRadius: 10,
-                    borderRadius: 0,
+                    shadowRadius: 200,
+                    borderRadius: 10,
                     shadowOffset: {
-                        width: 2,
-                        height: 4,
+                        width: 10,
+                        height: 10,
                     },
                     backgroundColor: '#DDDDDD',
                     width: 300,
@@ -118,18 +118,18 @@ const App: React.FC = () => {
                     marginLeft: 50
                 }}
             >
-                <Text>123</Text>
+                <Text></Text>
             </NeomorphTwo>
             <Neomorph
-                // inner // <- enable shadow inside of neomorph
+                inner // <- enable shadow inside of neomorph
                 style={{
                     shadowOpacity: 0.8,
                     shadowRadius: 10,
-                    borderRadius: 0,
+                    borderRadius: 20,
                     backgroundColor: '#DDDDDD',
                     shadowOffset: {
-                        width: 3,
-                        height: 6
+                        width: 10,
+                        height: 10
                     },
                     width: 300,
                     height: 300,
@@ -137,7 +137,7 @@ const App: React.FC = () => {
                     marginLeft: 50
                 }}
                 >
-                    <Text>123</Text>
+                    <Text></Text>
                 </Neomorph>
         </SafeAreaView>
     );

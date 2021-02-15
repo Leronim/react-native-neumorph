@@ -1,62 +1,65 @@
 import React from 'react';
-import { Svg, Rect, LinearGradient, Defs, Stop, RadialGradient, Path } from 'react-native-svg';
-import { StyleSheet, View } from 'react-native';
+import { Svg,
+    Rect,
+    Path,
+    LinearGradient,
+    RadialGradient,
+    Defs,
+    Stop
+} from 'react-native-svg';
+import { View, StyleSheet } from 'react-native';
 
-const convertToRGB = (color: string) => {
-	const aRgbHex:any = color.match(/.{1,2}/g);
-	const aRgb = [
-		parseInt(aRgbHex[0], 16),
-		parseInt(aRgbHex[1], 16),
-		parseInt(aRgbHex[2], 16)
-	]
-	return aRgb;
+function hexToRgb(hex: any) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+      return r + r + g + g + b + b;
+    });
+  
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
 }
 
-export const OuterShadowSvg: React.FC<any> = ({
-	width,
-	height,
-	borderRadius,
-	shadowRadius,
-	shadowOffset,
-	shadowOpacity,
-	shadowColor,
-	backgroundColor,
-	position,
-	color,
-	spread,
-	offsetX,
-	offsetY,
-	blur,
-	opacity
+export const Shadow: React.FC<any> = ({
+    option: {
+        color,
+        borderRadius,
+        width,
+        height,
+        shadowRadius,
+        shadowOpacity,
+        shadowOffset
+    }
 }:any) => {
 
-    const top = position === 'top' ? -10 : 10;
-	const left = position === 'top' ? -15 : 15;
-
-	console.log(borderRadius)
-	
-	const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius + spread - blur / 2) : 0;
-	const outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + spread + blur / 2) : blur;
-	const innerWidth = width + spread * 2 - blur;
-	const innerHeight = height + spread * 2 - blur;
-	const outerWidth = width + spread * 2 + blur;
-	const outerHeight = height + spread * 2 + blur;
+    const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius - shadowRadius / 2) : 0;
+	const outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius;
+	const innerWidth = width - shadowRadius;
+	const innerHeight = height - shadowRadius;
+	const outerWidth = width + shadowRadius;
+	const outerHeight = height + shadowRadius;
 	const borderWidth = (outerWidth - innerWidth) / 2;
-	
-	const rgb = convertToRGB(color.replace('#',''));
+
+    const rgb = hexToRgb(color);
 
     const renderStop = (key: string) => {
 		return[
 				<Stop 
 					offset="0" 
 					stopColor={color}
-					stopOpacity="1"
+					stopOpacity={shadowOpacity}
 					key={`Box${key}Linear0`}
 				/>,
 				<Stop
 					offset={Math.max(0, innerRadius / outerRadius).toString()}
 					stopColor={color}
-					stopOpacity="1"
+					stopOpacity={shadowOpacity}
 					key={`Box${key}Linear1`}
 				/>,
 				<Stop 
@@ -73,7 +76,7 @@ export const OuterShadowSvg: React.FC<any> = ({
 			<Stop
 			  offset="0"
 			  stopColor={color}
-			  stopOpacity="1"
+			  stopOpacity={shadowOpacity}
 			  key={`Box` + key + 'Linear0'}
 			/>,
 			<Stop
@@ -82,10 +85,10 @@ export const OuterShadowSvg: React.FC<any> = ({
 			  stopOpacity="0"
 			  key={'Box' + key + 'Linear1'}
 			/>,
-		  ];
+        ];
 	}
 
-	const renderRadiantGradient = () => {
+    const renderRadiantGradient = () => {
 		return(
 			<Defs>
 				<LinearGradient id="top" x1="0%" x2="0%" y1="100%" y2="0%">
@@ -147,16 +150,20 @@ export const OuterShadowSvg: React.FC<any> = ({
 			</Defs>
 		)
 	}
-	
-	const style = StyleSheet.create({
+
+    const style = StyleSheet.create({
 		container: {
 			width: width,
 			height: height,
 			position: 'absolute',
-			left: -blur / 2 - spread,
-			top: -blur / 2 - spread,
+			// left: -shadowRadius / 2 - spread + offset.width,
+			// top: -shadowRadius / 2 - spread + offset.height,
+            left: shadowOffset.width,
+			top: shadowOffset.height,
 		}
 	})
+
+    console.log(borderRadius + shadowRadius, outerRadius)
 
     return(
 		<View style={style.container}>
@@ -166,7 +173,7 @@ export const OuterShadowSvg: React.FC<any> = ({
 					d={`
 						M 0 ${outerRadius},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${-outerRadius}
-						v ${blur}
+						v ${shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${-innerRadius} ${innerRadius}
 					`}
 					fill="url(#leftTop)"
@@ -175,7 +182,7 @@ export const OuterShadowSvg: React.FC<any> = ({
 					d={`
 						M ${outerWidth - outerRadius} 0,
 						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${outerRadius}
-						h ${-blur}
+						h ${-shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${-innerRadius} ${-innerRadius}
 						z
 					`}
@@ -185,7 +192,7 @@ export const OuterShadowSvg: React.FC<any> = ({
 					d={`
 						M ${outerWidth} ${outerHeight - outerRadius},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${outerRadius}
-						v ${-blur}
+						v ${-shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${-innerRadius}
 						z
 				`}
@@ -195,7 +202,7 @@ export const OuterShadowSvg: React.FC<any> = ({
 					d={`
 						M ${outerRadius} ${outerHeight},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${-outerRadius}
-						h ${blur}
+						h ${shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${innerRadius}
 						z
 				`}
@@ -206,28 +213,28 @@ export const OuterShadowSvg: React.FC<any> = ({
 					x={outerRadius}
 					y={0}
 					width={innerWidth - innerRadius * 2}
-					height={blur}
+					height={shadowRadius}
 					fill="url(#top)"
 				/>
 
 				<Rect
-					x={outerWidth - blur}
+					x={outerWidth - shadowRadius}
 					y={outerRadius}
-					width={blur}
+					width={shadowRadius}
 					height={innerHeight - innerRadius * 2}
 					fill="url(#right)"
 				/>
 				<Rect
 					x={outerRadius}
-					y={outerHeight - blur}
+					y={outerHeight - shadowRadius}
 					width={innerWidth - innerRadius * 2}
-					height={10}
+					height={shadowRadius}
 					fill="url(#bottom)"
 				/>
 				<Rect
 					x={0}
 					y={outerRadius}
-					width={blur}
+					width={shadowRadius}
 					height={innerHeight - innerRadius * 2}
 					fill="url(#left)"
 				/>
@@ -243,7 +250,7 @@ export const OuterShadowSvg: React.FC<any> = ({
 						a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${-innerRadius}
 						z
 					`}
-					fill={`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${1})`}
+					fill={`rgba(${rgb.r},${rgb.g},${rgb.b},${shadowOpacity || 1})`}
 				/>
         	</Svg>
 		</View>
