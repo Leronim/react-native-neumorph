@@ -3,26 +3,28 @@ import { View, Dimensions } from 'react-native';
 import { AnimatedInerShadowSvg } from './AnimatedInerShadowSvg';
 import Animated from 'react-native-reanimated';
 import { Svg } from 'react-native-svg';
+import { NeomorphProps } from '../global';
 
-interface NeomorphProps extends Neomorph {
-    width: any;
-    height: any;
+interface NeomorphAnimProps extends NeomorphProps {
+    width: Animated.Value<number>;
+    height: Animated.Value<number>;
 }
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export const AnimatedNeomorph: React.FC<NeomorphProps> = ({ 
+export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({ 
     children,
     inner,
-    style,
+    style: {
+        borderRadius
+    },
     width,
     height
-    }: NeomorphProps) => {
-        const { borderRadius, backgroundColor, shadowRadius } = style;
+}: NeomorphAnimProps) => {
+        // const { borderRadius, backgroundColor, shadowRadius } = style;
         if(inner) {
             return(
                 <AnimatedView style={{
-                    ...style,
                     width: width,
                     height: width   
                 }}>

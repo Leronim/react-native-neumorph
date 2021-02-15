@@ -22,8 +22,8 @@ export function transformShadowPropsForAndroid(props) {
   const shadowProps = { ...props };
   if (Platform.OS === 'android') {
     shadowProps.shadowRadius = props.shadowRadius * 2;
-    shadowProps.shadowOffset.x = props.shadowOffset.x * 3;
-    shadowProps.shadowOffset.y = props.shadowOffset.y * 3;
+    shadowProps.shadowOffset.width = props.shadowOffset.width * 3;
+    shadowProps.shadowOffset.height = props.shadowOffset.height * 3;
   }
   return shadowProps;
 }

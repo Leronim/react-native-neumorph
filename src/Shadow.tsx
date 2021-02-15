@@ -8,6 +8,7 @@ import { Svg,
     Stop
 } from 'react-native-svg';
 import { View, StyleSheet } from 'react-native';
+import { transformShadowPropsForAndroid } from './helpers';
 
 function hexToRgb(hex: any) {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -28,7 +29,7 @@ function hexToRgb(hex: any) {
 
 export const Shadow: React.FC<any> = ({
     option: {
-        color,
+        shadowColor,
         borderRadius,
         width,
         height,
@@ -38,33 +39,33 @@ export const Shadow: React.FC<any> = ({
     }
 }:any) => {
 
-    const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius - shadowRadius / 2) : 0;
-	const outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius;
-	const innerWidth = width - shadowRadius;
-	const innerHeight = height - shadowRadius;
-	const outerWidth = width + shadowRadius;
-	const outerHeight = height + shadowRadius;
-	const borderWidth = (outerWidth - innerWidth) / 2;
+    const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius - shadowRadius / 2) : 0,
+		outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius,
+		innerWidth = width - shadowRadius,
+		innerHeight = height - shadowRadius,
+		outerWidth = width + shadowRadius,
+		outerHeight = height + shadowRadius,
+		borderWidth = (outerWidth - innerWidth) / 2;
 
-    const rgb = hexToRgb(color);
+    const rgb = hexToRgb(shadowColor);
 
     const renderStop = (key: string) => {
 		return[
 				<Stop 
 					offset="0" 
-					stopColor={color}
+					stopColor={shadowColor}
 					stopOpacity={shadowOpacity}
 					key={`Box${key}Linear0`}
 				/>,
 				<Stop
 					offset={Math.max(0, innerRadius / outerRadius).toString()}
-					stopColor={color}
+					stopColor={shadowColor}
 					stopOpacity={shadowOpacity}
 					key={`Box${key}Linear1`}
 				/>,
 				<Stop 
 					offset="1" 
-					stopColor={color}
+					stopColor={shadowColor}
 					stopOpacity="0" 
 					key={`Box${key}Linear2`}
 				/>
@@ -75,13 +76,13 @@ export const Shadow: React.FC<any> = ({
 		return [
 			<Stop
 			  offset="0"
-			  stopColor={color}
+			  stopColor={shadowColor}
 			  stopOpacity={shadowOpacity}
 			  key={`Box` + key + 'Linear0'}
 			/>,
 			<Stop
 			  offset="1"
-			  stopColor={color}
+			  stopColor={shadowColor}
 			  stopOpacity="0"
 			  key={'Box' + key + 'Linear1'}
 			/>,
@@ -163,8 +164,6 @@ export const Shadow: React.FC<any> = ({
 		}
 	})
 
-    console.log(borderRadius + shadowRadius, outerRadius)
-
     return(
 		<View style={style.container}>
 			<Svg width={outerWidth} height={outerHeight}>
@@ -216,7 +215,6 @@ export const Shadow: React.FC<any> = ({
 					height={shadowRadius}
 					fill="url(#top)"
 				/>
-
 				<Rect
 					x={outerWidth - shadowRadius}
 					y={outerRadius}

@@ -9,7 +9,7 @@ export const InnerShadowSvg: React.FC<any> = ({
         shadowRadius,
         shadowOffset,
         shadowOpacity,
-        color,
+        shadowColor,
         backgroundColor,
     },
     position
@@ -28,7 +28,7 @@ export const InnerShadowSvg: React.FC<any> = ({
                 />,
                 <Stop 
                     offset="0" 
-                    stopColor={color || 'white'} 
+                    stopColor={shadowColor || 'white'} 
                     stopOpacity={shadowOpacity ? shadowOpacity : shadowRadius / 100}
                     key={`Box${position}Linear1`}
                 />
@@ -72,22 +72,26 @@ export const InnerShadowSvg: React.FC<any> = ({
             )
         }
     }
-    console.log(shadowOffset)
+    
     return(
         <Svg width={width} height={height} style={{ position: 'absolute' }}>
             {renderLinearGradient()}
             <Rect 
                 rx={borderRadius} 
                 ry={borderRadius} 
-                width={position === 'bottom' ? shadowRadius : width} 
-                height={position === 'bottom' ? height : shadowRadius} 
+                // width={position === 'bottom' ? shadowRadius : width} 
+                // height={position === 'bottom' ? height : shadowRadius} 
+                width={width}
+                height={height}
                 fill="url(#shadow1)"
             />
             <Rect 
                 rx={borderRadius} 
                 ry={borderRadius} 
-                width={position === 'bottom' ? width : shadowRadius} 
-                height={position === 'bottom' ? shadowRadius : height} 
+                // width={position === 'bottom' ? width : shadowRadius} 
+                // height={position === 'bottom' ? shadowRadius : height} 
+                width={width}
+                height={height}
                 fill="url(#shadow2)"
             />
         </Svg>

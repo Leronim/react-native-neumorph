@@ -1,8 +1,11 @@
-type Neomorph = {
+import { StyleProp, ViewStyle } from "react-native";
+
+export interface NeomorphProps {
     children: React.ReactChild;
     inner?: boolean;
-    style: any;
-    blackShadowColor?: string;
-    whiteShadowColor?: string;
+    style: ViewStyle;
+    darkShadowColor?: string;
+    lightShadowColor?: string;
     swapShadow?: boolean;
+    
 }

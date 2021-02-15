@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -100,36 +100,36 @@ const App: React.FC = () => {
             >
                 <Text></Text>
             </NeomorphTwo> */}
-            <NeomorphTwo
-                // inner
-                // swapShadow
-                style={{
-                    shadowOpacity: 0.8,
-                    shadowRadius: 200,
-                    borderRadius: 10,
-                    shadowOffset: {
-                        width: 10,
-                        height: 10,
-                    },
-                    backgroundColor: '#DDDDDD',
-                    width: 300,
-                    height: 300,
-                    marginTop: 50,
-                    marginLeft: 50
-                }}
-            >
-                <Text></Text>
-            </NeomorphTwo>
+            <View style={{ marginTop: 50, marginLeft: 50 }}>
+                <NeomorphTwo
+                    // inner 
+                    // swapShadow
+                    style={{
+                        shadowOpacity: 0.7,
+                        shadowRadius: 20,
+                        borderRadius: 10,
+                        shadowOffset: {
+                            width: 2,
+                            height: 4,
+                        },
+                        backgroundColor: '#ececec',
+                        width: 300,
+                        height: 300
+                    }}
+                >
+                    <Text>123</Text>
+                </NeomorphTwo>
+            </View>
             <Neomorph
-                inner // <- enable shadow inside of neomorph
+                // inner // <- enable shadow inside of neomorph
                 style={{
                     shadowOpacity: 0.8,
                     shadowRadius: 10,
-                    borderRadius: 20,
-                    backgroundColor: '#DDDDDD',
+                    borderRadius: 10,
+                    backgroundColor: '#ececec',
                     shadowOffset: {
-                        width: 10,
-                        height: 10
+                        width: 2,
+                        height: 4
                     },
                     width: 300,
                     height: 300,
@@ -145,7 +145,7 @@ const App: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#DDDDDD',
+        backgroundColor: '#ececec',
         height: '100%'
     }
 })
