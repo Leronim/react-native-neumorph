@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -28,11 +28,14 @@ const AnimView = Animated.createAnimatedComponent(View);
 
 const App: React.FC = () => {
 
+    const [isAnim, setIsAnim] = useState<boolean>(false);
+
     const width = useValue(150)
 
     const startAnimation = () => {
+        setIsAnim(!isAnim);
         timing(width, {
-          toValue: 300,
+          toValue: Math.round(150 - 0.5 + Math.random() * (400 - 150 + 1)),
           duration: 1500,
           easing: Easing.ease
         }).start();
@@ -75,8 +78,9 @@ const App: React.FC = () => {
                 // swapShadow
                 width={width}
                 height={width}
+                isAnim={isAnim}
                 style={{
-                    shadowOpacity: 0.7,
+                    shadowOpacity: 1,
                     shadowRadius: 20,
                     borderRadius: 10,
                     shadowOffset: {
@@ -123,7 +127,7 @@ const App: React.FC = () => {
                     <Text>123</Text>
                 </NeomorphTwo>
             </View> */}
-            <Neomorph
+            <NeomorphAnim
                 // inner // <- enable shadow inside of neomorph
                 style={{
                     shadowOpacity: 0.8,
@@ -134,14 +138,14 @@ const App: React.FC = () => {
                         width: 2,
                         height: 4
                     },
-                    width: 300,
-                    height: 300,
+                    width: width,
+                    height: width,
                     marginTop: 50,
                     marginLeft: 50
                 }}
                 >
                     <Text></Text>
-                </Neomorph>
+                </NeomorphAnim>
         </SafeAreaView>
     );
 };

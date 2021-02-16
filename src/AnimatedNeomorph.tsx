@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Platform, StyleSheet } from 'react-native';
 import { AnimatedInerShadowSvg } from './AnimatedInerShadowSvg';
 import { hexToHsl, hslToHex } from './utils';
@@ -20,6 +20,7 @@ export const AnimatedNeomorph: React.FC<any> = ({
 	lightShadowColor,
     width,
     height,
+	isAnim,
     style: {
         borderRadius,
         backgroundColor,
@@ -130,21 +131,12 @@ export const AnimatedNeomorph: React.FC<any> = ({
 				</>
 			)
 		} else {
-			if(inner) {
-				return (
-					<>
-                        {/* <AnimatedInerShadowSvg position="top" option={insetLightSetting}/> */}
-                        {/* <AnimatedInerShadowSvg position="bottom" option={insetDarkSetting}/> */}
-                    </>
-				)
-			} else {
-				return (
-					<>
-						<AnimatedShadow option={lightSetting} />
-						<AnimatedShadow option={darkSetting} />
-					</>
-				)
-			}
+			return (
+				<>
+					{/* <AnimatedShadow option={lightSetting} /> */}
+					<AnimatedShadow isAnim={isAnim} option={darkSetting} />
+				</>
+			)
 		}
 	}
 
@@ -162,7 +154,7 @@ export const AnimatedNeomorph: React.FC<any> = ({
 		return (
 			<AnimatedView style={{ ...viewStyle }}>
 				{renderShadow()}
-				<AnimatedView style={styles.view}>{children}</AnimatedView>
+				{/* <AnimatedView style={[styles.view, { width, height }]}>{children}</AnimatedView> */}
 			</AnimatedView>
 		)
 	}

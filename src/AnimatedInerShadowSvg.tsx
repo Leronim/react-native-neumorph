@@ -1,6 +1,7 @@
 import React from 'react';
 import { Svg, Rect, LinearGradient, Stop, Defs, Line } from 'react-native-svg';
 import Animated from 'react-native-reanimated';
+import { InteractionManager } from 'react-native';
 
 interface InerShadowProps {
     borderRadius?: number;
@@ -14,7 +15,6 @@ interface InerShadowProps {
 const AnimSvg = Animated.createAnimatedComponent(Svg);
 const AnimRect = Animated.createAnimatedComponent(Rect);
 const AnimDefs = Animated.createAnimatedComponent(Defs);
-const AnimStop = Animated.createAnimatedComponent(Stop);
 const AnimLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 export const AnimatedInerShadowSvg: React.FC<any> = ({ 
@@ -32,7 +32,7 @@ export const AnimatedInerShadowSvg: React.FC<any> = ({
 }: any) => {
    
     const innerWidth = position === 'bottom' ? shadowRadius : width;
-    const innerHeight = position === 'bottom' ? shadowRadius : height
+    const innerHeight = position === 'bottom' ? shadowRadius : height;
 
     const renderStop = () => {
         return[
