@@ -7,16 +7,13 @@ import { Svg,
     Defs,
     Stop
 } from 'react-native-svg';
-import { View, StyleSheet, InteractionManager } from 'react-native';
-import Animated, { timing, useValue, Easing } from 'react-native-reanimated';
+import { View, StyleSheet } from 'react-native';
+import Animated, { timing, useValue, Easing, add } from 'react-native-reanimated';
 
 const AnimSvg = Animated.createAnimatedComponent(Svg);
 const AnimView = Animated.createAnimatedComponent(View);
 const AnimPath = Animated.createAnimatedComponent(Path);
 const AnimRect = Animated.createAnimatedComponent(Rect);
-const AnimDefs = Animated.createAnimatedComponent(Defs);
-const AnimLinearGradient = Animated.createAnimatedComponent(LinearGradient);
-const AnimRadialGradient = Animated.createAnimatedComponent(RadialGradient);
 
 function hexToRgb(hex: any) {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -44,23 +41,21 @@ export const AnimatedShadow: React.FC<any> = ({
         height,
         shadowRadius,
         shadowOpacity,
-        shadowOffset
+        shadowOffset,
+		innerWidth,
+		innerHeight, 
+		outerWidth,
+		outerHeight, 
+		borderWidth,
     }
 }:any) => {
 
     const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius - shadowRadius / 2) : 0,
-		outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius,
-		innerWidth = useValue(width._value - shadowRadius),
-		innerHeight = useValue(height._value - shadowRadius),
-		outerWidth = useValue(width._value + shadowRadius),
-		outerHeight = useValue(height._value + shadowRadius),
-		borderWidth = useValue((outerWidth._value - innerWidth._value) / 2);
-
-	const test = useValue(innerWidth._value - innerRadius * 2);
-
-	// console.log('+++', width._value, height._value)
+		outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius;
 
     const rgb = hexToRgb(shadowColor);
+
+	console.log(add(outerWidth, outerHeight))
 
     const renderStop = (key: string) => {
 		return[
@@ -104,20 +99,20 @@ export const AnimatedShadow: React.FC<any> = ({
 
     const renderRadiantGradient = () => {
 		return(
-			<AnimDefs>
-				<AnimLinearGradient id="top" x1="0%" x2="0%" y1="100%" y2="0%">
+			<Defs>
+				<LinearGradient id="top" x1="0%" x2="0%" y1="100%" y2="0%">
 					{renderLinearStop('top')}
-				</AnimLinearGradient>
-				<AnimLinearGradient id="bottom" x1="0%" x2="0%" y1="0%" y2="100%">
+				</LinearGradient>
+				<LinearGradient id="bottom" x1="0%" x2="0%" y1="0%" y2="100%">
 					{renderLinearStop('bottom')}
-				</AnimLinearGradient>
-				<AnimLinearGradient id="left" x1="100%" x2="0%" y1="0%" y2="0%">
+				</LinearGradient>
+				<LinearGradient id="left" x1="100%" x2="0%" y1="0%" y2="0%">
 					{renderLinearStop('left')}
-				</AnimLinearGradient>
-				<AnimLinearGradient id="right" x1="0%" x2="100%" y1="0%" y2="0%">
+				</LinearGradient>
+				<LinearGradient id="right" x1="0%" x2="100%" y1="0%" y2="0%">
 					{renderLinearStop('right')}
-				</AnimLinearGradient>
-				<AnimRadialGradient
+				</LinearGradient>
+				<RadialGradient
 					id="leftTop"
 					rx="100%"
 					ry="100%"
@@ -127,8 +122,8 @@ export const AnimatedShadow: React.FC<any> = ({
 					fy="100%"
 				>
 					{renderStop('leftTop')}
-				</AnimRadialGradient>
-				<AnimRadialGradient
+				</RadialGradient>
+				<RadialGradient
 					id="leftBottom"
 					rx="100%"
 					ry="100%"
@@ -138,8 +133,8 @@ export const AnimatedShadow: React.FC<any> = ({
 					fy="0%"
 				>
 					{renderStop('leftBottom')}
-				</AnimRadialGradient>
-				<AnimRadialGradient
+				</RadialGradient>
+				<RadialGradient
 					id="rightTop"
 					rx="100%"
 					ry="100%"
@@ -149,8 +144,8 @@ export const AnimatedShadow: React.FC<any> = ({
 					fy="100%"
 				>
 					{renderStop('rightTop')}
-				</AnimRadialGradient>
-				<AnimRadialGradient
+				</RadialGradient>
+				<RadialGradient
 					id="rightBottom"
 					rx="100%"
 					ry="100%"
@@ -160,8 +155,8 @@ export const AnimatedShadow: React.FC<any> = ({
 					fy="0%"
 				>
 					{renderStop('rightBottom')}
-				</AnimRadialGradient>
-			</AnimDefs>
+				</RadialGradient>
+			</Defs>
 		)
 	}
 
@@ -176,7 +171,7 @@ export const AnimatedShadow: React.FC<any> = ({
 	})
 
     return(
-		<AnimView style={[style.container, { width: width, height: height }]}>
+		<AnimView style={[style.container, { width, height }]}>
 			<AnimSvg width={outerWidth} height={outerHeight}>
 				{renderRadiantGradient()}
 				<AnimPath
@@ -222,21 +217,22 @@ export const AnimatedShadow: React.FC<any> = ({
 				<AnimRect
 					x={outerRadius}
 					y={0}
-					width={test}
+					width={innerWidth}
 					height={shadowRadius}
 					fill="url(#top)"
 				/>
 				<AnimRect
-					x={outerWidth._value - shadowRadius}
+					// x={outerWidth._value - shadowRadius}
+					x={add(outerWidth, outerHeight)}
 					y={outerRadius}
 					width={shadowRadius}
-					height={innerHeight._value - innerRadius * 2}
+					height={innerHeight}
 					fill="url(#right)"
 				/>
 				<AnimRect
 					x={outerRadius}
 					y={outerHeight._value - shadowRadius}
-					width={innerWidth._value - innerRadius * 2}
+					width={innerWidth}
 					height={shadowRadius}
 					fill="url(#bottom)"
 				/>
@@ -244,7 +240,7 @@ export const AnimatedShadow: React.FC<any> = ({
 					x={0}
 					y={outerRadius}
 					width={shadowRadius}
-					height={innerHeight._value - innerRadius * 2}
+					height={innerHeight}
 					fill="url(#left)"
 				/>
 				<AnimPath

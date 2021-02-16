@@ -30,15 +30,25 @@ const App: React.FC = () => {
 
     const [isAnim, setIsAnim] = useState<boolean>(false);
 
-    const width = useValue(150)
+    const width = useValue(150);
 
     const startAnimation = () => {
         setIsAnim(!isAnim);
         timing(width, {
-          toValue: Math.round(150 - 0.5 + Math.random() * (400 - 150 + 1)),
+        //   toValue: Math.round(150 - 0.5 + Math.random() * (400 - 150 + 1)),
+            toValue: 300,
           duration: 1500,
           easing: Easing.ease
         }).start();
+    }
+
+    const downAnimation = () => {
+        setIsAnim(!isAnim);
+        timing(width, {
+            toValue: 150,
+            duration: 1500,
+            easing: Easing.ease
+        }).start()
     }
 
     const shadowOpt = {
@@ -74,7 +84,7 @@ const App: React.FC = () => {
             </Pressable> */}
             <AnimTest width={width}/>
             <AnimatedNeomorph
-                inner 
+                // inner 
                 // swapShadow
                 width={width}
                 height={width}
@@ -92,7 +102,10 @@ const App: React.FC = () => {
             >
                 <Text>123</Text>
             </AnimatedNeomorph>
-            <Button onPress={() => startAnimation()} title="toggle"/>
+            <View style={{ marginTop: 100 }}>
+                <Button onPress={() => startAnimation()} title="toggle"/>
+                <Button onPress={() => downAnimation()} title="down"/> 
+            </View>
             {/* <NeomorphTwo
                 inner
                 style={{

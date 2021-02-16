@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { View, Platform, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Platform, StyleSheet, InteractionManager } from 'react-native';
 import { AnimatedInerShadowSvg } from './AnimatedInerShadowSvg';
 import { hexToHsl, hslToHex } from './utils';
-import Animated from 'react-native-reanimated';
+import Animated, { Easing, timing, useValue, block, interpolate } from 'react-native-reanimated';
 import { NeomorphProps } from '../global';
 import { AnimatedShadow } from './AnimatedShadow';
 
@@ -10,8 +10,6 @@ interface NeomorphAnimProps extends NeomorphProps {
     width: Animated.Value<number>;
     height: Animated.Value<number>;
 }
-
-const AnimatedView = Animated.createAnimatedComponent(View);
 
 export const AnimatedNeomorph: React.FC<any> = ({ 
     inner,
@@ -29,10 +27,47 @@ export const AnimatedNeomorph: React.FC<any> = ({
         shadowOpacity
     },
 }: any) => {
-        
+	const [nativeWidth, setNativeWidth] = useState(width._value);
+	const [nativeHeight, setNativeHeight] = useState(width._value);
+	const containerRef: React.RefObject<Animated.View> = useRef(null);
     const { h, s, l } = hexToHsl(backgroundColor);
+	const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius - shadowRadius / 2) : 0;
+	const outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius
     const light = hslToHex(h - 2 < 0 ? 0 : h - 2, s, l + 5 > 100 ? 100 : l + 5);
     const dark = hslToHex(h, s, l - 8 < 0 ? 0 : l - 20);
+	const innerWidth = useValue(nativeWidth - shadowRadius - innerRadius * 2),
+		innerHeight = useValue(nativeHeight - shadowRadius),
+		outerWidth = useValue(nativeWidth + shadowRadius),
+		outerHeight = useValue(nativeHeight + shadowRadius),
+		borderWidth = useValue((outerWidth._value - innerWidth._value) / 2);
+	const test = useValue(0);
+
+	useEffect(() => {
+		timing(innerWidth, {
+			toValue: nativeWidth - shadowRadius - innerRadius * 2,
+			duration: 1500,
+			easing: Easing.ease
+		}).start(),
+		timing(innerHeight, {
+			toValue: nativeHeight - shadowRadius - innerRadius * 2,
+			duration: 1500,
+			easing: Easing.ease
+		}).start()
+		timing(outerWidth, {
+			toValue: test.interpolate({
+				inputRange: [0, 1],
+				outputRange: [400, 170]
+			}),
+			duration: 1500,
+			easing: Easing.ease
+		}).start();
+		timing(outerHeight, {
+			toValue: nativeHeight + shadowRadius,
+			duration: 1500,
+			easing: Easing.ease
+		}).start();
+		console.log('=', nativeWidth, nativeHeight)
+	}, [isAnim])
 
 	let _shadowOffset = {
 		width: shadowRadius / 2,
@@ -45,8 +80,6 @@ export const AnimatedNeomorph: React.FC<any> = ({
 			height: shadowOffset?.height || 0
 		}
 	}
-
-	console.log(_shadowOffset)
 
 	const viewStyle = {
 		borderRadius,
@@ -69,6 +102,13 @@ export const AnimatedNeomorph: React.FC<any> = ({
             height: -shadowRadius + -shadowOffset.height
         },
         shadowColor: lightShadowColor ? lightShadowColor : light,
+		innerWidth,
+		innerHeight,
+		outerWidth,
+		outerHeight,
+		innerRadius,
+		outerRadius,
+		borderWidth,
 		...shadowStyle
     };
     
@@ -77,6 +117,13 @@ export const AnimatedNeomorph: React.FC<any> = ({
             width: shadowOffset.width,
             height: shadowOffset.height
         },
+		innerWidth,
+		innerHeight,
+		outerWidth,
+		outerHeight,
+		borderWidth,
+		innerRadius,
+		outerRadius,
         shadowColor: darkShadowColor ? darkShadowColor : dark,
 		...shadowStyle
     };
@@ -112,7 +159,7 @@ export const AnimatedNeomorph: React.FC<any> = ({
 		if(Platform.OS === 'ios') {
 			return (
 				<>
-					<AnimatedView
+					<Animated.View
 						style={[
 							insetLightSetting,
 							{
@@ -120,7 +167,7 @@ export const AnimatedNeomorph: React.FC<any> = ({
 							}
 						]}
 					/>
-					<AnimatedView
+					<Animated.View
 						style={[
 							insetDarkSetting,
 							{
@@ -133,7 +180,7 @@ export const AnimatedNeomorph: React.FC<any> = ({
 		} else {
 			return (
 				<>
-					{/* <AnimatedShadow option={lightSetting} /> */}
+					{/* <AnimatedShadow isAnim={isAnim} option={lightSetting} /> */}
 					<AnimatedShadow isAnim={isAnim} option={darkSetting} />
 				</>
 			)
@@ -142,20 +189,28 @@ export const AnimatedNeomorph: React.FC<any> = ({
 
 	if(inner) {
 		return (
-			<AnimatedView style={{ ...viewStyle, backgroundColor}}>
+			<Animated.View onLayout={(event) => {
+				const { width, height } = event.nativeEvent.layout;
+				setNativeWidth(width);
+				setNativeHeight(height);
+			}} style={{ ...viewStyle, backgroundColor}}>
 				<View>
 					<AnimatedInerShadowSvg position="top" option={insetDarkSetting}/>
 					<AnimatedInerShadowSvg position="bottom" option={insetLightSetting}/>
 				</View>
-				<AnimatedView style={{ ...viewStyle }}>{children}</AnimatedView>
-			</AnimatedView>
+				<Animated.View style={{ ...viewStyle }}>{children}</Animated.View>
+			</Animated.View>
 		)
 	} else {
 		return (
-			<AnimatedView style={{ ...viewStyle }}>
+			<Animated.View ref={containerRef} onLayout={(event) => {
+				const { width, height } = event.nativeEvent.layout;
+				setNativeWidth(width);
+				setNativeHeight(height);
+			}} style={{ ...viewStyle }}>
 				{renderShadow()}
-				{/* <AnimatedView style={[styles.view, { width, height }]}>{children}</AnimatedView> */}
-			</AnimatedView>
+				{/* <Animated.View style={[styles.view, { width, height }]}>{children}</Animated.View> */}
+			</Animated.View>
 		)
 	}
 };
