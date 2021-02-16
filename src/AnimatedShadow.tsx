@@ -8,6 +8,16 @@ import { Svg,
     Stop
 } from 'react-native-svg';
 import { View, StyleSheet } from 'react-native';
+import Animated from 'react-native-reanimated';
+
+const AnimSvg = Animated.createAnimatedComponent(Svg);
+const AnimView = Animated.createAnimatedComponent(View);
+const AnimPath = Animated.createAnimatedComponent(Path);
+const AnimRect = Animated.createAnimatedComponent(Rect);
+const AnimDefs = Animated.createAnimatedComponent(Defs);
+const AnimStop = Animated.createAnimatedComponent(Stop);
+const AnimLinearGradient = Animated.createAnimatedComponent(LinearGradient);
+const AnimRadialGradient = Animated.createAnimatedComponent(RadialGradient);
 
 function hexToRgb(hex: any) {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -26,7 +36,7 @@ function hexToRgb(hex: any) {
       : null;
 }
 
-export const Shadow: React.FC<any> = ({
+export const AnimatedShadow: React.FC<any> = ({
     option: {
         shadowColor,
         borderRadius,
@@ -50,19 +60,19 @@ export const Shadow: React.FC<any> = ({
 
     const renderStop = (key: string) => {
 		return[
-				<Stop 
+				<AnimStop 
 					offset="0" 
 					stopColor={shadowColor}
 					stopOpacity={shadowOpacity}
 					key={`Box${key}Linear0`}
 				/>,
-				<Stop
+				<AnimStop
 					offset={Math.max(0, innerRadius / outerRadius).toString()}
 					stopColor={shadowColor}
 					stopOpacity={shadowOpacity}
 					key={`Box${key}Linear1`}
 				/>,
-				<Stop 
+				<AnimStop 
 					offset="1" 
 					stopColor={shadowColor}
 					stopOpacity="0" 
@@ -73,13 +83,13 @@ export const Shadow: React.FC<any> = ({
 
 	const renderLinearStop = (key: string) => {
 		return [
-			<Stop
+			<AnimStop
 			  offset="0"
 			  stopColor={shadowColor}
 			  stopOpacity={shadowOpacity}
 			  key={`Box` + key + 'Linear0'}
 			/>,
-			<Stop
+			<AnimStop
 			  offset="1"
 			  stopColor={shadowColor}
 			  stopOpacity="0"
@@ -90,20 +100,20 @@ export const Shadow: React.FC<any> = ({
 
     const renderRadiantGradient = () => {
 		return(
-			<Defs>
-				<LinearGradient id="top" x1="0%" x2="0%" y1="100%" y2="0%">
+			<AnimDefs>
+				<AnimLinearGradient id="top" x1="0%" x2="0%" y1="100%" y2="0%">
 					{renderLinearStop('top')}
-				</LinearGradient>
-				<LinearGradient id="bottom" x1="0%" x2="0%" y1="0%" y2="100%">
+				</AnimLinearGradient>
+				<AnimLinearGradient id="bottom" x1="0%" x2="0%" y1="0%" y2="100%">
 					{renderLinearStop('bottom')}
-				</LinearGradient>
-				<LinearGradient id="left" x1="100%" x2="0%" y1="0%" y2="0%">
+				</AnimLinearGradient>
+				<AnimLinearGradient id="left" x1="100%" x2="0%" y1="0%" y2="0%">
 					{renderLinearStop('left')}
-				</LinearGradient>
-				<LinearGradient id="right" x1="0%" x2="100%" y1="0%" y2="0%">
+				</AnimLinearGradient>
+				<AnimLinearGradient id="right" x1="0%" x2="100%" y1="0%" y2="0%">
 					{renderLinearStop('right')}
-				</LinearGradient>
-				<RadialGradient
+				</AnimLinearGradient>
+				<AnimRadialGradient
 					id="leftTop"
 					rx="100%"
 					ry="100%"
@@ -113,8 +123,8 @@ export const Shadow: React.FC<any> = ({
 					fy="100%"
 				>
 					{renderStop('leftTop')}
-				</RadialGradient>
-				<RadialGradient
+				</AnimRadialGradient>
+				<AnimRadialGradient
 					id="leftBottom"
 					rx="100%"
 					ry="100%"
@@ -124,8 +134,8 @@ export const Shadow: React.FC<any> = ({
 					fy="0%"
 				>
 					{renderStop('leftBottom')}
-				</RadialGradient>
-				<RadialGradient
+				</AnimRadialGradient>
+				<AnimRadialGradient
 					id="rightTop"
 					rx="100%"
 					ry="100%"
@@ -135,8 +145,8 @@ export const Shadow: React.FC<any> = ({
 					fy="100%"
 				>
 					{renderStop('rightTop')}
-				</RadialGradient>
-				<RadialGradient
+				</AnimRadialGradient>
+				<AnimRadialGradient
 					id="rightBottom"
 					rx="100%"
 					ry="100%"
@@ -146,8 +156,8 @@ export const Shadow: React.FC<any> = ({
 					fy="0%"
 				>
 					{renderStop('rightBottom')}
-				</RadialGradient>
-			</Defs>
+				</AnimRadialGradient>
+			</AnimDefs>
 		)
 	}
 
@@ -164,10 +174,10 @@ export const Shadow: React.FC<any> = ({
 	})
 
     return(
-		<View style={style.container}>
-			<Svg width={outerWidth} height={outerHeight}>
+		<AnimView style={style.container}>
+			<AnimSvg width={outerWidth} height={outerHeight}>
 				{renderRadiantGradient()}
-				<Path
+				<AnimPath
 					d={`
 						M 0 ${outerRadius},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${-outerRadius}
@@ -176,7 +186,7 @@ export const Shadow: React.FC<any> = ({
 					`}
 					fill="url(#leftTop)"
 				/>
-				<Path
+				<AnimPath
 					d={`
 						M ${outerWidth - outerRadius} 0,
 						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${outerRadius}
@@ -186,7 +196,7 @@ export const Shadow: React.FC<any> = ({
 					`}
 					fill="url(#rightTop)"
 				/>
-				<Path
+				<AnimPath
 					d={`
 						M ${outerWidth} ${outerHeight - outerRadius},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${outerRadius}
@@ -196,7 +206,7 @@ export const Shadow: React.FC<any> = ({
 				`}
 				fill="url(#rightBottom)"
 				/>
-				<Path
+				<AnimPath
 					d={`
 						M ${outerRadius} ${outerHeight},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${-outerRadius}
@@ -207,35 +217,35 @@ export const Shadow: React.FC<any> = ({
 				fill="url(#leftBottom)"
 		
 				/>
-				<Rect
+				<AnimRect
 					x={outerRadius}
 					y={0}
 					width={innerWidth - innerRadius * 2}
 					height={shadowRadius}
 					fill="url(#top)"
 				/>
-				<Rect
+				<AnimRect
 					x={outerWidth - shadowRadius}
 					y={outerRadius}
 					width={shadowRadius}
 					height={innerHeight - innerRadius * 2}
 					fill="url(#right)"
 				/>
-				<Rect
+				<AnimRect
 					x={outerRadius}
 					y={outerHeight - shadowRadius}
 					width={innerWidth - innerRadius * 2}
 					height={shadowRadius}
 					fill="url(#bottom)"
 				/>
-				<Rect
+				<AnimRect
 					x={0}
 					y={outerRadius}
 					width={shadowRadius}
 					height={innerHeight - innerRadius * 2}
 					fill="url(#left)"
 				/>
-				<Path
+				<AnimPath
 					d={`
 						M ${borderWidth} ${borderWidth + innerRadius},
 						a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${-innerRadius}
@@ -249,7 +259,7 @@ export const Shadow: React.FC<any> = ({
 					`}
 					fill={`rgba(${rgb.r},${rgb.g},${rgb.b},${shadowOpacity || 1})`}
 				/>
-        	</Svg>
-		</View>
+        	</AnimSvg>
+		</AnimView>
     )
 }

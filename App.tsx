@@ -69,23 +69,26 @@ const App: React.FC = () => {
                     <Text></Text>
                 </Neomorph>
             </Pressable> */}
-            {/* <AnimTest width={width}/>
-            <Neomorph
-                    inner // <- enable shadow inside of neomorph
-                    // swapShadows // <- change zIndex of each shadow color
-                    style={{
-                        shadowRadius: 10,
-                        borderRadius: 25,
-                        backgroundColor: '#DDDDDD',
-                        width: 300,
-                        height: 300,
-                        marginTop: 50,
-                        marginLeft: 50
-                    }}
-                    >
-                    <Text></Text>
-                </Neomorph>
-            <Button onPress={() => startAnimation()} title="toggle"/> */}
+            <AnimTest width={width}/>
+            <AnimatedNeomorph
+                inner 
+                // swapShadow
+                width={width}
+                height={width}
+                style={{
+                    shadowOpacity: 0.7,
+                    shadowRadius: 20,
+                    borderRadius: 10,
+                    shadowOffset: {
+                        width: 2,
+                        height: 4,
+                    },
+                    backgroundColor: '#ececec',
+                }}
+            >
+                <Text>123</Text>
+            </AnimatedNeomorph>
+            <Button onPress={() => startAnimation()} title="toggle"/>
             {/* <NeomorphTwo
                 inner
                 style={{
@@ -100,7 +103,7 @@ const App: React.FC = () => {
             >
                 <Text></Text>
             </NeomorphTwo> */}
-            <View style={{ marginTop: 50, marginLeft: 50 }}>
+            {/* <View style={{ marginTop: 50, marginLeft: 50 }}>
                 <NeomorphTwo
                     // inner 
                     // swapShadow
@@ -119,7 +122,7 @@ const App: React.FC = () => {
                 >
                     <Text>123</Text>
                 </NeomorphTwo>
-            </View>
+            </View> */}
             <Neomorph
                 // inner // <- enable shadow inside of neomorph
                 style={{
