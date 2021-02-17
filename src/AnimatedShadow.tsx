@@ -8,7 +8,7 @@ import { Svg,
     Stop
 } from 'react-native-svg';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import Animated, { timing, useValue, Easing, sub } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedProps, interpolate, Extrapolate } from 'react-native-reanimated';
 
 const AnimSvg = Animated.createAnimatedComponent(Svg);
 const AnimView = Animated.createAnimatedComponent(View);
@@ -42,22 +42,21 @@ export const AnimatedShadow: React.FC<any> = ({
         shadowRadius,
         shadowOpacity,
         shadowOffset,
-		innerWidth,
-		innerHeight, 
-		outerWidth,
-		outerHeight, 
-		borderWidth,
         nativeWidth,
-        nativeHeight
+        nativeHeight,
+		style,
     }
 }:any) => {
-
     const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius - shadowRadius / 2) : 0,
-		outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius;
+		outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius,
+		innerWidth = width.value - shadowRadius,
+		innerHeight = height.value - shadowRadius,
+		outerWidth = width.value + shadowRadius,
+		outerHeight = height.value + shadowRadius,
+		borderWidth = (outerWidth - innerWidth) / 2;
 
     const rgb = hexToRgb(shadowColor);
-
-	console.log('++', nativeWidth)
+	console.log(width, height)
 
     const renderStop = (key: string) => {
 		return[
@@ -162,7 +161,7 @@ export const AnimatedShadow: React.FC<any> = ({
 		)
 	}
 
-    const style = StyleSheet.create({
+    const styleT = StyleSheet.create({
 		container: {
 			position: 'absolute',
 			// left: -shadowRadius / 2 - spread + offset.width,
@@ -173,8 +172,11 @@ export const AnimatedShadow: React.FC<any> = ({
 	})
 
     return(
-		<AnimView style={[style.container, { width, height }]}>
-			<AnimSvg width={outerWidth} height={outerHeight}>
+		<AnimView style={[styleT.container, style]}>
+			<AnimSvg 
+				width={outerWidth}
+				height={outerHeight}
+			>
 				{renderRadiantGradient()}
 				<AnimPath
 					d={`
@@ -187,7 +189,7 @@ export const AnimatedShadow: React.FC<any> = ({
 				/>
 				<AnimPath
 					d={`
-						M ${nativeWidth} 0,
+						M ${outerWidth - outerRadius} 0,
 						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${outerRadius}
 						h ${-shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${-innerRadius} ${-innerRadius}
@@ -197,17 +199,17 @@ export const AnimatedShadow: React.FC<any> = ({
 				/>
 				<AnimPath
 					d={`
-						M ${nativeWidth + outerRadius} ${nativeHeight},
+						M ${outerWidth} ${outerHeight - outerRadius},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${outerRadius}
 						v ${-shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${-innerRadius}
 						z
-				    `}
+				`}
 				fill="url(#rightBottom)"
 				/>
 				<AnimPath
 					d={`
-						M ${outerRadius} ${nativeHeight + outerRadius},
+						M ${outerRadius} ${outerHeight},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${-outerRadius}
 						h ${shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${innerRadius}
@@ -216,43 +218,43 @@ export const AnimatedShadow: React.FC<any> = ({
 				fill="url(#leftBottom)"
 		
 				/>
-				<AnimRect
+				<Rect
 					x={outerRadius}
 					y={0}
-					width={innerWidth}
+					width={interpolate(width.value,[0, 1],[0, 150], Extrapolate.CLAMP)}
 					height={shadowRadius}
 					fill="url(#top)"
 				/>
-				<AnimRect
-					x={sub(outerWidth, shadowRadius)}
+				<Rect
+					x={outerWidth - shadowRadius}
 					y={outerRadius}
 					width={shadowRadius}
-					height={innerHeight}
+					height={innerHeight - innerRadius * 2}
 					fill="url(#right)"
 				/>
-				<AnimRect
+				<Rect
 					x={outerRadius}
-					y={sub(outerHeight, shadowRadius)}
-					width={innerWidth}
+					y={outerHeight - shadowRadius}
+					width={innerWidth - innerRadius * 2}
 					height={shadowRadius}
 					fill="url(#bottom)"
 				/>
-				<AnimRect
+				<Rect
 					x={0}
 					y={outerRadius}
 					width={shadowRadius}
-					height={innerHeight}
+					height={innerHeight - innerRadius * 2}
 					fill="url(#left)"
 				/>
-				<AnimPath
+				<Path
 					d={`
-						M ${((nativeWidth + shadowRadius) - (nativeHeight - shadowRadius)) / 2} ${(((nativeWidth + shadowRadius) - (nativeHeight - shadowRadius)) / 2) + innerRadius},
+						M ${borderWidth} ${borderWidth + innerRadius},
 						a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${-innerRadius}
-						h ${(nativeWidth - shadowRadius - innerRadius * 2) - innerRadius * 2}
+						h ${innerWidth - innerRadius * 2}
 						a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${innerRadius}
-						v ${nativeHeight - shadowRadius - innerRadius * 2}
+						v ${innerHeight - innerRadius * 2}
 						a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${innerRadius}
-						h ${-(nativeWidth - shadowRadius - innerRadius * 2) + innerRadius * 2}
+						h ${-innerWidth + innerRadius * 2}
 						a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${-innerRadius}
 						z
 					`}

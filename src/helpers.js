@@ -1,5 +1,7 @@
 /* eslint-disable no-bitwise */
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, Animated } from 'react-native';
+
+const t = new Animated.Value(0)
 
 export function getPathWithRadius(width, height, borderRadius) {
   if (borderRadius) {
@@ -135,6 +137,7 @@ export function transformStyleProps(styleProps, neomorph) {
 /* get brightness from rgb/hex color */
 export function brightness(color) {
   let r, g, b, hsp;
+  return '#fff'
   if (color.match(/^rgb/)) {
     color = color.match(
       /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/,

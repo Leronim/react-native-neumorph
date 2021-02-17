@@ -17,80 +17,57 @@ import {
 } from 'react-native';
 // import Shadow from './src/Shadow';
 import { Neomorph } from 'react-native-neomorph-shadows';
-import Animated, { Value, timing, Easing, useValue } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, useValue, interpolateNode } from 'react-native-reanimated';
 import Test from './src/Test';
 import { AnimatedNeomorph } from './src/AnimatedNeomorph';
 import { NeomorphTwo } from './src/NeomorphTwo';
 
-const NeomorphAnim = Animated.createAnimatedComponent(Neomorph);
-const AnimTest = Animated.createAnimatedComponent(Test);
-const AnimView = Animated.createAnimatedComponent(View);
+const AnimNeomorph = Animated.createAnimatedComponent(Neomorph);
 
 const App: React.FC = () => {
 
     const [isAnim, setIsAnim] = useState<boolean>(false);
 
-    const width = useValue(150);
+    const width = useSharedValue(150);
+
+    const height = useSharedValue(150);
 
     const startAnimation = () => {
         setIsAnim(!isAnim);
-        timing(width, {
-        //   toValue: Math.round(150 - 0.5 + Math.random() * (400 - 150 + 1)),
-            toValue: 300,
-          duration: 1500,
-          easing: Easing.ease
-        }).start();
+        width.value = 300;
+        height.value = 300
     }
 
     const downAnimation = () => {
-        setIsAnim(!isAnim);
-        timing(width, {
-            toValue: 150,
-            duration: 1500,
-            easing: Easing.ease
-        }).start()
+        setIsAnim(!isAnim); 
+        width.value = 150;
+        height.value = 150;
     }
 
-    const shadowOpt = {
-        width:100,
-        height:100,
-        color:"#000",
-        border:2,
-        radius:3,
-        opacity:0.2,
-        x:0,
-        y:3,
-        style:{marginVertical:5}
-    }
+    const styleAnim = useAnimatedStyle(() => {
+        return {
+            width: withTiming(width.value, {
+                duration: 1500,
+                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+            }),
+            height: withTiming(height.value, {
+                duration: 1500,
+                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+            }),
+        }
+    })
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* <Pressable onPressIn={() => setIsToggle(true)} onPressOut={() => setIsToggle(false)}>
-                <Neomorph
-                    inner={isToggle} // <- enable shadow inside of neomorph
-                    // swapShadows // <- change zIndex of each shadow color
-                    style={{
-                        shadowRadius: 10,
-                        borderRadius: 25,
-                        backgroundColor: '#DDDDDD',
-                        width: 300,
-                        height: 300,
-                        marginTop: 50,
-                        marginLeft: 50
-                    }}
-                    >
-                    <Text></Text>
-                </Neomorph>
-            </Pressable> */}
-            {/* <AnimTest width={wiådth}/> */}
+            <Animated.View style={[{ backgroundColor: 'blue' }]}>
+
+            </Animated.View>
             <View style={{ marginLeft: 50, marginTop: 100 }}>
-                <AnimatedNeomorph
-                    inner 
+                <AnimNeomorph
+                    // inner 
                     // swapShadow
-                    width={width}
-                    height={width}
-                    isAnim={isAnim}
-                    style={{
+                    style={{ 
+                        ...styleAnim,
                         shadowOpacity: 1,
                         shadowRadius: 20,
                         borderRadius: 10,
@@ -98,69 +75,16 @@ const App: React.FC = () => {
                             width: 2,
                             height: 4,
                         },
-                        backgroundColor: '#ececec',
+                        backgroundColor: '#DDDDDD',
                     }}
                 >
                     <Text>123</Text>
-                </AnimatedNeomorph>
+                </AnimNeomorph>
             </View>
             <View style={{ marginTop: 100 }}>
                 <Button onPress={() => startAnimation()} title="toggle"/>
                 <Button onPress={() => downAnimation()} title="down"/> 
             </View>
-            {/* <NeomorphTwo
-                inner
-                style={{
-                    shadowRadius: 10,
-                    borderRadius: 25,
-                    backgroundColor: '#DDDDDD',
-                    width: 300,
-                    height: 300,
-                    marginTop: 50,
-                    marginLeft: 50
-                }}
-            >
-                <Text></Text>
-            </NeomorphTwo> */}
-            {/* <View style={{ marginTop: 50, marginLeft: 50 }}>
-                <NeomorphTwo
-                    // inner 
-                    // swapShadow
-                    style={{
-                        shadowOpacity: 0.7,
-                        shadowRadius: 20,
-                        borderRadius: 10,
-                        shadowOffset: {
-                            width: 2,
-                            height: 4,
-                        },
-                        backgroundColor: '#ececec',
-                        width: 300,
-                        height: 300
-                    }}
-                >
-                    <Text>123</Text>
-                </NeomorphTwo>
-            </View> */}
-            <NeomorphAnim
-                // inner // <- enable shadow inside of neomorph
-                style={{
-                    shadowOpacity: 0.8,
-                    shadowRadius: 10,
-                    borderRadius: 10,
-                    backgroundColor: '#ececec',
-                    shadowOffset: {
-                        width: 2,
-                        height: 4
-                    },
-                    width: width,
-                    height: width,
-                    marginTop: 50,
-                    marginLeft: 50
-                }}
-                >
-                    <Text></Text>
-                </NeomorphAnim>
         </SafeAreaView>
     );
 };
