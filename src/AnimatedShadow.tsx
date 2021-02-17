@@ -7,8 +7,8 @@ import { Svg,
     Defs,
     Stop
 } from 'react-native-svg';
-import { View, StyleSheet } from 'react-native';
-import Animated, { timing, useValue, Easing, add } from 'react-native-reanimated';
+import { View, StyleSheet, Dimensions } from 'react-native';
+import Animated, { timing, useValue, Easing, sub } from 'react-native-reanimated';
 
 const AnimSvg = Animated.createAnimatedComponent(Svg);
 const AnimView = Animated.createAnimatedComponent(View);
@@ -47,6 +47,8 @@ export const AnimatedShadow: React.FC<any> = ({
 		outerWidth,
 		outerHeight, 
 		borderWidth,
+        nativeWidth,
+        nativeHeight
     }
 }:any) => {
 
@@ -55,7 +57,7 @@ export const AnimatedShadow: React.FC<any> = ({
 
     const rgb = hexToRgb(shadowColor);
 
-	console.log(add(outerWidth, outerHeight))
+	console.log('++', nativeWidth)
 
     const renderStop = (key: string) => {
 		return[
@@ -185,7 +187,7 @@ export const AnimatedShadow: React.FC<any> = ({
 				/>
 				<AnimPath
 					d={`
-						M ${outerWidth._value - outerRadius} 0,
+						M ${nativeWidth} 0,
 						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${outerRadius}
 						h ${-shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${-innerRadius} ${-innerRadius}
@@ -195,17 +197,17 @@ export const AnimatedShadow: React.FC<any> = ({
 				/>
 				<AnimPath
 					d={`
-						M ${outerWidth._value} ${outerHeight._value - outerRadius},
+						M ${nativeWidth + outerRadius} ${nativeHeight},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${outerRadius}
 						v ${-shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${-innerRadius}
 						z
-				`}
+				    `}
 				fill="url(#rightBottom)"
 				/>
 				<AnimPath
 					d={`
-						M ${outerRadius} ${outerHeight._value},
+						M ${outerRadius} ${nativeHeight + outerRadius},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${-outerRadius}
 						h ${shadowRadius}
 						a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${innerRadius}
@@ -222,8 +224,7 @@ export const AnimatedShadow: React.FC<any> = ({
 					fill="url(#top)"
 				/>
 				<AnimRect
-					// x={outerWidth._value - shadowRadius}
-					x={add(outerWidth, outerHeight)}
+					x={sub(outerWidth, shadowRadius)}
 					y={outerRadius}
 					width={shadowRadius}
 					height={innerHeight}
@@ -231,7 +232,7 @@ export const AnimatedShadow: React.FC<any> = ({
 				/>
 				<AnimRect
 					x={outerRadius}
-					y={outerHeight._value - shadowRadius}
+					y={sub(outerHeight, shadowRadius)}
 					width={innerWidth}
 					height={shadowRadius}
 					fill="url(#bottom)"
@@ -245,13 +246,13 @@ export const AnimatedShadow: React.FC<any> = ({
 				/>
 				<AnimPath
 					d={`
-						M ${borderWidth._value} ${borderWidth._value + innerRadius},
+						M ${((nativeWidth + shadowRadius) - (nativeHeight - shadowRadius)) / 2} ${(((nativeWidth + shadowRadius) - (nativeHeight - shadowRadius)) / 2) + innerRadius},
 						a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${-innerRadius}
-						h ${innerWidth._value - innerRadius * 2}
+						h ${(nativeWidth - shadowRadius - innerRadius * 2) - innerRadius * 2}
 						a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${innerRadius}
-						v ${innerHeight._value - innerRadius * 2}
+						v ${nativeHeight - shadowRadius - innerRadius * 2}
 						a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${innerRadius}
-						h ${-innerWidth._value + innerRadius * 2}
+						h ${-(nativeWidth - shadowRadius - innerRadius * 2) + innerRadius * 2}
 						a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${-innerRadius}
 						z
 					`}

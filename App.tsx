@@ -82,26 +82,28 @@ const App: React.FC = () => {
                     <Text></Text>
                 </Neomorph>
             </Pressable> */}
-            <AnimTest width={width}/>
-            <AnimatedNeomorph
-                // inner 
-                // swapShadow
-                width={width}
-                height={width}
-                isAnim={isAnim}
-                style={{
-                    shadowOpacity: 1,
-                    shadowRadius: 20,
-                    borderRadius: 10,
-                    shadowOffset: {
-                        width: 2,
-                        height: 4,
-                    },
-                    backgroundColor: '#ececec',
-                }}
-            >
-                <Text>123</Text>
-            </AnimatedNeomorph>
+            {/* <AnimTest width={wiådth}/> */}
+            <View style={{ marginLeft: 50, marginTop: 100 }}>
+                <AnimatedNeomorph
+                    inner 
+                    // swapShadow
+                    width={width}
+                    height={width}
+                    isAnim={isAnim}
+                    style={{
+                        shadowOpacity: 1,
+                        shadowRadius: 20,
+                        borderRadius: 10,
+                        shadowOffset: {
+                            width: 2,
+                            height: 4,
+                        },
+                        backgroundColor: '#ececec',
+                    }}
+                >
+                    <Text>123</Text>
+                </AnimatedNeomorph>
+            </View>
             <View style={{ marginTop: 100 }}>
                 <Button onPress={() => startAnimation()} title="toggle"/>
                 <Button onPress={() => downAnimation()} title="down"/> 
