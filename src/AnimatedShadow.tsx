@@ -8,7 +8,7 @@ import { Svg,
     Stop
 } from 'react-native-svg';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import Animated, { useSharedValue, useAnimatedProps, interpolate, Extrapolate } from 'react-native-reanimated';
+import Animated, { interpolate, useAnimatedProps, useAnimatedStyle } from 'react-native-reanimated';
 
 const AnimSvg = Animated.createAnimatedComponent(Svg);
 const AnimView = Animated.createAnimatedComponent(View);
@@ -34,10 +34,11 @@ function hexToRgb(hex: any) {
 
 export const AnimatedShadow: React.FC<any> = ({
 	isAnim,
+    width,
     option: {
         shadowColor,
         borderRadius,
-        width,
+        // width,
         height,
         shadowRadius,
         shadowOpacity,
@@ -55,8 +56,13 @@ export const AnimatedShadow: React.FC<any> = ({
 		outerHeight = height.value + shadowRadius,
 		borderWidth = (outerWidth - innerWidth) / 2;
 
+
+    const test = useAnimatedProps(() => ({
+        width: interpolate(width.value, [0, 1], [width.value, width.value])
+    }))
+
     const rgb = hexToRgb(shadowColor);
-	console.log(width, height)
+	console.log(test)
 
     const renderStop = (key: string) => {
 		return[
@@ -218,10 +224,10 @@ export const AnimatedShadow: React.FC<any> = ({
 				fill="url(#leftBottom)"
 		
 				/>
-				<Rect
+				<AnimRect
 					x={outerRadius}
 					y={0}
-					width={interpolate(width.value,[0, 1],[0, 150], Extrapolate.CLAMP)}
+                    animatedProps={test}
 					height={shadowRadius}
 					fill="url(#top)"
 				/>

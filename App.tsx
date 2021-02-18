@@ -34,14 +34,26 @@ const App: React.FC = () => {
 
     const startAnimation = () => {
         setIsAnim(!isAnim);
-        width.value = 300;
-        height.value = 300
+        width.value = withTiming(300, {
+            duration: 1500,
+            easing: Easing.ease
+        });
+        height.value = withTiming(300, {
+            duration: 1500,
+            easing: Easing.ease
+        })
     }
 
     const downAnimation = () => {
         setIsAnim(!isAnim); 
-        width.value = 150;
-        height.value = 150;
+        width.value = withTiming(150, {
+            duration: 1500,
+            easing: Easing.ease
+        });
+        height.value = withTiming(150, {
+            duration: 1500,
+            easing: Easing.ease
+        });
     }
 
     const styleAnim = useAnimatedStyle(() => {
@@ -63,9 +75,12 @@ const App: React.FC = () => {
 
             </Animated.View>
             <View style={{ marginLeft: 50, marginTop: 100 }}>
-                <AnimNeomorph
+                <AnimatedNeomorph
                     // inner 
                     // swapShadow
+                    isAnim={isAnim}
+                    width={width}
+                    height={height}
                     style={{ 
                         ...styleAnim,
                         shadowOpacity: 1,
@@ -79,7 +94,7 @@ const App: React.FC = () => {
                     }}
                 >
                     <Text>123</Text>
-                </AnimNeomorph>
+                </AnimatedNeomorph>
             </View>
             <View style={{ marginTop: 100 }}>
                 <Button onPress={() => startAnimation()} title="toggle"/>

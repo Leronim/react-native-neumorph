@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Platform, StyleSheet, InteractionManager } from 'react-native';
 import { AnimatedInerShadowSvg } from './AnimatedInerShadowSvg';
 import { hexToHsl, hslToHex } from './utils';
-import Animated from 'react-native-reanimated';
+import Animated, { interpolate, Extrapolate, useAnimatedStyle } from 'react-native-reanimated';
 import { NeomorphProps } from '../global';
 import { AnimatedShadow } from './AnimatedShadow';
 import { useLazyRef } from './useLazyRef';
@@ -28,17 +28,13 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
         shadowOffset,
         shadowRadius = 1,
         shadowOpacity,
-		initial
-    },
-	style
+    }
 }) => {
-	console.log('test',style)
     const { h, s, l } = hexToHsl(backgroundColor);
 	const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius - shadowRadius / 2) : 0;
 	const outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius
     const light = hslToHex(h - 2 < 0 ? 0 : h - 2, s, l + 5 > 100 ? 100 : l + 5);
     const dark = hslToHex(h, s, l - 8 < 0 ? 0 : l - 20);
-
 
 	let _shadowOffset = {
 		width: shadowRadius / 2,
@@ -57,7 +53,6 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 	}
 
 	const shadowStyle = {
-		...style,
 		width,
 		height,
 		shadowRadius,
@@ -106,10 +101,15 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 		...shadowStyle
     };
 
+    const test = useAnimatedStyle(() => {
+        return {
+            width: interpolate(width.value, [0, 1], [width.value, width.value]),
+            height: interpolate(height.value, [0, 1], [height.value, height.value])
+        }
+    })
+
     const styles = StyleSheet.create({
         view: {
-            // width,
-            // height,
             borderRadius,
             backgroundColor,
         }
@@ -140,8 +140,8 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 		} else {
 			return (
 				<>
-					<AnimatedShadow isAnim={isAnim} option={lightSetting} />
-					<AnimatedShadow isAnim={isAnim} option={darkSetting} />
+					<AnimatedShadow isAnim={isAnim} width={width} option={lightSetting} />
+					<AnimatedShadow isAnim={isAnim} width={width} option={darkSetting} />
 				</>
 			)
 		}
@@ -161,7 +161,7 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 		return (
 			<Animated.View style={[ { backgroundColor }]}>
 				{renderShadow()}
-				{/* <Animated.View style={[styles.view, style]}>{children}</Animated.View> */}
+				{/* <Animated.View style={[styles.view, test]}>{children}</Animated.View> */}
 			</Animated.View>
 		)
 	}
