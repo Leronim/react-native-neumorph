@@ -8,7 +8,6 @@ import { AnimatedShadow } from './AnimatedShadow';
 import { useLazyRef } from './useLazyRef';
 
 interface NeomorphAnimProps extends NeomorphProps {
-	isAnim: boolean;
 	height: Animated.SharedValue<number>;
 	width: Animated.SharedValue<number>;
 	style: any;
@@ -19,7 +18,6 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
     children,
 	darkShadowColor,
 	lightShadowColor,
-	isAnim,
 	height,
 	width,
     style: {
@@ -55,7 +53,7 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 	const shadowStyle = {
 		width,
 		height,
-		shadowRadius,
+		shadowRadius: shadowRadius * 2,
 		borderRadius,
 		shadowOpacity,
 		backgroundColor
@@ -63,8 +61,10 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 
     const lightSetting = {
         shadowOffset: {
-            width: -shadowRadius + -shadowOffset.width,
-            height: -shadowRadius + -shadowOffset.height
+            width: -shadowOffset.width,
+            height: -shadowOffset.height
+			// width: -shadowOffset.width * 3,
+			// height: -shadowOffset.height * 3,
         },
         shadowColor: lightShadowColor ? lightShadowColor : light,
 		innerRadius,
@@ -140,8 +140,8 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 		} else {
 			return (
 				<>
-					<AnimatedShadow isAnim={isAnim} width={width} option={lightSetting} />
-					<AnimatedShadow isAnim={isAnim} width={width} option={darkSetting} />
+					{/* <AnimatedShadow width={width} height={height} option={lightSetting} /> */}
+					<AnimatedShadow width={width} height={height} option={darkSetting} />
 				</>
 			)
 		}
@@ -149,20 +149,20 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 
 	if(inner) {
 		return (
-			<Animated.View style={{ ...viewStyle, backgroundColor}}>
+			<>
 				<View>
-					{/* <AnimatedInerShadowSvg position="top" option={insetDarkSetting}/> */}
-					<AnimatedInerShadowSvg position="bottom" option={insetLightSetting}/>
+					<AnimatedInerShadowSvg position="top" width={width} height={height} option={insetDarkSetting}/>
+					<AnimatedInerShadowSvg position="bottom" width={width} height={height} option={insetLightSetting}/>
 				</View>
-				{/* <Animated.View style={{ ...viewStyle }}>{children}</Animated.View> */}
-			</Animated.View>
+				<Animated.View style={[test]}>{children}</Animated.View>
+			</>
 		)
 	} else {
 		return (
-			<Animated.View style={[ { backgroundColor }]}>
+			<>
 				{renderShadow()}
 				{/* <Animated.View style={[styles.view, test]}>{children}</Animated.View> */}
-			</Animated.View>
+			</>
 		)
 	}
 };

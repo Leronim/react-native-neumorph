@@ -1,3 +1,5 @@
+import { useAnimatedProps } from 'react-native-reanimated';
+
 /**
  * 
  * @param {string} color hex color
@@ -118,3 +120,34 @@ export const hslToHex = (
 
     return '#' + r + g + b;
 };
+
+export const constructAnimPath = (
+    type: 'rightTop' | 'rightBottom' | 'leftBottom',
+    innerRadius: number,
+    outerRadius: string,
+    width: any,
+    shadowRadius: string,
+    height: any = null
+) => {
+    return useAnimatedProps(() => {
+        const mPrefix = `M ${width.value} ${type === 'rightTop' ? '0' : height.value}`;
+        const aTopPrefix = `a ${outerRadius} ${outerRadius} 0 0 1 
+            ${type === 'rightBottom' || type === 'leftBottom' 
+                ? -outerRadius 
+                : outerRadius
+            } 
+            ${type === 'leftBottom' ? -outerRadius : outerRadius}
+        `;
+        const hPrefix = `h ${type === 'leftBottom' ? shadowRadius : -shadowRadius}`;
+        const aBottomPrefix = `a ${innerRadius} ${innerRadius} 0 0 0 
+            ${type === 'rightTop' 
+                ? -innerRadius
+                : innerRadius
+            } ${type ==='leftBottom' ? innerRadius : -innerRadius} z`
+        const path = `${mPrefix} ${aTopPrefix} ${hPrefix} ${aBottomPrefix}`;
+        console.log(path)
+        return {
+            d: path
+        }
+    })
+}

@@ -8,7 +8,9 @@ import { Svg,
     Stop
 } from 'react-native-svg';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import Animated, { interpolate, useAnimatedProps, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { interpolate, useAnimatedProps, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated';
+import { constructAnimPath } from './utils'
+import { getPathWithRadius } from './helpers';
 
 const AnimSvg = Animated.createAnimatedComponent(Svg);
 const AnimView = Animated.createAnimatedComponent(View);
@@ -33,36 +35,179 @@ function hexToRgb(hex: any) {
 }
 
 export const AnimatedShadow: React.FC<any> = ({
-	isAnim,
     width,
+	height,
     option: {
         shadowColor,
         borderRadius,
         // width,
-        height,
+        // height,
         shadowRadius,
         shadowOpacity,
         shadowOffset,
         nativeWidth,
         nativeHeight,
-		style,
     }
 }:any) => {
     const innerRadius = borderRadius > 0 ? Math.max(0, borderRadius - shadowRadius / 2) : 0,
-		outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius,
-		innerWidth = width.value - shadowRadius,
-		innerHeight = height.value - shadowRadius,
-		outerWidth = width.value + shadowRadius,
-		outerHeight = height.value + shadowRadius,
-		borderWidth = (outerWidth - innerWidth) / 2;
+		outerRadius = borderRadius > 0 ? Math.max(0, borderRadius + shadowRadius / 2) : shadowRadius;
+		// innerWidth = width.value - shadowRadius,
+		// innerHeight = height.value - shadowRadius,
+		// outerWidth = width.value + shadowRadius,
+		// outerHeight = height.value + shadowRadius;
+		// borderWidth = (outerWidth - innerWidth) / 2;
+	const rgb = hexToRgb(shadowColor);
+	
+	const calculatingInnerWidth = (isInner: boolean = false) => {
+		"worklet";
+		if(isInner) {
+			return width.value - shadowRadius - innerRadius * 2;
+		} else {
+			return width.value - shadowRadius;
+		}
+	}
+	const calculatingOuterWidth = () => {
+		"worklet";
+		return width.value + shadowRadius;
+	}
+
+	const calculatingInnerHeight = (isInner: boolean = false) => {
+		"worklet";
+		if(isInner) {
+			return height.value - shadowRadius - innerRadius * 2;
+		} else {
+			return height.value - shadowRadius
+		}
+	}
+	const calculatingOuterHeight = () => {
+		"worklet";
+		return height.value + shadowRadius;
+	}
+
+	const calculatingBorderRadius = () => {
+		"worklet";
+		return (calculatingOuterWidth() - calculatingInnerWidth()) / 2;
+	}
 
 
-    const test = useAnimatedProps(() => ({
-        width: interpolate(width.value, [0, 1], [width.value, width.value])
-    }))
+	const interpolateWidth = useDerivedValue(() => 
+		interpolate(width.value, [0, 1], [width.value, width.value])
+	);
+	const interpolateHeight = useDerivedValue(() => 
+		interpolate(height.value, [0, 1], [height.value, height.value])
+	);
+	const innerHeight = useDerivedValue(() => 
+		interpolate(height.value, [0, 1], [calculatingInnerHeight(true), calculatingInnerHeight(true)])
+	);
+	const innerWidth = useDerivedValue(() => 
+		interpolate(width.value, [0, 1], [calculatingInnerWidth(true), calculatingInnerWidth(true)])
+	);
+	const outerWidth = useDerivedValue(() => 
+		interpolate(width.value, [0, 1], [calculatingOuterWidth(), calculatingOuterWidth()])
+	);
+	const outerHeight = useDerivedValue(() =>
+		interpolate(height.value, [0, 1], [calculatingOuterHeight(), calculatingOuterHeight()])
+	);
+	const borderWidth = useDerivedValue(() => 
+		interpolate(width.value, [0, 1], [
+			calculatingBorderRadius(),
+			calculatingBorderRadius()
+		])
+	);
+	const borderWidthAddRadius = useDerivedValue(() => 
+		interpolate(width.value, [0, 1], [
+			calculatingBorderRadius() + innerRadius,
+			calculatingBorderRadius() + innerRadius
+		])
+	)
 
-    const rgb = hexToRgb(shadowColor);
-	console.log(test)
+
+    const rectTop = useAnimatedProps(() => ({
+        width: interpolateWidth.value,
+		x: outerRadius,
+		y: 0,
+		height: shadowRadius,
+		rx: borderRadius
+    }));
+
+	const rectRight = useAnimatedProps(() => ({
+		height: innerHeight.value,
+		x: interpolateWidth.value,
+		width: shadowRadius,
+		y: outerRadius
+	}));
+
+	const rectBottom = useAnimatedProps(() => ({
+		y: interpolateHeight.value,
+		width: innerWidth.value,
+		x: outerRadius,
+		height: shadowRadius
+	}));
+	
+	const rectLeft = useAnimatedProps(() => ({
+		height: innerHeight.value,
+		width: shadowRadius,
+		y: outerRadius,
+		x: 0
+	}));
+
+	const pathInner = useAnimatedProps(() => {
+		const path = `
+			M ${borderWidth.value} ${borderWidthAddRadius.value},
+			a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${-innerRadius}
+			h ${innerWidth.value}
+			a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${innerRadius}
+			v ${innerHeight.value}
+			a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${innerRadius}
+			h ${-innerWidth.value}
+			a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${-innerRadius}
+			z
+		`
+		return {
+			d: path,
+			fill: `rgba(${rgb.r},${rgb.g},${rgb.b},${shadowOpacity || 1})`
+		}
+	});
+
+	const rightTopPath = useAnimatedProps(() => ({
+		d: `
+			M ${interpolateWidth.value} 0,
+			a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${outerRadius}
+			h ${-shadowRadius}
+			a ${innerRadius} ${innerRadius} 0 0 0 ${-innerRadius} ${-innerRadius}
+			z
+		`
+	}));
+
+	const rightBottomPath = useAnimatedProps(() => ({
+		d: `
+			M ${outerWidth.value} ${interpolateHeight.value},
+			a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${outerRadius}
+			v ${-shadowRadius}
+			a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${-innerRadius}
+			z
+		`
+	}));
+
+	const leftBottomPath = useAnimatedProps(() => ({
+		d: `
+			M ${outerRadius} ${outerHeight.value},
+			a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${-outerRadius}
+			h ${shadowRadius}
+			a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${innerRadius}
+			z
+		`
+	}));
+
+	const styleSvg = useAnimatedProps(() => ({
+		width: interpolate(width.value, [0, 1], [width.value + shadowRadius, width.value + shadowRadius]),
+		height: interpolate(height.value, [0, 1], [height.value + shadowRadius, height.value + shadowRadius]),
+	}))
+
+	const style = useAnimatedStyle(() => ({
+		width: interpolate(width.value, [0, 1], [width.value, width.value]),
+		height: interpolate(height.value, [0, 1], [height.value, height.value])
+	}))
 
     const renderStop = (key: string) => {
 		return[
@@ -166,25 +311,68 @@ export const AnimatedShadow: React.FC<any> = ({
 			</Defs>
 		)
 	}
-
-    const styleT = StyleSheet.create({
+	const absOffsetX = Math.abs(shadowOffset.width);
+    const absOffsetY = Math.abs(shadowOffset.height);
+	const styleT = StyleSheet.create({
 		container: {
 			position: 'absolute',
-			// left: -shadowRadius / 2 - spread + offset.width,
-			// top: -shadowRadius / 2 - spread + offset.height,
             left: shadowOffset.width,
 			top: shadowOffset.height,
+			// top: -shadowRadius - absOffsetY, left: -shadowRadius - absOffsetX
 		}
 	})
+	const path = getPathWithRadius(width.value, height.value, borderRadius);
 
+	console.log(shadowOffset)
+
+	const generatePath = useAnimatedProps(() => {
+		let path;
+		if (borderRadius) {
+			const APrefix = `A ${borderRadius}, ${borderRadius}, 0 0 1`;
+			const ATopLeft = `${APrefix} ${borderRadius},0`;
+			const ATopRight = `${APrefix} ${interpolateWidth.value},${borderRadius}`;
+			const ABottomRight = `${APrefix} ${interpolateWidth.value - borderRadius},${interpolateHeight.value}`;
+			const ABottomLeft = `${APrefix} 0,${interpolateHeight.value - borderRadius}`;
+			path = `M 0,${borderRadius} ${ATopLeft} H ${
+			  interpolateWidth.value - borderRadius
+			  } ${ATopRight} V ${
+			  interpolateHeight.value - borderRadius
+			  } ${ABottomRight} H ${borderRadius} ${ABottomLeft} Z`;
+		} else {
+			path = `M 0,0 H ${width} V ${height} H 0 Z`;
+		}
+		// console.log('test',path)
+		return {
+			d: path
+		}
+	})
+	
     return(
 		<AnimView style={[styleT.container, style]}>
 			<AnimSvg 
-				width={outerWidth}
-				height={outerHeight}
+				animatedProps={styleSvg}
 			>
+				{/* <Path 
+					d={`
+						M 0,0 H ${outerWidth.value} V ${outerHeight.value} H 0 Z
+					`} 
+					fill={`rgba(${rgb.r},${rgb.g},${rgb.b},${shadowOpacity || 1})`}
+				/> */}
+				{/* <AnimPath 
+					animatedProps={generatePath}
+					// d={`
+					// 	M 0, ${borderRadius} A ${borderRadius}, ${borderRadius}, 0 0 1 ${borderRadius}, 0
+					// 	H ${outerWidth.value - borderRadius}
+					// 	M 0, ${borderRadius} A ${borderRadius}, ${borderRadius}, 0 0 1 ${outerWidth.value}, ${borderRadius}
+					// 	V ${outerHeight.value - borderRadius}
+					// 	M 0, ${borderRadius} A ${borderRadius}, ${borderRadius}, 0 0 1 ${outerWidth.value - borderRadius}, ${outerHeight.value}
+					// 	H ${borderRadius}
+					// 	M 0, ${borderRadius} A ${borderRadius}, ${borderRadius}, 0 0 1 0, ${outerHeight.value - borderRadius} Z
+					// `} 
+					fill={`rgba(${rgb.r},${rgb.g},${rgb.b},${shadowOpacity || 1})`}
+				/> */}
 				{renderRadiantGradient()}
-				<AnimPath
+				{/* <Path
 					d={`
 						M 0 ${outerRadius},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${-outerRadius}
@@ -194,78 +382,36 @@ export const AnimatedShadow: React.FC<any> = ({
 					fill="url(#leftTop)"
 				/>
 				<AnimPath
-					d={`
-						M ${outerWidth - outerRadius} 0,
-						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${outerRadius}
-						h ${-shadowRadius}
-						a ${innerRadius} ${innerRadius} 0 0 0 ${-innerRadius} ${-innerRadius}
-						z
-					`}
+					animatedProps={rightTopPath}
 					fill="url(#rightTop)"
 				/>
 				<AnimPath
-					d={`
-						M ${outerWidth} ${outerHeight - outerRadius},
-						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${outerRadius}
-						v ${-shadowRadius}
-						a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${-innerRadius}
-						z
-				`}
-				fill="url(#rightBottom)"
+					animatedProps={rightBottomPath}
+					fill="url(#rightBottom)"
 				/>
 				<AnimPath
-					d={`
-						M ${outerRadius} ${outerHeight},
-						a ${outerRadius} ${outerRadius} 0 0 1 ${-outerRadius} ${-outerRadius}
-						h ${shadowRadius}
-						a ${innerRadius} ${innerRadius} 0 0 0 ${innerRadius} ${innerRadius}
-						z
-				`}
-				fill="url(#leftBottom)"
-		
-				/>
+					animatedProps={leftBottomPath}
+					fill="url(#leftBottom)"
+				/> */}
 				<AnimRect
-					x={outerRadius}
-					y={0}
-                    animatedProps={test}
-					height={shadowRadius}
+                    animatedProps={rectTop}
 					fill="url(#top)"
 				/>
-				<Rect
-					x={outerWidth - shadowRadius}
-					y={outerRadius}
-					width={shadowRadius}
-					height={innerHeight - innerRadius * 2}
+				<AnimRect
+					animatedProps={rectRight}
 					fill="url(#right)"
 				/>
-				<Rect
-					x={outerRadius}
-					y={outerHeight - shadowRadius}
-					width={innerWidth - innerRadius * 2}
-					height={shadowRadius}
+				<AnimRect
+					animatedProps={rectBottom}
 					fill="url(#bottom)"
 				/>
-				<Rect
-					x={0}
-					y={outerRadius}
-					width={shadowRadius}
-					height={innerHeight - innerRadius * 2}
+				<AnimRect
+					animatedProps={rectLeft}
 					fill="url(#left)"
 				/>
-				<Path
-					d={`
-						M ${borderWidth} ${borderWidth + innerRadius},
-						a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${-innerRadius}
-						h ${innerWidth - innerRadius * 2}
-						a ${innerRadius} ${innerRadius} 0 0 1 ${innerRadius} ${innerRadius}
-						v ${innerHeight - innerRadius * 2}
-						a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${innerRadius}
-						h ${-innerWidth + innerRadius * 2}
-						a ${innerRadius} ${innerRadius} 0 0 1 ${-innerRadius} ${-innerRadius}
-						z
-					`}
-					fill={`rgba(${rgb.r},${rgb.g},${rgb.b},${shadowOpacity || 1})`}
-				/>
+				{/* <AnimPath
+					animatedProps={pathInner}
+				/> */}
         	</AnimSvg>
 		</AnimView>
     )

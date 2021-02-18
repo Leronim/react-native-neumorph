@@ -1,6 +1,6 @@
 import React from 'react';
 import { Svg, Rect, LinearGradient, Stop, Defs, Line } from 'react-native-svg';
-import Animated from 'react-native-reanimated';
+import Animated, { useAnimatedProps, interpolate, useDerivedValue } from 'react-native-reanimated';
 import { InteractionManager } from 'react-native';
 
 interface InerShadowProps {
@@ -19,8 +19,6 @@ const AnimLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 export const AnimatedInerShadowSvg: React.FC<any> = ({ 
     option: {
-        width = 0,
-        height = 0,
         borderRadius,
         shadowRadius,
         shadowOffset,
@@ -28,11 +26,39 @@ export const AnimatedInerShadowSvg: React.FC<any> = ({
         shadowColor,
         backgroundColor,
     },
+    width,
+    height,
     position
 }: any) => {
    
     const innerWidth = position === 'bottom' ? shadowRadius : width;
     const innerHeight = position === 'bottom' ? shadowRadius : height;
+
+    const styleSvg = useAnimatedProps(() => ({
+		width: interpolate(width.value, [0, 1], [width.value + shadowRadius, width.value + shadowRadius]),
+		height: interpolate(height.value, [0, 1], [height.value + shadowRadius, height.value + shadowRadius])
+	}));
+
+    const interpolateWidth = useDerivedValue(() => 
+		interpolate(width.value, [0, 1], [width.value, width.value])
+	);
+	const interpolateHeight = useDerivedValue(() => 
+		interpolate(height.value, [0, 1], [height.value, height.value])
+	);
+
+    const rectProps = useAnimatedProps(() => ({
+        rx: borderRadius,
+        ry: borderRadius,
+        width: interpolateWidth.value,
+        height: interpolateHeight.value
+    }));
+
+    const rectPropsTwo = useAnimatedProps(() => ({
+        rx: borderRadius,
+        ry: borderRadius,
+        width: interpolateWidth.value,
+        height: interpolateHeight.value
+    }));
 
     const renderStop = () => {
         return[
@@ -48,18 +74,6 @@ export const AnimatedInerShadowSvg: React.FC<any> = ({
                     stopOpacity={shadowOpacity ? shadowOpacity : shadowRadius / 100}
                     key={`Box${position}Linear1`}
                 />
-                // <Stop
-                //     offset="0"
-                //     stopColor={color}
-                //     stopOpacity={shadowOpacity}
-                //     key={`Box` + position + 'Linear0'}
-                //     />,
-                // <Stop
-                //     offset="1"
-                //     stopColor={color}
-                //     stopOpacity={shadowRadius / 100}
-                //     key={'Box' + position + 'Linear1'}
-                // />,
         ]
     }
 
@@ -90,24 +104,22 @@ export const AnimatedInerShadowSvg: React.FC<any> = ({
     }
     
     return(
-        <AnimSvg width={width} height={height} style={{ position: 'absolute' }}>
+        <AnimSvg animatedProps={styleSvg} style={{ position: 'absolute' }}>
             {renderLinearGradient()}
             <AnimRect 
-                rx={borderRadius} 
-                ry={borderRadius} 
+                // rx={borderRadius} 
+                // ry={borderRadius} 
                 // width={position === 'bottom' ? shadowRadius : width} 
                 // height={position === 'bottom' ? height : shadowRadius} 
-                width={width}
-                height={height}
+                animatedProps={rectProps}
                 fill="url(#shadow1)"
             />
             <AnimRect 
-                rx={borderRadius} 
-                ry={borderRadius} 
+                // rx={borderRadius} 
+                // ry={borderRadius} 
                 // width={position === 'bottom' ? width : shadowRadius} 
                 // height={position === 'bottom' ? shadowRadius : height} 
-                width={width}
-                height={height}
+                animatedProps={rectPropsTwo}
                 fill="url(#shadow2)"
             />
         </AnimSvg>

@@ -33,7 +33,6 @@ const App: React.FC = () => {
     const height = useSharedValue(150);
 
     const startAnimation = () => {
-        setIsAnim(!isAnim);
         width.value = withTiming(300, {
             duration: 1500,
             easing: Easing.ease
@@ -45,7 +44,6 @@ const App: React.FC = () => {
     }
 
     const downAnimation = () => {
-        setIsAnim(!isAnim); 
         width.value = withTiming(150, {
             duration: 1500,
             easing: Easing.ease
@@ -71,18 +69,33 @@ const App: React.FC = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Animated.View style={[{ backgroundColor: 'blue' }]}>
-
-            </Animated.View>
-            <View style={{ marginLeft: 50, marginTop: 100 }}>
+            <View style={{ marginLeft: 25, marginTop: 100 }}>
                 <AnimatedNeomorph
                     // inner 
                     // swapShadow
-                    isAnim={isAnim}
                     width={width}
                     height={height}
                     style={{ 
-                        ...styleAnim,
+                        shadowOpacity: 1,
+                        shadowRadius: 10,
+                        borderRadius: 10,
+                        shadowOffset: {
+                            width: 3,
+                            height: 6,
+                        },
+                        backgroundColor: '#dddddd',
+                    }}
+                >
+                    <Text>123</Text>
+                </AnimatedNeomorph>
+            </View>
+            {/* <View style={{ marginLeft: 50, marginTop: 100 }}>
+                <AnimatedNeomorph
+                    inner 
+                    // swapShadow
+                    width={width}
+                    height={height}
+                    style={{ 
                         shadowOpacity: 1,
                         shadowRadius: 20,
                         borderRadius: 10,
@@ -90,13 +103,53 @@ const App: React.FC = () => {
                             width: 2,
                             height: 4,
                         },
-                        backgroundColor: '#DDDDDD',
+                        backgroundColor: '#dddddd',
                     }}
                 >
                     <Text>123</Text>
                 </AnimatedNeomorph>
             </View>
-            <View style={{ marginTop: 100 }}>
+            <View style={{ marginLeft: 25, marginTop: 100 }}>
+                <AnimatedNeomorph
+                    inner 
+                    // swapShadow
+                    width={width}
+                    height={height}
+                    style={{ 
+                        shadowOpacity: 1,
+                        shadowRadius: 20,
+                        borderRadius: 10,
+                        shadowOffset: {
+                            width: 2,
+                            height: 4,
+                        },
+                        backgroundColor: '#dddddd',
+                    }}
+                >
+                    <Text>123</Text>
+                </AnimatedNeomorph>
+            </View>
+            <View style={{ marginLeft: 50, marginTop: 100 }}>
+                <AnimatedNeomorph
+                    inner 
+                    // swapShadow
+                    width={width}
+                    height={height}
+                    style={{ 
+                        shadowOpacity: 1,
+                        shadowRadius: 20,
+                        borderRadius: 10,
+                        shadowOffset: {
+                            width: 2,
+                            height: 4,
+                        },
+                        backgroundColor: '#dddddd',
+                    }}
+                >
+                    <Text>123</Text>
+                </AnimatedNeomorph>
+            </View> */}
+            <View style={{ marginTop: 300, width: '100%' }}>
                 <Button onPress={() => startAnimation()} title="toggle"/>
                 <Button onPress={() => downAnimation()} title="down"/> 
             </View>
@@ -106,8 +159,11 @@ const App: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#ececec',
-        height: '100%'
+        backgroundColor: '#dddddd',
+        height: '100%',
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
     }
 })
 
