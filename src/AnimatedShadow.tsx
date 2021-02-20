@@ -123,11 +123,10 @@ export const AnimatedShadow: React.FC<any> = ({
 
 
     const rectTop = useAnimatedProps(() => ({
-        width: interpolateWidth.value,
+        width: innerWidth.value,
 		x: outerRadius,
 		y: 0,
-		height: shadowRadius,
-		rx: borderRadius
+		height: shadowRadius
     }));
 
 	const rectRight = useAnimatedProps(() => ({
@@ -311,8 +310,6 @@ export const AnimatedShadow: React.FC<any> = ({
 			</Defs>
 		)
 	}
-	const absOffsetX = Math.abs(shadowOffset.width);
-    const absOffsetY = Math.abs(shadowOffset.height);
 	const styleT = StyleSheet.create({
 		container: {
 			position: 'absolute',
@@ -321,58 +318,14 @@ export const AnimatedShadow: React.FC<any> = ({
 			// top: -shadowRadius - absOffsetY, left: -shadowRadius - absOffsetX
 		}
 	})
-	const path = getPathWithRadius(width.value, height.value, borderRadius);
-
-	console.log(shadowOffset)
-
-	const generatePath = useAnimatedProps(() => {
-		let path;
-		if (borderRadius) {
-			const APrefix = `A ${borderRadius}, ${borderRadius}, 0 0 1`;
-			const ATopLeft = `${APrefix} ${borderRadius},0`;
-			const ATopRight = `${APrefix} ${interpolateWidth.value},${borderRadius}`;
-			const ABottomRight = `${APrefix} ${interpolateWidth.value - borderRadius},${interpolateHeight.value}`;
-			const ABottomLeft = `${APrefix} 0,${interpolateHeight.value - borderRadius}`;
-			path = `M 0,${borderRadius} ${ATopLeft} H ${
-			  interpolateWidth.value - borderRadius
-			  } ${ATopRight} V ${
-			  interpolateHeight.value - borderRadius
-			  } ${ABottomRight} H ${borderRadius} ${ABottomLeft} Z`;
-		} else {
-			path = `M 0,0 H ${width} V ${height} H 0 Z`;
-		}
-		// console.log('test',path)
-		return {
-			d: path
-		}
-	})
 	
     return(
 		<AnimView style={[styleT.container, style]}>
 			<AnimSvg 
 				animatedProps={styleSvg}
 			>
-				{/* <Path 
-					d={`
-						M 0,0 H ${outerWidth.value} V ${outerHeight.value} H 0 Z
-					`} 
-					fill={`rgba(${rgb.r},${rgb.g},${rgb.b},${shadowOpacity || 1})`}
-				/> */}
-				{/* <AnimPath 
-					animatedProps={generatePath}
-					// d={`
-					// 	M 0, ${borderRadius} A ${borderRadius}, ${borderRadius}, 0 0 1 ${borderRadius}, 0
-					// 	H ${outerWidth.value - borderRadius}
-					// 	M 0, ${borderRadius} A ${borderRadius}, ${borderRadius}, 0 0 1 ${outerWidth.value}, ${borderRadius}
-					// 	V ${outerHeight.value - borderRadius}
-					// 	M 0, ${borderRadius} A ${borderRadius}, ${borderRadius}, 0 0 1 ${outerWidth.value - borderRadius}, ${outerHeight.value}
-					// 	H ${borderRadius}
-					// 	M 0, ${borderRadius} A ${borderRadius}, ${borderRadius}, 0 0 1 0, ${outerHeight.value - borderRadius} Z
-					// `} 
-					fill={`rgba(${rgb.r},${rgb.g},${rgb.b},${shadowOpacity || 1})`}
-				/> */}
 				{renderRadiantGradient()}
-				{/* <Path
+				<Path
 					d={`
 						M 0 ${outerRadius},
 						a ${outerRadius} ${outerRadius} 0 0 1 ${outerRadius} ${-outerRadius}
@@ -392,7 +345,7 @@ export const AnimatedShadow: React.FC<any> = ({
 				<AnimPath
 					animatedProps={leftBottomPath}
 					fill="url(#leftBottom)"
-				/> */}
+				/>
 				<AnimRect
                     animatedProps={rectTop}
 					fill="url(#top)"
@@ -409,9 +362,9 @@ export const AnimatedShadow: React.FC<any> = ({
 					animatedProps={rectLeft}
 					fill="url(#left)"
 				/>
-				{/* <AnimPath
+				<AnimPath
 					animatedProps={pathInner}
-				/> */}
+				/>
         	</AnimSvg>
 		</AnimView>
     )

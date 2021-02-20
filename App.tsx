@@ -6,164 +6,252 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
     Text,
-    Button,
     View,
-    TextBase,
+    ScrollView,
+    Button,
+    NativeModules,
+    requireNativeComponent,
+    ViewPropTypes,
+    Animated,
+    Easing
 } from 'react-native';
+import PropTypes from 'prop-types';
+import { useLazyRef } from './src/useLazyRef';
+import { brightness } from './src/helpers';
 // import Shadow from './src/Shadow';
-import { Neomorph } from 'react-native-neomorph-shadows';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, useValue, interpolateNode } from 'react-native-reanimated';
-import Test from './src/Test';
-import { AnimatedNeomorph } from './src/AnimatedNeomorph';
-import { NeomorphTwo } from './src/NeomorphTwo';
+// import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
 
-const AnimNeomorph = Animated.createAnimatedComponent(Neomorph);
+const Neumorph = requireNativeComponent('Neumorph');
+const AnimNeomorph = Animated.createAnimatedComponent(Neumorph);
 
 const App: React.FC = () => {
 
     const [isAnim, setIsAnim] = useState<boolean>(false);
+    const width = useLazyRef(() => new Animated.Value(150));
 
-    const width = useSharedValue(150);
-
-    const height = useSharedValue(150);
+    console.log(brightness('#ffffff'))
 
     const startAnimation = () => {
-        width.value = withTiming(300, {
-            duration: 1500,
+        Animated.timing(width, {
+            toValue: 300,
+            duration: 10000,
+            useNativeDriver: false,
             easing: Easing.ease
-        });
-        height.value = withTiming(300, {
-            duration: 1500,
-            easing: Easing.ease
-        })
+        }).start();
     }
 
     const downAnimation = () => {
-        width.value = withTiming(150, {
-            duration: 1500,
+        Animated.timing(width, {
+            toValue: 150,
+            duration: 10000,
+            useNativeDriver: false,
             easing: Easing.ease
-        });
-        height.value = withTiming(150, {
-            duration: 1500,
-            easing: Easing.ease
-        });
+        }).start();
+    }
+    
+    const viewProps = {
+        name: 'Neumorph',
+        propTypes: {
+            backgroundColor: PropTypes.string,
+            ...ViewPropTypes
+        }
     }
 
-    const styleAnim = useAnimatedStyle(() => {
-        return {
-            width: withTiming(width.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-            height: withTiming(height.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-        }
-    })
+    // const width = useSharedValue(150);
 
+    // const height = useSharedValue(150);
+
+    // const startAnimation = () => {
+    //     width.value = withTiming(300, {
+    //         duration: 1500,
+    //         easing: Easing.ease
+    //     });
+    //     height.value = withTiming(300, {
+    //         duration: 1500,
+    //         easing: Easing.ease
+    //     })
+    // }
+
+    // const downAnimation = () => {
+    //     width.value = withTiming(150, {
+    //         duration: 1500,
+    //         easing: Easing.ease
+    //     });
+    //     height.value = withTiming(150, {
+    //         duration: 1500,
+    //         easing: Easing.ease
+    //     });
+    // }
+
+    // const styleAnim = useAnimatedStyle(() => {
+    //     return {
+    //         width: withTiming(width.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //         height: withTiming(height.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //     }
+    // })
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ marginLeft: 25, marginTop: 100 }}>
-                <AnimatedNeomorph
-                    // inner 
-                    // swapShadow
-                    width={width}
-                    height={height}
-                    style={{ 
-                        shadowOpacity: 1,
-                        shadowRadius: 10,
-                        borderRadius: 10,
-                        shadowOffset: {
-                            width: 3,
-                            height: 6,
-                        },
-                        backgroundColor: '#dddddd',
+            {/* <Button title="Toggle" onPress={() => setIsAnim(!isAnim)}/> */}
+            {/* <Animated.View 
+                style={{ 
+                    backgroundColor: 'red',
+                    width: width,
+                    height: width 
+                }}> */}
+                <ScrollView contentContainerStyle={{ flexGrow: 1, flexWrap: 'wrap', flexDirection: 'row' }}>
+
+                <AnimNeomorph
+                    style={{
+                        width: width,
+                        height: width,
                     }}
                 >
-                    <Text>123</Text>
-                </AnimatedNeomorph>
-            </View>
-            {/* <View style={{ marginLeft: 50, marginTop: 100 }}>
-                <AnimatedNeomorph
-                    inner 
-                    // swapShadow
-                    width={width}
-                    height={height}
-                    style={{ 
-                        shadowOpacity: 1,
-                        shadowRadius: 20,
-                        borderRadius: 10,
-                        shadowOffset: {
-                            width: 2,
-                            height: 4,
-                        },
-                        backgroundColor: '#dddddd',
+                    <AnimNeomorph
+                        inner
+                        style={{
+                            width: width,
+                            height: width,
+                        }}
+                    />
+                </AnimNeomorph>
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
                     }}
-                >
-                    <Text>123</Text>
-                </AnimatedNeomorph>
-            </View>
-            <View style={{ marginLeft: 25, marginTop: 100 }}>
-                <AnimatedNeomorph
-                    inner 
-                    // swapShadow
-                    width={width}
-                    height={height}
-                    style={{ 
-                        shadowOpacity: 1,
-                        shadowRadius: 20,
-                        borderRadius: 10,
-                        shadowOffset: {
-                            width: 2,
-                            height: 4,
-                        },
-                        backgroundColor: '#dddddd',
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
                     }}
-                >
-                    <Text>123</Text>
-                </AnimatedNeomorph>
-            </View>
-            <View style={{ marginLeft: 50, marginTop: 100 }}>
-                <AnimatedNeomorph
-                    inner 
-                    // swapShadow
-                    width={width}
-                    height={height}
-                    style={{ 
-                        shadowOpacity: 1,
-                        shadowRadius: 20,
-                        borderRadius: 10,
-                        shadowOffset: {
-                            width: 2,
-                            height: 4,
-                        },
-                        backgroundColor: '#dddddd',
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
                     }}
-                >
-                    <Text>123</Text>
-                </AnimatedNeomorph>
-            </View> */}
-            <View style={{ marginTop: 300, width: '100%' }}>
-                <Button onPress={() => startAnimation()} title="toggle"/>
-                <Button onPress={() => downAnimation()} title="down"/> 
-            </View>
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                <Neumorph
+                    style={{
+                        width: 150,
+                        height: 150,
+                    }}
+                />
+                </ScrollView>
+            {/* </Animated.View> */}
+            <Button title='up' onPress={() => startAnimation()}/>
+            <Button title='down' onPress={() => downAnimation()}/>
+            {/* <ScrollView contentContainerStyle={{ flexGrow: 1, flexWrap: 'wrap', flexDirection: 'row' }}>
+                {new Array(15).fill('').map((_, index: number) => {
+                    return (
+                        <View key={index} style={{ marginLeft: 30, marginTop: 100 }}>
+                            <NeomorphTwo
+                                inner={isAnim} 
+                                // swapShadow
+                                style={{ 
+                                    shadowOpacity: 1,
+                                    shadowRadius: 10,
+                                    borderRadius: 70,
+                                    width: 150,
+                                    height: 150,
+                                    shadowOffset: {
+                                        width: 2,
+                                        height: 4,
+                                    },
+                                    backgroundColor: '#dddddd',
+                                }}
+                            >
+                                <NeomorphTwo
+                                    inner={isAnim} 
+                                    // swapShadow
+                                    style={{ 
+                                        shadowOpacity: 1,
+                                        shadowRadius: 10,
+                                        borderRadius: 70,
+                                        width: 50,
+                                        height: 50,
+                                        shadowOffset: {
+                                            width: 2,
+                                            height: 4,
+                                        },
+                                        backgroundColor: '#dddddd',
+                                    }}
+                                >
+                                    <Text>123</Text>
+                                </NeomorphTwo>
+                            </NeomorphTwo>
+                        </View>
+                    )
+                })}
+            </ScrollView> */}
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#dddddd',
-        height: '100%',
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap'
+        backgroundColor: '#ddd',
+        flex: 1
     }
 })
 

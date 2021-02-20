@@ -137,7 +137,6 @@ export function transformStyleProps(styleProps, neomorph) {
 /* get brightness from rgb/hex color */
 export function brightness(color) {
   let r, g, b, hsp;
-  return '#fff'
   if (color.match(/^rgb/)) {
     color = color.match(
       /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/,

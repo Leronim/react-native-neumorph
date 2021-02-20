@@ -61,10 +61,8 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 
     const lightSetting = {
         shadowOffset: {
-            width: -shadowOffset.width,
-            height: -shadowOffset.height
-			// width: -shadowOffset.width * 3,
-			// height: -shadowOffset.height * 3,
+            width: -shadowRadius -shadowOffset.width,
+            height: -shadowRadius - shadowOffset.height
         },
         shadowColor: lightShadowColor ? lightShadowColor : light,
 		innerRadius,
@@ -140,7 +138,7 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 		} else {
 			return (
 				<>
-					{/* <AnimatedShadow width={width} height={height} option={lightSetting} /> */}
+					<AnimatedShadow width={width} height={height} option={lightSetting} />
 					<AnimatedShadow width={width} height={height} option={darkSetting} />
 				</>
 			)
@@ -161,7 +159,7 @@ export const AnimatedNeomorph: React.FC<NeomorphAnimProps> = ({
 		return (
 			<>
 				{renderShadow()}
-				{/* <Animated.View style={[styles.view, test]}>{children}</Animated.View> */}
+				<Animated.View style={[styles.view, test]}>{children}</Animated.View>
 			</>
 		)
 	}
