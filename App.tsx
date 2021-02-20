@@ -18,7 +18,8 @@ import {
     requireNativeComponent,
     ViewPropTypes,
     Animated,
-    Easing
+    Easing,
+    Pressable
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useLazyRef } from './src/useLazyRef';
@@ -109,22 +110,25 @@ const App: React.FC = () => {
                     width: width,
                     height: width 
                 }}> */}
+                <Button title="Toggle" onPress={() => setIsAnim(!isAnim)}/>
+                <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
+                    <Neumorph
+                        inner={isAnim}
+                        style={{
+                            width: 150,
+                            height: 150
+                        }}
+                    />
+                </Pressable>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, flexWrap: 'wrap', flexDirection: 'row' }}>
 
                 <AnimNeomorph
+                    inner={isAnim}
                     style={{
                         width: width,
                         height: width,
                     }}
-                >
-                    <AnimNeomorph
-                        inner
-                        style={{
-                            width: width,
-                            height: width,
-                        }}
-                    />
-                </AnimNeomorph>
+                />
                 <Neumorph
                     style={{
                         width: 150,
