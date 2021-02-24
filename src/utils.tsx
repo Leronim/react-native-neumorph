@@ -1,4 +1,27 @@
 import { useAnimatedProps } from 'react-native-reanimated';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+
+export function brightness(color: any) {
+    let r: any, g: any, b: any,
+        hsp: any,
+        newColor: RegExpMatchArray | null;
+    if (color.match(/^rgb/)) {
+      color = color.match(
+        /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/,
+      );
+      r = color[1];
+      g = color[2];
+      b = color[3];
+    } else {
+      color = +('0x' + color.slice(1).replace(color.length < 5 && /./g, '$&$&'));
+      r = color >> 16;
+      g = (color >> 8) & 255;
+      b = color & 255;
+    }
+    hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+    return hsp;
+  }
+
 
 /**
  * 
@@ -132,18 +155,18 @@ export const constructAnimPath = (
     return useAnimatedProps(() => {
         const mPrefix = `M ${width.value} ${type === 'rightTop' ? '0' : height.value}`;
         const aTopPrefix = `a ${outerRadius} ${outerRadius} 0 0 1 
-            ${type === 'rightBottom' || type === 'leftBottom' 
-                ? -outerRadius 
+            ${type === 'rightBottom' || type === 'leftBottom'
+                ? -outerRadius
                 : outerRadius
             } 
             ${type === 'leftBottom' ? -outerRadius : outerRadius}
         `;
         const hPrefix = `h ${type === 'leftBottom' ? shadowRadius : -shadowRadius}`;
         const aBottomPrefix = `a ${innerRadius} ${innerRadius} 0 0 0 
-            ${type === 'rightTop' 
+            ${type === 'rightTop'
                 ? -innerRadius
                 : innerRadius
-            } ${type ==='leftBottom' ? innerRadius : -innerRadius} z`
+            } ${type === 'leftBottom' ? innerRadius : -innerRadius} z`
         const path = `${mPrefix} ${aTopPrefix} ${hPrefix} ${aBottomPrefix}`;
         console.log(path)
         return {

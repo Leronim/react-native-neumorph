@@ -23,19 +23,15 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useLazyRef } from './src/useLazyRef';
-import { brightness } from './src/helpers';
+import { Neumorph } from './src/Neumorph';
 // import Shadow from './src/Shadow';
 // import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
 
-const Neumorph = requireNativeComponent('Neumorph');
-const AnimNeomorph = Animated.createAnimatedComponent(Neumorph);
 
 const App: React.FC = () => {
 
     const [isAnim, setIsAnim] = useState<boolean>(false);
     const width = useLazyRef(() => new Animated.Value(150));
-
-    console.log(brightness('#ffffff'))
 
     const startAnimation = () => {
         Animated.timing(width, {
@@ -53,14 +49,6 @@ const App: React.FC = () => {
             useNativeDriver: false,
             easing: Easing.ease
         }).start();
-    }
-    
-    const viewProps = {
-        name: 'Neumorph',
-        propTypes: {
-            backgroundColor: PropTypes.string,
-            ...ViewPropTypes
-        }
     }
 
     // const width = useSharedValue(150);
@@ -103,151 +91,54 @@ const App: React.FC = () => {
     // })
     return (
         <SafeAreaView style={styles.container}>
-            {/* <Button title="Toggle" onPress={() => setIsAnim(!isAnim)}/> */}
-            {/* <Animated.View 
-                style={{ 
-                    backgroundColor: 'red',
-                    width: width,
-                    height: width 
-                }}> */}
                 <Button title="Toggle" onPress={() => setIsAnim(!isAnim)}/>
-                <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
-                    <Neumorph
-                        inner={isAnim}
-                        style={{
-                            width: 150,
-                            height: 150
-                        }}
-                    />
-                </Pressable>
-                <ScrollView contentContainerStyle={{ flexGrow: 1, flexWrap: 'wrap', flexDirection: 'row' }}>
+                {/* <View style={{ borderRadius: 200, backgroundColor: 'red', width: 300, height: 300 }}>
 
-                <AnimNeomorph
-                    inner={isAnim}
-                    style={{
-                        width: width,
-                        height: width,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                <Neumorph
-                    style={{
-                        width: 150,
-                        height: 150,
-                    }}
-                />
-                </ScrollView>
-            {/* </Animated.View> */}
-            <Button title='up' onPress={() => startAnimation()}/>
-            <Button title='down' onPress={() => downAnimation()}/>
-            {/* <ScrollView contentContainerStyle={{ flexGrow: 1, flexWrap: 'wrap', flexDirection: 'row' }}>
-                {new Array(15).fill('').map((_, index: number) => {
-                    return (
-                        <View key={index} style={{ marginLeft: 30, marginTop: 100 }}>
-                            <NeomorphTwo
-                                inner={isAnim} 
-                                // swapShadow
-                                style={{ 
-                                    shadowOpacity: 1,
-                                    shadowRadius: 10,
-                                    borderRadius: 70,
-                                    width: 150,
-                                    height: 150,
+                </View> */}
+                <View style={{ marginTop: 150, marginLeft: 50 }}>
+                    <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
+                        <Neumorph
+                            style={{
+                                shadowRadius: 12,
+                                borderRadius: 200,
+                                backgroundColor: '#DDDDDD',
+                                width: 200,
+                                height: 200,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Neumorph
+                                inner
+                                darkShadowColor="#dddddd"
+                                lightShadowColor="#dddddd"
+                                style={{
+                                    shadowRadius: 5,
+                                    borderRadius: 190,
+                                    backgroundColor: '#F19F9F',
+                                    width: 180,
+                                    height: 180,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
                                     shadowOffset: {
                                         width: 2,
-                                        height: 4,
-                                    },
-                                    backgroundColor: '#dddddd',
+                                        height: 4
+                                    }
                                 }}
                             >
-                                <NeomorphTwo
-                                    inner={isAnim} 
-                                    // swapShadow
-                                    style={{ 
-                                        shadowOpacity: 1,
-                                        shadowRadius: 10,
-                                        borderRadius: 70,
-                                        width: 50,
-                                        height: 50,
-                                        shadowOffset: {
-                                            width: 2,
-                                            height: 4,
-                                        },
-                                        backgroundColor: '#dddddd',
-                                    }}
-                                >
-                                    <Text>123</Text>
-                                </NeomorphTwo>
-                            </NeomorphTwo>
-                        </View>
-                    )
-                })}
-            </ScrollView> */}
+                                <Neumorph
+                                    style={{
+                                        shadowRadius: 6,
+                                        borderRadius: 200,
+                                        backgroundColor: '#DDDDDD',
+                                        width: 100,
+                                        height: 100,
+                                      }}
+                                />
+                            </Neumorph>
+                        </Neumorph>
+                    </Pressable>
+                </View>
         </SafeAreaView>
     );
 };

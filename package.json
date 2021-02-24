@@ -10,15 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-community/art": "git+https://gitlab-delpoy-appcenter:nioVMDY9kwG2sD7z2CbA@gitlab.i-link.pro/front-common/art.git",
     "@react-native-community/cli-platform-android": "^4.13.0",
     "react": "16.13.1",
     "react-native": "0.63.4",
-    "react-native-linear-gradient": "^2.5.6",
-    "react-native-neomorph-shadows": "^1.1.2",
-    "react-native-neu-element": "^1.1.9",
     "react-native-reanimated": "file:react-native-reanimated-2.0.0-rc.3.tgz",
-    "react-native-shadow": "^1.2.2",
     "react-native-svg": "^12.1.0"
   },
   "devDependencies": {

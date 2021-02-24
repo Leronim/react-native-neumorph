@@ -1,11 +1,19 @@
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
+
+export interface NeomoprhStyle extends ViewStyle {
+    backgroundColor?: "transparent" | string;
+    // shadowOffset?: {
+    //     width: number;
+    //     height
+    // }
+}
 
 export interface NeomorphProps {
-    children: React.ReactChild;
     inner?: boolean;
-    style: ViewStyle;
+    style?: NeomoprhStyle;
+    basin?:boolean;
     darkShadowColor?: string;
     lightShadowColor?: string;
+    children?: React.ReactChild;
     swapShadow?: boolean;
-    
 }
