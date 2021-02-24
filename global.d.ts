@@ -8,6 +8,13 @@ export interface NeomoprhStyle extends ViewStyle {
     // }
 }
 
+export interface rgbProps {
+    r: number;
+    b: number;
+    g: number;
+    alpha: number;
+}
+
 export interface NeomorphProps {
     inner?: boolean;
     style?: NeomoprhStyle;

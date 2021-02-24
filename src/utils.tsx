@@ -1,27 +1,52 @@
 import { useAnimatedProps } from 'react-native-reanimated';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 
-export function brightness(color: any) {
-    let r: any, g: any, b: any,
-        hsp: any,
-        newColor: RegExpMatchArray | null;
-    if (color.match(/^rgb/)) {
-      color = color.match(
-        /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/,
-      );
-      r = color[1];
-      g = color[2];
-      b = color[3];
-    } else {
-      color = +('0x' + color.slice(1).replace(color.length < 5 && /./g, '$&$&'));
-      r = color >> 16;
-      g = (color >> 8) & 255;
-      b = color & 255;
-    }
-    hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
-    return hsp;
-  }
+/**
+ * 
+ * @param hex hex color
+ * @description function refactor short hex code in full hex
+ * @returns hex
+ * @example
+ * refactorHexColor("#ddd"); // return #dddddd
+ * 
+ */
+export const refactorHexColor = (hex: string) => {
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 
+    return hex.replace(shorthandRegex, (_, r, g, b) => {
+        return `#${r + r + g + g + b + b}`;
+    })
+}
+
+/**
+ * 
+ * @param hex 
+ * @param opacity 
+ * @description convert hex color to RGB color
+ * @returns /{r, g, b, alpha}/
+ * @example
+ * hexToRgb("#ffffff", 0.5) // return { r: 255, g: 255, b: 255, opacity: 125 }
+ */
+export const hexToRgb = (hex: string, opacity: number) => {
+    const newHex: string = refactorHexColor(hex);
+    const result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(newHex);
+
+    let r = parseInt(result ? result[1] : 'ff', 16);
+    let g = parseInt(result ? result[2] : 'ff', 16);
+    let b = parseInt(result ? result[3] : 'ff', 16);
+
+    return result ? {
+        r,
+        g,
+        b,
+        alpha: 255 * opacity
+    } : {
+            r: 255,
+            b: 255,
+            g: 255,
+            alpha: 255
+        }
+}
 
 /**
  * 
@@ -33,7 +58,8 @@ export function brightness(color: any) {
  * 
  */
 export const hexToHsl = (color: string) => {
-    const result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+    const newHex: string = refactorHexColor(color);
+    const result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(newHex);
 
     let r = parseInt(result ? result[1] : 'ff', 16);
     let g = parseInt(result ? result[2] : 'ff', 16);
@@ -143,34 +169,3 @@ export const hslToHex = (
 
     return '#' + r + g + b;
 };
-
-export const constructAnimPath = (
-    type: 'rightTop' | 'rightBottom' | 'leftBottom',
-    innerRadius: number,
-    outerRadius: string,
-    width: any,
-    shadowRadius: string,
-    height: any = null
-) => {
-    return useAnimatedProps(() => {
-        const mPrefix = `M ${width.value} ${type === 'rightTop' ? '0' : height.value}`;
-        const aTopPrefix = `a ${outerRadius} ${outerRadius} 0 0 1 
-            ${type === 'rightBottom' || type === 'leftBottom'
-                ? -outerRadius
-                : outerRadius
-            } 
-            ${type === 'leftBottom' ? -outerRadius : outerRadius}
-        `;
-        const hPrefix = `h ${type === 'leftBottom' ? shadowRadius : -shadowRadius}`;
-        const aBottomPrefix = `a ${innerRadius} ${innerRadius} 0 0 0 
-            ${type === 'rightTop'
-                ? -innerRadius
-                : innerRadius
-            } ${type === 'leftBottom' ? innerRadius : -innerRadius} z`
-        const path = `${mPrefix} ${aTopPrefix} ${hPrefix} ${aBottomPrefix}`;
-        console.log(path)
-        return {
-            d: path
-        }
-    })
-}

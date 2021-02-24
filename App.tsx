@@ -97,7 +97,7 @@ const App: React.FC = () => {
                 </View> */}
                 <View style={{ marginTop: 150, marginLeft: 50 }}>
                     <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
-                        <Neumorph
+                        {/* <Neumorph
                             style={{
                                 shadowRadius: 12,
                                 borderRadius: 200,
@@ -107,36 +107,54 @@ const App: React.FC = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}
-                        >
-                            <Neumorph
+                        > */}
+                            {/* <Neumorph
                                 inner
-                                darkShadowColor="#dddddd"
-                                lightShadowColor="#dddddd"
+                                darkShadowColor="#c3c3c3"
+                                lightShadowColor="#ffffff"
                                 style={{
-                                    shadowRadius: 5,
-                                    borderRadius: 190,
+                                    shadowRadius: 8,
+                                    borderRadius: 200,
                                     backgroundColor: '#F19F9F',
                                     width: 180,
                                     height: 180,
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     shadowOffset: {
-                                        width: 2,
-                                        height: 4
+                                        width: 12,
+                                        height: 12
                                     }
                                 }}
-                            >
-                                <Neumorph
+                            > */}
+                                {/* <Neumorph
                                     style={{
-                                        shadowRadius: 6,
+                                        shadowRadius: 12,
                                         borderRadius: 200,
                                         backgroundColor: '#DDDDDD',
                                         width: 100,
                                         height: 100,
+                                        shadowOffset: {
+                                            width: 20,
+                                            height: 20
+                                        }
                                       }}
                                 />
                             </Neumorph>
-                        </Neumorph>
+                        </Neumorph> */}
+                        <Neumorph
+                            inner={isAnim}
+                            // basin
+                            // lightShadowColor="#ffffff"
+                            // darkShadowColor="#000000"
+                            style={{
+                                shadowOpacity: 1,
+                                shadowRadius: 12,
+                                borderRadius: 200,
+                                backgroundColor: '#ddd',
+                                width: 200,
+                                height: 200,
+                            }}
+                        />
                     </Pressable>
                 </View>
         </SafeAreaView>

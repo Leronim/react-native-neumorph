@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { NeomoprhStyle, NeomorphProps } from '../global';
+import { StyleSheet, NativeModules } from 'react-native';
+import { NeomoprhStyle, NeomorphProps, rgbProps } from '../global';
 import { NativeNeumorph } from './nativeComponent';
-import { hexToHsl, hslToHex } from './utils';
+import { hexToHsl, hslToHex, hexToRgb, refactorHexColor } from './utils';
 
 export const Neumorph: React.FC<NeomorphProps> = ({ 
     inner = false,
@@ -15,15 +15,15 @@ export const Neumorph: React.FC<NeomorphProps> = ({
 }: NeomorphProps) => {
     const { 
         backgroundColor = "transparent",
-        shadowOffset = { width: 20, height: 20 },
         borderRadius = 0,
-        shadowRadius = 0
+        shadowRadius = 8,
+        shadowOpacity = 1
     }: NeomoprhStyle = style instanceof Array ? StyleSheet.flatten(style) : style;
     const { h, s, l } = hexToHsl(backgroundColor);
     const light: string = hslToHex(h - 2 < 0 ? 0 : h - 2, s, l + 5 > 100 ? 100 : l + 5);
     const dark: string = hslToHex(h, s, l - 8 < 0 ? 0 : l - 20);
-    const _lightShadowColor: string = lightShadowColor ? lightShadowColor : light;
-    const _darkShadowColor: string = darkShadowColor ? darkShadowColor : dark;
+    const _lightShadowColor: rgbProps = lightShadowColor ? hexToRgb(lightShadowColor, shadowOpacity) : hexToRgb(light, shadowOpacity);
+    const _darkShadowColor: rgbProps = darkShadowColor ? hexToRgb(darkShadowColor, shadowOpacity) : hexToRgb(dark, shadowOpacity);
 
     return (
         <NativeNeumorph
@@ -31,8 +31,7 @@ export const Neumorph: React.FC<NeomorphProps> = ({
             style={style}
             basin={basin}
             shadowRadius={shadowRadius}
-            backgroundColor={backgroundColor}
-            shadowOffset={shadowOffset}
+            backgroundColor={refactorHexColor(backgroundColor)}
             borderRadius={borderRadius === 0 ? borderRadius : borderRadius * 2}
             darkShadowColor={swapShadow ? _lightShadowColor : _darkShadowColor}
             lightShadowColor={swapShadow ? _darkShadowColor : _lightShadowColor}
