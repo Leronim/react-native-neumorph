@@ -15,9 +15,13 @@ export interface rgbProps {
     alpha: number;
 }
 
-export interface NeomorphProps {
+export interface AnimatedNeumorphProps extends NeumorphProps {
+
+}
+
+export interface NeumorphProps {
     inner?: boolean;
-    style?: NeomoprhStyle;
+    style?: ViewStyle;
     basin?:boolean;
     darkShadowColor?: string;
     lightShadowColor?: string;
