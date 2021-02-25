@@ -24,6 +24,7 @@ import {
 import PropTypes from 'prop-types';
 import { useLazyRef } from './src/useLazyRef';
 import { Neumorph } from './src/Neumorph';
+import { NativeNeumorph } from './src/nativeComponent';
 // import Shadow from './src/Shadow';
 // import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
 
@@ -95,6 +96,7 @@ const App: React.FC = () => {
                 {/* <View style={{ borderRadius: 200, backgroundColor: 'red', width: 300, height: 300 }}>
 
                 </View> */}
+                <NativeNeumorph style={{width: 150, height: 150}}/>
                 <View style={{ marginTop: 150, marginLeft: 50 }}>
                     <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
                         {/* <Neumorph
@@ -141,7 +143,7 @@ const App: React.FC = () => {
                                 />
                             </Neumorph>
                         </Neumorph> */}
-                        <Neumorph
+                        {/* <Neumorph
                             inner={isAnim}
                             // basin
                             // lightShadowColor="#ffffff"
@@ -154,7 +156,7 @@ const App: React.FC = () => {
                                 width: 200,
                                 height: 200,
                             }}
-                        />
+                        /> */}
                     </Pressable>
                 </View>
         </SafeAreaView>
