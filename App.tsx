@@ -17,118 +17,118 @@ import {
     NativeModules,
     requireNativeComponent,
     ViewPropTypes,
-    // Animated,
-    // Easing,
+    Animated,
+    Easing,
     Pressable,
     UIManager
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useLazyRef } from './src/useLazyRef';
 import { Neumorph } from './src/Neumorph';
-import { NativeNeumorph } from './src/nativeComponent';
+import { NativeNeumorph, IosNeumorph } from './src/nativeComponent';
 // import Shadow from './src/Shadow';
-import Animated, { useSharedValue, useAnimatedStyle, Easing, withTiming, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
+// import Animated, { useSharedValue, useAnimatedStyle, Easing, withTiming, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
 import { hexToRgb } from './src/utils';
 
-const Tets = requireNativeComponent('SwiftUIStarter')
+// const Tets = requireNativeComponent('Neumorph')
 
 const App: React.FC = () => {
 
     const [isAnim, setIsAnim] = useState<boolean>(false);
-    // const width = useLazyRef(() => new Animated.Value(150));
-
-    // const startAnimation = () => {
-    //     Animated.timing(width, {
-    //         toValue: 300,
-    //         duration: 10000,
-    //         useNativeDriver: false,
-    //         easing: Easing.ease
-    //     }).start();
-    // }
-
-    // const downAnimation = () => {
-    //     Animated.timing(width, {
-    //         toValue: 150,
-    //         duration: 10000,
-    //         useNativeDriver: false,
-    //         easing: Easing.ease
-    //     }).start();
-    // }
-
-    const width = useSharedValue(150);
-
-    const height = useSharedValue(150);
+    const width = useLazyRef(() => new Animated.Value(150));
 
     const startAnimation = () => {
-        width.value = withTiming(300, {
-            duration: 1500,
+        Animated.timing(width, {
+            toValue: 300,
+            duration: 10000,
+            useNativeDriver: false,
             easing: Easing.ease
-        });
-        height.value = withTiming(300, {
-            duration: 1500,
-            easing: Easing.ease
-        })
+        }).start();
     }
 
     const downAnimation = () => {
-        width.value = withTiming(150, {
-            duration: 1500,
+        Animated.timing(width, {
+            toValue: 150,
+            duration: 10000,
+            useNativeDriver: false,
             easing: Easing.ease
-        });
-        height.value = withTiming(150, {
-            duration: 1500,
-            easing: Easing.ease
-        });
+        }).start();
     }
-    const styleAnim1 = useAnimatedStyle(() => {
-        return {
-            width: withTiming(width.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-            height: withTiming(height.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-        }
-    })
-    const styleAnim2 = useAnimatedStyle(() => {
-        return {
-            width: withTiming(width.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-            height: withTiming(height.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-        }
-    })
-    const styleAnim3 = useAnimatedStyle(() => {
-        return {
-            width: withTiming(width.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-            height: withTiming(height.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-        }
-    })
 
-    const styleAnim = useAnimatedStyle(() => {
-        return {
-            width: withTiming(width.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-            height: withTiming(height.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-        }
-    })
+    // const width = useSharedValue(150);
+
+    // const height = useSharedValue(150);
+
+    // const startAnimation = () => {
+    //     width.value = withTiming(300, {
+    //         duration: 1500,
+    //         easing: Easing.ease
+    //     });
+    //     height.value = withTiming(300, {
+    //         duration: 1500,
+    //         easing: Easing.ease
+    //     })
+    // }
+
+    // const downAnimation = () => {
+    //     width.value = withTiming(150, {
+    //         duration: 1500,
+    //         easing: Easing.ease
+    //     });
+    //     height.value = withTiming(150, {
+    //         duration: 1500,
+    //         easing: Easing.ease
+    //     });
+    // }
+    // const styleAnim1 = useAnimatedStyle(() => {
+    //     return {
+    //         width: withTiming(width.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //         height: withTiming(height.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //     }
+    // })
+    // const styleAnim2 = useAnimatedStyle(() => {
+    //     return {
+    //         width: withTiming(width.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //         height: withTiming(height.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //     }
+    // })
+    // const styleAnim3 = useAnimatedStyle(() => {
+    //     return {
+    //         width: withTiming(width.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //         height: withTiming(height.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //     }
+    // })
+
+    // const styleAnim = useAnimatedStyle(() => {
+    //     return {
+    //         width: withTiming(width.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //         height: withTiming(height.value, {
+    //             duration: 1500,
+    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    //         }),
+    //     }
+    // })
 
     return (
         <SafeAreaView style={styles.container}>
@@ -136,10 +136,9 @@ const App: React.FC = () => {
                 {/* <View style={{ borderRadius: 200, backgroundColor: 'red', width: 300, height: 300 }}>
 
                 </View> */}
-                {/* <View style={{ marginLeft: 50, marginTop: 100 }}> */}
-                    <Tets style={{width: 150, height: 150, backgroundColor: 'red', borderRadius: 100 }} borderRadius={100}/>
-                    {/* <NativeNeumorph style={{width: 150, height: 150, backgroundColor: '#ddd'}}/> */}
-                {/* </View> */}
+                {/* <View style={{ marginLeft: 50, marginTop: 100 }}>
+                    <IosNeumorph style={{width: 150, height: 150, backgroundColor: "#ddd"}} borderRadius={100}/>
+                </View> */}
                 <View style={{ marginTop: 150, marginLeft: 50 }}>
                     <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
                         {/* <Neumorph
@@ -185,20 +184,21 @@ const App: React.FC = () => {
                                 />
                             </Neumorph>
                         </Neumorph> */}
-                        {/* <Neumorph
+                        <Neumorph
                             inner={isAnim}
                             // basin
                             // lightShadowColor="#ffffff"
                             // darkShadowColor="#000000"
+                            color="#dddddd"
                             style={{
-                                shadowOpacity: 1,
-                                shadowRadius: 12,
-                                borderRadius: 200,
-                                backgroundColor: '#ddd',
+                                // shadowOpacity: 1,
+                                // shadowRadius: 12,
+                                borderRadius: 50,
+                                backgroundColor: '#dddddd',
                                 width: 150,
                                 height: 150,
                             }}
-                        /> */}
+                        />
                     </Pressable>
                 </View>
         </SafeAreaView>
@@ -207,7 +207,7 @@ const App: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#dddddd',
         flex: 1
     }
 })

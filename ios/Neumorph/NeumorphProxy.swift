@@ -7,22 +7,27 @@
 
 import SwiftUI
 
-@available(iOS 13.0, *)
-@objc(SwiftUIStarter)
-class SwiftUIProxy: RCTViewManager {
-    
-  private let vc = UIHostingController(rootView: SwiftUIComponent())
+@objcMembers class NeumorphProxy: NSObject {
+  private var vc = UIHostingController(rootView: Neumorph())
   
-  var borderRadius: Int {
-    set {
-      vc.rootView.props.borderRadius = newValue
-    }
-    get {
-      return vc.rootView.props.borderRadius
-    }
+  static let storage = NSMutableDictionary()
+  
+  var borderRadius: CGFloat {
+    set { vc.rootView.props.borderRadius = newValue }
+    get { return vc.rootView.props.borderRadius }
   }
   
-  override func view() -> UIView {
-      return vc.view
+  var color: String {
+    set { vc.rootView.props.color = newValue }
+    get { return vc.rootView.props.color }
+  }
+  
+  var onCountChange: RCTBubblingEventBlock {
+    set { vc.rootView.props.onCountChange = newValue }
+    get { return vc.rootView.props.onCountChange }
+  }
+  
+  var view: UIView {
+    return vc.view
   }
 }

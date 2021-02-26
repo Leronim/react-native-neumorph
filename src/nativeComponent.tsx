@@ -20,3 +20,4 @@ interface NativeProps {
 }
 
 export const NativeNeumorph = requireNativeComponent<Readonly<NativeProps>>('RNCNeumorph');
+export const IosNeumorph = requireNativeComponent('Neumorph');

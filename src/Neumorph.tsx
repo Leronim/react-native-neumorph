@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Platform, Text, View, ViewStyle, StyleProp } from 'react-native';
 import { NeomoprhStyle, NeumorphProps, rgbProps } from '../global';
-import { NativeNeumorph } from './nativeComponent';
+import { NativeNeumorph, IosNeumorph } from './nativeComponent';
 import { hexToHsl, hslToHex, hexToRgb, refactorHexColor, transformStyleProps } from './utils';
 import { InnerShadowSvg } from './InnerShadowSvg';
 
@@ -68,11 +68,10 @@ export const Neumorph: React.FC<NeumorphProps> = ({
         };
 
         return (
-            <>
-                <InnerShadowSvg position="top" option={insetDarkSetting}/>
-                    {/* {children} */}
-                <InnerShadowSvg position="bottom" option={insetLightSetting}/>
-            </>
+            <IosNeumorph 
+                style={style}
+                borderRadius={borderRadius}
+            />
         )
     } else {
         console.log(viewStyle.outerStyle)
