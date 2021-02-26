@@ -19,7 +19,8 @@ import {
     ViewPropTypes,
     // Animated,
     // Easing,
-    Pressable
+    Pressable,
+    UIManager
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useLazyRef } from './src/useLazyRef';
@@ -29,6 +30,7 @@ import { NativeNeumorph } from './src/nativeComponent';
 import Animated, { useSharedValue, useAnimatedStyle, Easing, withTiming, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
 import { hexToRgb } from './src/utils';
 
+const Tets = requireNativeComponent('SwiftUIStarter')
 
 const App: React.FC = () => {
 
@@ -127,15 +129,17 @@ const App: React.FC = () => {
             }),
         }
     })
+
     return (
         <SafeAreaView style={styles.container}>
-                <Button title="Toggle" onPress={() => setIsAnim(!isAnim)}/>
+                <Button title="Toggle" onPress={() => startAnimation()}/>
                 {/* <View style={{ borderRadius: 200, backgroundColor: 'red', width: 300, height: 300 }}>
 
                 </View> */}
-                <View style={{ marginLeft: 50, marginTop: 100 }}>
-                    <NativeNeumorph style={{width: 150, height: 150}}/>
-                </View>
+                {/* <View style={{ marginLeft: 50, marginTop: 100 }}> */}
+                    <Tets style={{width: 150, height: 150, backgroundColor: 'red', borderRadius: 100 }} borderRadius={100}/>
+                    {/* <NativeNeumorph style={{width: 150, height: 150, backgroundColor: '#ddd'}}/> */}
+                {/* </View> */}
                 <View style={{ marginTop: 150, marginLeft: 50 }}>
                     <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
                         {/* <Neumorph
@@ -203,7 +207,7 @@ const App: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#ddd',
+        backgroundColor: '#fff',
         flex: 1
     }
 })

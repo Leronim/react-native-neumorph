@@ -5,26 +5,25 @@
 //  Created by Никита Подрезов on 25.02.2021.
 //
 
-import Foundation
-import UIKit
-import AVFoundation
-import EMTNeumorphicView
-import MHSoftUI
+import SwiftUI
+import Neumorphic
 
-@objc(RNCNeumorph)
-class RNCNeumorph: RCTViewManager {
+class NeumorphProps: ObservableObject {
+  @Published var borderRadius: Int = 0
+}
+
+struct SwiftUIComponent: View {
+  @ObservedObject var props = NeumorphProps()
   
-  override func view() -> UIView! {
-    let view = EMTNeumorphicView()
-    view.neumorphicLayer?.lightShadowOpacity = 1
-    view.neumorphicLayer?.darkShadowOpacity = 1
-    view.neumorphicLayer?.shadowColor = UIColor.red.cgColor
-    view.neumorphicLayer?.elementColor = UIColor.gray.cgColor
-    view.neumorphicLayer?.edged = true
-    return view
-  }
+    var body: some View {
+      if(self.props.borderRadius > 50) {
+        Circle().fill(Color.Neumorphic.main).softOuterShadow()
+      } else {
+        RoundedRectangle(cornerRadius: 20).fill(Color.Neumorphic.main).softOuterShadow()
+      }
+    }
   
-  override static func requiresMainQueueSetup() -> Bool {
-    return true
-  }
+    func requiresMainQueueSetup() -> Bool {
+      return true
+    }
 }
