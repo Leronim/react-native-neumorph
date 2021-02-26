@@ -96,7 +96,9 @@ const App: React.FC = () => {
                 {/* <View style={{ borderRadius: 200, backgroundColor: 'red', width: 300, height: 300 }}>
 
                 </View> */}
-                <NativeNeumorph style={{width: 150, height: 150}}/>
+                <View style={{ marginLeft: 50, marginTop: 100 }}>
+                    <NativeNeumorph style={{width: 150, height: 150}}/>
+                </View>
                 <View style={{ marginTop: 150, marginLeft: 50 }}>
                     <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
                         {/* <Neumorph
