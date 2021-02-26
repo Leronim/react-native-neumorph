@@ -8,44 +8,26 @@
 import SwiftUI
 import Neumorphic
 
-extension UIColor {
-    convenience init(hexString: String, alpha: CGFloat = 1.0) {
-        let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        let scanner = Scanner(string: hexString)
-
-        if (hexString.hasPrefix("#")) {
-            scanner.scanLocation = 1
-        }
-
-        var color: UInt32 = 0
-        scanner.scanHexInt32(&color)
-
-        let mask = 0x000000FF
-        let r = Int(color >> 16) & mask
-        let g = Int(color >> 8) & mask
-        let b = Int(color) & mask
-
-        let red   = CGFloat(r) / 255.0
-        let green = CGFloat(g) / 255.0
-        let blue  = CGFloat(b) / 255.0
-
-        self.init(red:red, green:green, blue:blue, alpha:alpha)
-    }
-
-    func toHexString() -> String {
-        var r:CGFloat = 0
-        var g:CGFloat = 0
-        var b:CGFloat = 0
-        var a:CGFloat = 0
-
-        getRed(&r, green: &g, blue: &b, alpha: &a)
-
-        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-
-        return String(format:"#%06x", rgb)
-    }
+extension Color {
+    static let neuBackground = Color(hex: "dddddd")
+    static let dropShadow = Color(hex: "aeaec0").opacity(0.4)
+    static let dropLight = Color(hex: "ffffff")
 }
 
+extension Color {
+    init(hex: String) {
+        let scanner = Scanner(string: hex)
+        scanner.scanLocation = 0
+        var rgbValue: UInt64 = 0
+        scanner.scanHexInt64(&rgbValue)
+
+        let r = (rgbValue & 0xff0000) >> 16
+        let g = (rgbValue & 0xff00) >> 8
+        let b = rgbValue & 0xff
+
+        self.init(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff)
+    }
+}
 
 class NeumorphProps : ObservableObject {
   @Published var borderRadius: CGFloat = 0
@@ -58,10 +40,10 @@ struct Neumorph : View {
   
   var body: some View {
     RoundedRectangle(cornerRadius: self.props.borderRadius)
-      .fill(Color.init(red: 221, green: 221, blue: 221, opacity: 1.0))
+      .fill(Color.neuBackground)
       .frame(width: 150, height: 150)
-      .shadow(color: Color.init(red: 225, green: 0, blue: 0), radius: 8, x: -8, y: -8)
-      .shadow(color: Color.init(red: 0, green: 255, blue: 0), radius: 8, x: 8, y: 8)
+      .shadow(color: .dropShadow, radius: 15, x: 10, y: 10)
+      .shadow(color: .dropLight, radius: 15, x: -10, y: -10)
 //      .fill(Color.init(UIColor.init(hexString: self.props.color, alpha: 1)))
       .softOuterShadow()
   }
