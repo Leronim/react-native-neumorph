@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* NeomorphAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NeomorphAppTests.m */; };
+		0BA4005625E7EBBD00F107D9 /* Neumorph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA4005525E7EBBD00F107D9 /* Neumorph.swift */; };
+		0BA4005C25E7EBE600F107D9 /* Neumorph.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA4005B25E7EBE600F107D9 /* Neumorph.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -44,6 +46,9 @@
 		00E356EE1AD99517003FC87E /* NeomorphAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeomorphAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* NeomorphAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NeomorphAppTests.m; sourceTree = "<group>"; };
+		0BA4005425E7EBBD00F107D9 /* NeomorphApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NeomorphApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		0BA4005525E7EBBD00F107D9 /* Neumorph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Neumorph.swift; sourceTree = "<group>"; };
+		0BA4005B25E7EBE600F107D9 /* Neumorph.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Neumorph.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* NeomorphApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NeomorphApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NeomorphApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = NeomorphApp/AppDelegate.m; sourceTree = "<group>"; };
@@ -122,9 +127,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0BA4004F25E7EB7400F107D9 /* Neumorph */ = {
+			isa = PBXGroup;
+			children = (
+				0BA4005525E7EBBD00F107D9 /* Neumorph.swift */,
+				0BA4005425E7EBBD00F107D9 /* NeomorphApp-Bridging-Header.h */,
+				0BA4005B25E7EBE600F107D9 /* Neumorph.m */,
+			);
+			path = Neumorph;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* NeomorphApp */ = {
 			isa = PBXGroup;
 			children = (
+				0BA4004F25E7EB7400F107D9 /* Neumorph */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -161,7 +177,6 @@
 				991409298AB833BC77AC3998 /* Pods-NeomorphApp-tvOSTests.debug.xcconfig */,
 				3E0AF5D543D0D83B995F3466 /* Pods-NeomorphApp-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -294,7 +309,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1230;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -568,8 +583,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BA4005625E7EBBD00F107D9 /* Neumorph.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				0BA4005C25E7EBE600F107D9 /* Neumorph.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,6 +627,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B5A18FB8F274701310048D47 /* Pods-NeomorphApp-NeomorphAppTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -633,6 +651,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 810D2A8464D14121808AEC97 /* Pods-NeomorphApp-NeomorphAppTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = NeomorphAppTests/Info.plist;
@@ -658,6 +677,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = NeomorphApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -666,6 +686,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = NeomorphApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "Neumorph/NeomorphApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -680,6 +701,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = NeomorphApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -688,6 +710,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = NeomorphApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "Neumorph/NeomorphApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
