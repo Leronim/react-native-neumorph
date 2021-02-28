@@ -9,8 +9,8 @@ import SwiftUI
 import Neumorphic
 
 extension Color {
-    static let neuBackground = Color(hex: "dddddd")
-    static let dropShadow = Color(hex: "aeaec0").opacity(0.4)
+    static let neuBackground = Color(hex: "ffffff")
+    static let dropShadow = Color(hex: "000000").opacity(0.4)
     static let dropLight = Color(hex: "ffffff")
 }
 
@@ -32,19 +32,44 @@ extension Color {
 class NeumorphProps : ObservableObject {
   @Published var borderRadius: CGFloat = 0
   @Published var onCountChange: RCTDirectEventBlock = { _ in }
-  @Published var color: String = ""
+  @Published var color: NSString = "ffffff"
+  @Published var inner: Bool = false
+  @Published var lightShadow: NSString = "ffffff"
+  @Published var darkShadow: NSString = "000000"
+  @Published var opacity: Double = 1
 }
 
 struct Neumorph : View {
   @ObservedObject var props = NeumorphProps()
   
-  var body: some View {
+  var innerFigure: some View {
     RoundedRectangle(cornerRadius: self.props.borderRadius)
-      .fill(Color.neuBackground)
-      .frame(width: 150, height: 150)
-      .shadow(color: .dropShadow, radius: 15, x: 10, y: 10)
-      .shadow(color: .dropLight, radius: 15, x: -10, y: -10)
-//      .fill(Color.init(UIColor.init(hexString: self.props.color, alpha: 1)))
-      .softOuterShadow()
+    .fill(Color(hex: self.props.color as String))
+    .softInnerShadow(
+      RoundedRectangle(cornerRadius: self.props.borderRadius),
+      darkShadow: Color(hex: self.props.darkShadow as String).opacity(self.props.opacity),
+      lightShadow: Color(hex: self.props.lightShadow as String).opacity(self.props.opacity),
+      spread: 0.3,
+      radius: 15
+    );
+  }
+  
+  var outerFigure: some View {
+    RoundedRectangle(cornerRadius: self.props.borderRadius)
+      .fill(Color(hex: self.props.color as String))
+      .softOuterShadow(
+        darkShadow: Color(hex: self.props.darkShadow as String).opacity(self.props.opacity),
+        lightShadow: Color(hex: self.props.lightShadow as String).opacity(self.props.opacity),
+        radius: 15
+      );
+  }
+  
+  var body: some View {
+    if(self.props.inner) {
+      innerFigure
+    } else {
+      outerFigure
+    }
+
   }
 }

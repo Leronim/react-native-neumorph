@@ -52,6 +52,7 @@
 		0BA4005425E7EBBD00F107D9 /* NeomorphApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NeomorphApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		0BA4005525E7EBBD00F107D9 /* Neumorph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Neumorph.swift; sourceTree = "<group>"; };
 		0BA4005B25E7EBE600F107D9 /* Neumorph.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Neumorph.m; sourceTree = "<group>"; };
+		0BA4016625EAC21900F107D9 /* Neumorph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Neumorph.h; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* NeomorphApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NeomorphApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NeomorphApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = NeomorphApp/AppDelegate.m; sourceTree = "<group>"; };
@@ -138,6 +139,7 @@
 				0BA4005525E7EBBD00F107D9 /* Neumorph.swift */,
 				0BA4005425E7EBBD00F107D9 /* NeomorphApp-Bridging-Header.h */,
 				0BA4005B25E7EBE600F107D9 /* Neumorph.m */,
+				0BA4016625EAC21900F107D9 /* Neumorph.h */,
 			);
 			path = Neumorph;
 			sourceTree = "<group>";
@@ -466,13 +468,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NeomorphApp-NeomorphAppTests/Pods-NeomorphApp-NeomorphAppTests-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NeomorphApp-NeomorphAppTests/Pods-NeomorphApp-NeomorphAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NeomorphApp-NeomorphAppTests/Pods-NeomorphApp-NeomorphAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -506,13 +507,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NeomorphApp/Pods-NeomorphApp-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NeomorphApp/Pods-NeomorphApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NeomorphApp/Pods-NeomorphApp-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -695,6 +695,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JVRUA7PTD6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = NeomorphApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -723,6 +724,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JVRUA7PTD6;
 				INFOPLIST_FILE = NeomorphApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

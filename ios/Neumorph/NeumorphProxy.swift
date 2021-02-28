@@ -17,9 +17,29 @@ import SwiftUI
     get { return vc.rootView.props.borderRadius }
   }
   
-  var color: String {
+  var color: NSString {
     set { vc.rootView.props.color = newValue }
     get { return vc.rootView.props.color }
+  }
+  
+  var inner: Bool {
+    set { vc.rootView.props.inner = newValue }
+    get { return vc.rootView.props.inner }
+  }
+  
+  var lightShadow: NSString {
+    set { vc.rootView.props.lightShadow = newValue }
+    get { return vc.rootView.props.lightShadow }
+  }
+  
+  var darkShadow: NSString {
+    set { vc.rootView.props.darkShadow = newValue }
+    get { return vc.rootView.props.darkShadow }
+  }
+  
+  var shadowOpacity: Double {
+    set { vc.rootView.props.opacity = newValue }
+    get { return vc.rootView.props.opacity }
   }
   
   var onCountChange: RCTBubblingEventBlock {

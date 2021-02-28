@@ -66,11 +66,15 @@ export const Neumorph: React.FC<NeumorphProps> = ({
             shadowColor: iosDarkShadow,
             ...shadowStyle
         };
-
         return (
             <IosNeumorph 
                 style={style}
+                inner={inner}
+                darkShadowColor={iosDarkShadow.replace('#', '')}
+                lightShadowColor={iosLightShadow.replace('#', '')}
                 borderRadius={borderRadius}
+                shadowOpacity={shadowOpacity}
+                color={backgroundColor.replace('#', '')}
             />
         )
     } else {

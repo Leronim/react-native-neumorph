@@ -17,8 +17,8 @@ import {
     NativeModules,
     requireNativeComponent,
     ViewPropTypes,
-    Animated,
-    Easing,
+    // Animated,
+    // Easing,
     Pressable,
     UIManager
 } from 'react-native';
@@ -27,71 +27,74 @@ import { useLazyRef } from './src/useLazyRef';
 import { Neumorph } from './src/Neumorph';
 import { NativeNeumorph, IosNeumorph } from './src/nativeComponent';
 // import Shadow from './src/Shadow';
-// import Animated, { useSharedValue, useAnimatedStyle, Easing, withTiming, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, Easing, withTiming, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
 import { hexToRgb } from './src/utils';
 
 // const Tets = requireNativeComponent('Neumorph')
 
+const AnimIOS = Animated.createAnimatedComponent(IosNeumorph);
+
+
 const App: React.FC = () => {
 
     const [isAnim, setIsAnim] = useState<boolean>(false);
-    const width = useLazyRef(() => new Animated.Value(150));
-
-    const startAnimation = () => {
-        Animated.timing(width, {
-            toValue: 300,
-            duration: 10000,
-            useNativeDriver: false,
-            easing: Easing.ease
-        }).start();
-    }
-
-    const downAnimation = () => {
-        Animated.timing(width, {
-            toValue: 150,
-            duration: 10000,
-            useNativeDriver: false,
-            easing: Easing.ease
-        }).start();
-    }
-
-    // const width = useSharedValue(150);
-
-    // const height = useSharedValue(150);
+    // const width = useLazyRef(() => new Animated.Value(150));
 
     // const startAnimation = () => {
-    //     width.value = withTiming(300, {
-    //         duration: 1500,
+    //     Animated.timing(width, {
+    //         toValue: 300,
+    //         duration: 10000,
+    //         useNativeDriver: false,
     //         easing: Easing.ease
-    //     });
-    //     height.value = withTiming(300, {
-    //         duration: 1500,
-    //         easing: Easing.ease
-    //     })
+    //     }).start();
     // }
 
     // const downAnimation = () => {
-    //     width.value = withTiming(150, {
-    //         duration: 1500,
+    //     Animated.timing(width, {
+    //         toValue: 150,
+    //         duration: 10000,
+    //         useNativeDriver: false,
     //         easing: Easing.ease
-    //     });
-    //     height.value = withTiming(150, {
-    //         duration: 1500,
-    //         easing: Easing.ease
-    //     });
+    //     }).start();
     // }
-    // const styleAnim1 = useAnimatedStyle(() => {
-    //     return {
-    //         width: withTiming(width.value, {
-    //             duration: 1500,
-    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    //         }),
-    //         height: withTiming(height.value, {
-    //             duration: 1500,
-    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    //         }),
-    //     }
-    // })
+
+    const width = useSharedValue(150);
+
+    const height = useSharedValue(150);
+
+    const startAnimation = () => {
+        width.value = withTiming(300, {
+            duration: 1500,
+            easing: Easing.ease
+        });
+        height.value = withTiming(300, {
+            duration: 1500,
+            easing: Easing.ease
+        })
+    }
+
+    const downAnimation = () => {
+        width.value = withTiming(150, {
+            duration: 1500,
+            easing: Easing.ease
+        });
+        height.value = withTiming(150, {
+            duration: 1500,
+            easing: Easing.ease
+        });
+    }
+    const styleAnim1 = useAnimatedStyle(() => {
+        return {
+            width: withTiming(width.value, {
+                duration: 1500,
+                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+            }),
+            height: withTiming(height.value, {
+                duration: 1500,
+                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+            }),
+        }
+    })
     // const styleAnim2 = useAnimatedStyle(() => {
     //     return {
     //         width: withTiming(width.value, {
@@ -189,9 +192,9 @@ const App: React.FC = () => {
                             // basin
                             // lightShadowColor="#ffffff"
                             // darkShadowColor="#000000"
-                            color="#dddddd"
+                            // color="#c3c3c3"
                             style={{
-                                // shadowOpacity: 1,
+                                shadowOpacity: 0.4,
                                 // shadowRadius: 12,
                                 borderRadius: 50,
                                 backgroundColor: '#dddddd',
