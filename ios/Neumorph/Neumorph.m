@@ -44,14 +44,14 @@ RCT_CUSTOM_VIEW_PROPERTY(color, NSString, NeumorphProxy) {
   proxy.color = params;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(lightShadow, NSString, NeumorphProxy) {
+RCT_CUSTOM_VIEW_PROPERTY(lightShadowColor, NSString, NeumorphProxy) {
   NSString *params = json ? [RCTConvert NSString:json] : nil;
   NSMutableDictionary *storage = [NeumorphProxy storage];
   NeumorphProxy *proxy = storage[[NSValue valueWithNonretainedObject:view]];
   proxy.lightShadow = params;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(darkShadow, NSString, NeumorphProxy) {
+RCT_CUSTOM_VIEW_PROPERTY(darkShadowColor, NSString, NeumorphProxy) {
   NSString *params = json ? [RCTConvert NSString:json] : nil;
   NSMutableDictionary *storage = [NeumorphProxy storage];
   NeumorphProxy *proxy = storage[[NSValue valueWithNonretainedObject:view]];

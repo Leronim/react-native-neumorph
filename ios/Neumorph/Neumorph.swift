@@ -9,12 +9,6 @@ import SwiftUI
 import Neumorphic
 
 extension Color {
-    static let neuBackground = Color(hex: "ffffff")
-    static let dropShadow = Color(hex: "000000").opacity(0.4)
-    static let dropLight = Color(hex: "ffffff")
-}
-
-extension Color {
     init(hex: String) {
         let scanner = Scanner(string: hex)
         var rgbValue: UInt64 = 0
@@ -43,6 +37,7 @@ struct Neumorph : View {
   @ObservedObject var props = NeumorphProps()
   
   var innerFigure: some View {
+    //TODO: Сделать привязку к spread
     RoundedRectangle(cornerRadius: self.props.borderRadius)
     .fill(Color(hex: self.props.color as String))
     .softInnerShadow(
@@ -55,6 +50,7 @@ struct Neumorph : View {
   }
   
   var outerFigure: some View {
+    //TODO: Сделать привязку в offset
     RoundedRectangle(cornerRadius: self.props.borderRadius)
       .fill(Color(hex: self.props.color as String))
       .softOuterShadow(

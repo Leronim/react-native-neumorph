@@ -1,38 +1,3 @@
-import { StyleProp, ViewStyle, StyleSheet, View } from "react-native";
-import { NeomoprhStyle, NeumorphProps } from "../global";
-
-export const transformStyleProps = (style: ViewStyle, platform: string) => {
-    let outerStyle: ViewStyle = {}, shadowStyle: ViewStyle = {};
-    if(platform === 'ios') {
-        const {
-
-        }: ViewStyle = style instanceof Array ? StyleSheet.flatten(style) : style;
-    } else {
-        const {
-            /* shadow style */ 
-            shadowOpacity = 1,
-            shadowRadius,
-            shadowColor,
-            shadowOffset,
-            /* shadow style */
-            ...other
-        }: ViewStyle = style instanceof Array ? StyleSheet.flatten(style) : style;
-
-        outerStyle = {
-            other
-        }
-
-        shadowStyle = {
-            shadowOpacity,
-            shadowRadius,
-            shadowColor
-        };
-    }
-
-
-    return {shadowStyle, outerStyle};
-}
-
 /**
  * 
  * @param hex hex color

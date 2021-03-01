@@ -1,11 +1,7 @@
-import { StyleProp, View, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 
-export interface NeomoprhStyle extends ViewStyle {
-    backgroundColor?: "transparent" | string;
-    // shadowOffset?: {
-    //     width: number;
-    //     height
-    // }
+interface NeumorphStyle extends ViewStyle {
+    backgroundColor?: string;
 }
 
 export interface rgbProps {
@@ -15,13 +11,9 @@ export interface rgbProps {
     alpha: number;
 }
 
-export interface AnimatedNeumorphProps extends NeumorphProps {
-
-}
-
 export interface NeumorphProps {
     inner?: boolean;
-    style?: ViewStyle;
+    style: NeumorphStyle | NeumorphStyle[];
     basin?:boolean;
     darkShadowColor?: string;
     lightShadowColor?: string;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NativeNeumorph, IosNeumorph } from './nativeComponent';
-import Animated from 'react-native-reanimated';
+import Animated, {} from 'react-native-reanimated';
 import { Platform, StyleSheet } from 'react-native';
 import { rgbProps, NeumorphProps } from '../global';
 import { hexToHsl, hslToHex, hexToRgb, refactorHexColor } from './utils';
@@ -30,13 +30,12 @@ export const AnimatedNeumorph: React.FC<NeumorphProps> = ({
     if(Platform.OS === 'ios') {
         const iosLightShadow = lightShadowColor ? lightShadowColor : light;
         const iosDarkShadow = darkShadowColor ? darkShadowColor : dark;
-        console.log(backgroundColor)
         return (
             <AnimIosNeumorph 
-                style={style}
+                style={[style, { backgroundColor: 'transparent' }]}
                 inner={inner}
-                darkShadow={iosDarkShadow.replace('#', '')}
-                lightShadow={iosLightShadow.replace('#', '')}
+                darkShadowColor={iosDarkShadow.replace('#', '')}
+                lightShadowColor={iosLightShadow.replace('#', '')}
                 borderRadius={borderRadius}
                 shadowOpacity={shadowOpacity}
                 shadowRadius={shadowRadius}

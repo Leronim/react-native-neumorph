@@ -1,17 +1,13 @@
 import { requireNativeComponent, StyleProp, ViewStyle } from 'react-native';
 import { rgbProps } from '../global';
 
-interface NativeProps {
+interface AndroidNativeProps {
     inner?: boolean;
     style?: StyleProp<ViewStyle>;
     backgroundColor?: string;
     basin?: boolean;
     darkShadowColor?: rgbProps;
     lightShadowColor?: rgbProps;
-    shadowOffset?: {
-        width: number;
-        height: number;
-    },
     borderRadius?: number;
     shadowRadius?: number;
     borderColor?: string;
@@ -19,5 +15,16 @@ interface NativeProps {
     shadowOpacity?: number;
 }
 
-export const NativeNeumorph = requireNativeComponent<Readonly<NativeProps>>('RNCNeumorph');
-export const IosNeumorph = requireNativeComponent('Neumorph');
+interface IosNativeProps {
+    inner?: boolean;
+    style?: StyleProp<ViewStyle>;
+    color?: string;
+    darkShadowColor?: string;
+    lightShadowColor?: string;
+    borderRadius?: number;
+    shadowRadius?: number;
+    shadowOpacity?: number;
+}
+
+export const NativeNeumorph = requireNativeComponent<Readonly<AndroidNativeProps>>('RNCNeumorph');
+export const IosNeumorph = requireNativeComponent<Readonly<IosNativeProps>>('Neumorph');

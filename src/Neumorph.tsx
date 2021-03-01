@@ -1,14 +1,8 @@
 import React from 'react';
-import { StyleSheet, Platform, Text, View, ViewStyle, StyleProp } from 'react-native';
-import { NeomoprhStyle, NeumorphProps, rgbProps } from '../global';
+import { StyleSheet, Platform } from 'react-native';
+import { NeumorphProps, rgbProps } from '../global';
 import { NativeNeumorph, IosNeumorph } from './nativeComponent';
-import { hexToHsl, hslToHex, hexToRgb, refactorHexColor, transformStyleProps } from './utils';
-import { InnerShadowSvg } from './InnerShadowSvg';
-
-interface NeomorphViewStyle {
-    shadowStyle: StyleProp<ViewStyle>,
-    outerStyle: StyleProp<ViewStyle>
-}
+import { hexToHsl, hslToHex, hexToRgb, refactorHexColor } from './utils';
 
 export const Neumorph: React.FC<NeumorphProps> = ({ 
     inner = false,
@@ -24,13 +18,7 @@ export const Neumorph: React.FC<NeumorphProps> = ({
         borderRadius = 0,
         shadowRadius = 8,
         shadowOpacity = 1,
-        width,
-        height,
-        shadowOffset = {
-            width: 2,
-            height: 4
-        }
-    }: NeomoprhStyle = style instanceof Array ? StyleSheet.flatten(style) : style;
+    } = style instanceof Array ? StyleSheet.flatten(style) : style;
     const { h, s, l } = hexToHsl(backgroundColor);
     const light: string = hslToHex(h - 2 < 0 ? 0 : h - 2, s, l + 5 > 100 ? 100 : l + 5);
     const dark: string = hslToHex(h, s, l - 8 < 0 ? 0 : l - 20);
@@ -40,10 +28,10 @@ export const Neumorph: React.FC<NeumorphProps> = ({
         const iosDarkShadow = darkShadowColor ? darkShadowColor : dark;
         return (
             <IosNeumorph 
-                style={style}
+                style={[style, { backgroundColor: 'transparent' }]}
                 inner={inner}
-                darkShadow={iosDarkShadow.replace('#', '')}
-                lightShadow={iosLightShadow.replace('#', '')}
+                darkShadowColor={swapShadow ? iosLightShadow.replace('#', '') : iosDarkShadow.replace('#', '')}
+                lightShadowColor={swapShadow ? iosDarkShadow.replace('#', '') : iosLightShadow.replace('#', '')}
                 borderRadius={borderRadius}
                 shadowOpacity={shadowOpacity}
                 shadowRadius={shadowRadius}

@@ -1,8 +1,6 @@
 package com.neomorphapp
 
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
@@ -71,21 +69,10 @@ class NeumorphViewManager : ViewGroupManager<NeumorphCardView>() {
 		neumorphCardView.setShadowColorLight(Color.argb(alpha, r, g, b));
     }
 
-    @ReactProp(name = "shadowOffset")
-    fun setShadowOffset(neumorphCardView: NeumorphCardView, shadowOffset: ReadableMap) {
-    	neumorphCardView.setInset(
-    		shadowOffset.getInt("width"),
-			shadowOffset.getInt("height"),
-			shadowOffset.getInt("width"),
-			shadowOffset.getInt("height")
-		);
-    }
-
     @ReactProp(name = "borderRadius", defaultInt = 0)
     fun setBorderRadiusTwo(neumorphCardView: NeumorphCardView, borderRadius: Float) {
         val newBorderRadius: NeumorphShapeAppearanceModel = NeumorphShapeAppearanceModel.builder()
                 .setAllCorners(CornerFamily.ROUNDED, borderRadius)
-//                .setAllCornerSizes(borderRadius)
                 .build();
         neumorphCardView.setShapeAppearanceModel(newBorderRadius);
     }
@@ -93,15 +80,5 @@ class NeumorphViewManager : ViewGroupManager<NeumorphCardView>() {
     @ReactProp(name = "shadowRadius", defaultInt = 0)
     fun setShadowRadius(neumorphCardView: NeumorphCardView, shadowRadius: Int) {
         neumorphCardView.setShadowElevation(12f)
-    }
-
-    @ReactProp(name = "borderColor")
-    fun setBorderColor(neumorphCardView: NeumorphCardView, borderColor: String) {
-		neumorphCardView.setStrokeColor(ColorStateList.valueOf(Color.parseColor(borderColor)));
-    }
-
-    @ReactProp(name = "borderWidth", defaultInt = 0)
-    fun setBorderWidth(neumorphCardView: NeumorphCardView, borderWidth: Float) {
-    	neumorphCardView.setStrokeWidth(borderWidth);
     }
 }
