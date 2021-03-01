@@ -90,15 +90,15 @@ const App: React.FC = () => {
     return (
         <SafeAreaView style={styles.container}>
             <Neumorph
-                inner // <- enable inner shadow
-                basin // <- support only android
+                // inner // <- enable inner shadow
+                // basin // <- support only android
                 darkShadowColor="#000000"
                 lightShadowColor="#ffffff"
                 style={{
                     backgroundColor: '#dddddd',
                     shadowOpacity: 0.3,
                     shadowRadius: 4,
-                    borderRadius: 20,
+                    borderRadius: 10,
                     marginTop: 20,
                     marginRight: 20,
                     width: 150,

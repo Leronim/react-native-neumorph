@@ -100,8 +100,13 @@ children | node | undefined |
 swapShadow | boolean | false | Swaps light and dark shadows in places
 
 ## Example
-<span style="display:block;text-align:center;width:100%;">
+<span style="display:block;text-align:center;">
   <img src="assets/RectangleNeumorph.png" width="400"/>
+  <img src="assets/RectangleOuter.png" width="400">
+</span>
+<span style="display:block;text-align:center;">
+  <img src="assets/CircleInner.png" width="400"/>
+  <img src="assets/CircleOuter.png" width="400">
 </span>
 
 ## Supported
