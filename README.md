@@ -40,9 +40,6 @@ import { Neumorph } from 'library-name';
 </Neumorph>
 ```
 
-<!-- ![Screeen Example](assets/RectangleNeumorph.png) -->
-<!-- [<img src="assets/RectangleNeumorph.png" width="300" height="500"/>](assets/RectangleNeumorph.png) -->
-
 ### AnimatedNeumorph
 Animated Neumorph component
 ```jsx
@@ -90,3 +87,26 @@ const animaStyle = useAnimatedStyle(() => {
   }]}
 />
 ```
+
+## Neumorph/AnimatedNeumorph property
+Name | Type | Default | Description
+:--- | :--- | :--- | :---
+inner | boolean | false | 	If **true**, a shadow will be inside of component
+style | object | undefined | Like View/Layout style prop, **width** & **height** is required. 
+basin | boolean | false | Specifies the appearance of a basin shape(Android only)
+darkShadowColor | string | #000000 | Specifies the color of the dark shadow
+lightShadowColor | string | #ffffff | Specifies the color of the light shadow
+children | node | undefined | 
+swapShadow | boolean | false | Swaps light and dark shadows in places
+
+## Example
+<span style="display:block;text-align:center;width:100%;">
+  <img src="assets/RectangleNeumorph.png" width="400"/>
+</span>
+
+## Supported
+
+Patform | Versiom
+:--- | :----
+iOS | iOS 13.0
+Android | SDK version 21
