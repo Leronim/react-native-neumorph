@@ -115,3 +115,7 @@ Patform | Versiom
 :--- | :----
 iOS | iOS 13.0
 Android | SDK version 21
+
+## TODO
+- ❌ Add support iOS 12
+- ❌ Add new native neumorph for SDK 28
