@@ -1,62 +1,92 @@
-# :space_invader: React Native Template TypeScript
+# Neumorph React Native
 
-<p>
-  <a href="https://travis-ci.org/react-native-community/react-native-template-typescript">
-    <img alt="Build Status" src="https://img.shields.io/travis/react-native-community/react-native-template-typescript.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/react-native-community/react-native-template-typescript#readme">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/react-native-community/react-native-template-typescript/graphs/commit-activity">
-    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/react-native-community/react-native-template-typescript/blob/master/LICENSE">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" target="_blank" />
-  </a>
-</p>
+## Installation
 
-> Clean and minimalist React Native template for a quick start with TypeScript.
+### Step 1
+Install <a href="https://docs.swmansion.com/react-native-reanimated/docs/installation" target="_blank">react-native-reanimated v2</a>
 
-## :star: Features
+### Step 2
 
-- Elegant usage directly within the [React Native CLI](https://github.com/react-native-community/cli)
-- Consistent with the default React Native template
-- Minimal additional dependencies
-
-## :arrow_forward: Usage
-
-```sh
-npx react-native init MyApp --template react-native-template-typescript
+```bash 
+cd ios && pod install && cd ..
 ```
 
-### Usage with older versions of React Native
+## Usage
 
-#### e.g. `react-native@0.62.x`
+### Neumorph
+Static Neumorph component
+```jsx
+import { Neumorph } from 'library-name';
 
-```sh
-npx react-native init MyApp --template react-native-template-typescript@6.4.*
+...
+
+<Neumorph
+  inner // <- enable inner shadow
+  basin // <- support only android
+  darkShadowColor="#000000"
+  lightShadowColor="#ffffff"
+  style={{
+      backgroundColor: '#dddddd',
+      shadowOpacity: 0.3,
+      shadowRadius: 4,
+      borderRadius: 100,
+      marginTop: 20,
+      marginRight: 20,
+      width: 150,
+      height: 150,
+  }}
+>
+  ...
+</Neumorph>
 ```
 
-See the below table to find out which version of the template to use.
+<!-- ![Screeen Example](assets/RectangleNeumorph.png) -->
+<!-- [<img src="assets/RectangleNeumorph.png" width="300" height="500"/>](assets/RectangleNeumorph.png) -->
 
-#### React Native <=> Template Version
+### AnimatedNeumorph
+Animated Neumorph component
+```jsx
+import { AnimatedNeumorph } from 'library-name';
+import { useSharedValue, useAnimatedStyle, Easing, withTiming, useValue } from 'react-native-reanimated';
 
-| React Native  	| Template  	|
-|---	            |---	        |
-| 0.63  	        | 6.5.*       |
-| 0.62  	        | 6.4.*       |
-| 0.61  	        | 6.3.*       |
-| 0.60  	        | 6.2.*       |
+...
 
-### Note on the legacy CLI
-There seems to be quite some confusion about the legacy CLI. This template only works with the new CLI. Make sure you have uninstalled the legacy `react-native-cli` first (`npm uninstall -g react-native-cli`), for the below command to work. If you wish to not use `npx`, you can also install the new CLI globally (`npm i -g @react-native-community/cli` or `yarn global add @react-native-community/cli`).
+const width = useSharedValue(150);
 
-Further information can be found here: https://github.com/react-native-community/cli#about
+...
 
-## :computer: Contributing
+const startAnimation = () => {
+  width.value = withTiming(300, {
+      duration: 300,
+      easing: Easing.ease
+  });
+}
 
-Contributions are very welcome. Please check out the [contributing document](CONTRIBUTING.md).
+...
 
-## :bookmark: License
+const animaStyle = useAnimatedStyle(() => {
+  return {
+    width: withTiming(width.value, {
+        duration: 1500,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+    })
+  }
+})
 
-This project is [MIT](LICENSE) licensed.
+...
+
+<AnimatedNeumorph
+  inner
+  style={[
+    styleAnim1,
+    { 
+      backgroundColor: '#dddddd',
+      shadowOpacity: 1,
+      shadowRadius: 4,
+      borderRadius: 50,
+      marginTop: 20,
+      height: 150,
+      marginRight: 20
+  }]}
+/>
+```

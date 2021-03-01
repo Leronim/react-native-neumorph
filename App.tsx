@@ -67,11 +67,7 @@ const App: React.FC = () => {
             width: withTiming(width.value, {
                 duration: 1500,
                 easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-            height: withTiming(height.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
+            })
         }
     })
     const styleAnim2 = useAnimatedStyle(() => {
@@ -79,11 +75,7 @@ const App: React.FC = () => {
             width: withTiming(width.value, {
                 duration: 1500,
                 easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-            height: withTiming(height.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
+            })
         }
     })
     const styleAnim3 = useAnimatedStyle(() => {
@@ -91,479 +83,28 @@ const App: React.FC = () => {
             width: withTiming(width.value, {
                 duration: 1500,
                 easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
-            height: withTiming(height.value, {
-                duration: 1500,
-                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-            }),
+            })
         }
     })
 
-    // const styleAnim = useAnimatedStyle(() => {
-    //     return {
-    //         width: withTiming(width.value, {
-    //             duration: 1500,
-    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    //         }),
-    //         height: withTiming(height.value, {
-    //             duration: 1500,
-    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    //         }),
-    //     }
-    // })
-
     return (
         <SafeAreaView style={styles.container}>
-                <Button title="Toggle" onPress={() => startAnimation()}/>
-                <Button title="Down" onPress={() => downAnimation()}/>
-                <ScrollView contentContainerStyle={{ marginTop: 20, marginLeft: 50, flexDirection: 'row', flexWrap: "wrap" }}>
-                    <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
-                        <AnimatedNeumorph
-                            inner={isAnim}
-                            style={[styleAnim1,{ 
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 1,
-                                shadowRadius: 4,
-                                borderRadius: 50,
-                                marginTop: 20,
-                                marginRight: 20
-                            }]}
-                        />
-                    </Pressable>
-                    <Pressable onPressIn={() => setIsAnim2(true)} onPressOut={() => setIsAnim2(false)}>
-                        <AnimatedNeumorph
-                            inner={isAnim2}
-                            style={[styleAnim2,{ 
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 1,
-                                shadowRadius: 4,
-                                borderRadius: 50,
-                                marginTop: 20,
-                                marginRight: 20
-                            }]}
-                        />
-                    </Pressable>
-                    <Pressable onPressIn={() => setIsAnim3(true)} onPressOut={() => setIsAnim3(false)}>
-                        <AnimatedNeumorph
-                            inner={isAnim3}
-                            style={[styleAnim3,{ 
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 1,
-                                shadowRadius: 4,
-                                borderRadius: 50,
-                                marginTop: 20,
-                                marginRight: 20,
-                            }]}
-                        />
-                    </Pressable>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        lightShadowColor="#0000ff"
-                        darkShadowColor="#ff0000"
-                        style={{
-                            backgroundColor: '#dddddd',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    />
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                    <Neumorph
-                        inner
-                        darkShadowColor="#000000"
-                        lightShadowColor="#ffffff"
-                        style={{
-                            backgroundColor: '#800080',
-                            shadowOpacity: 0.3,
-                            shadowRadius: 4,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            marginRight: 20,
-                            width: 150,
-                            height: 150,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Neumorph
-                            darkShadowColor="#000000"
-                            lightShadowColor="#ffffff"
-                            style={{
-                                backgroundColor: '#dddddd',
-                                shadowOpacity: 0.3,
-                                shadowRadius: 4,
-                                borderRadius: 100,
-                                width: 125,
-                                height: 125
-                            }}
-                        />
-                    </Neumorph>
-                </ScrollView>
+            <Neumorph
+                inner // <- enable inner shadow
+                basin // <- support only android
+                darkShadowColor="#000000"
+                lightShadowColor="#ffffff"
+                style={{
+                    backgroundColor: '#dddddd',
+                    shadowOpacity: 0.3,
+                    shadowRadius: 4,
+                    borderRadius: 20,
+                    marginTop: 20,
+                    marginRight: 20,
+                    width: 150,
+                    height: 150,
+                }}
+            />
         </SafeAreaView>
     );
 };
@@ -571,7 +112,9 @@ const App: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#dddddd',
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 
