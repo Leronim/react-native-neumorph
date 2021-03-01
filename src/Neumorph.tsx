@@ -34,51 +34,27 @@ export const Neumorph: React.FC<NeumorphProps> = ({
     const { h, s, l } = hexToHsl(backgroundColor);
     const light: string = hslToHex(h - 2 < 0 ? 0 : h - 2, s, l + 5 > 100 ? 100 : l + 5);
     const dark: string = hslToHex(h, s, l - 8 < 0 ? 0 : l - 20);
-    const _lightShadowColor: rgbProps = lightShadowColor ? hexToRgb(lightShadowColor, shadowOpacity) : hexToRgb(light, shadowOpacity);
-    const _darkShadowColor: rgbProps = darkShadowColor ? hexToRgb(darkShadowColor, shadowOpacity) : hexToRgb(dark, shadowOpacity);
-    const viewStyle: NeomorphViewStyle = transformStyleProps(style, Platform.OS);
 
     if(Platform.OS === 'ios') {
         const iosLightShadow = lightShadowColor ? lightShadowColor : light;
         const iosDarkShadow = darkShadowColor ? darkShadowColor : dark;
-        const shadowStyle = {
-            width,
-            height,
-            shadowRadius,
-            borderRadius,
-            shadowOpacity,
-            backgroundColor
-        }
-        const insetLightSetting = {
-            shadowOffset: {
-                width: -shadowOffset.width,
-                height: -shadowOffset.height
-            },
-            shadowColor: iosLightShadow,
-            ...shadowStyle
-        };
-        
-        const insetDarkSetting = {
-            shadowOffset: {
-                width: shadowOffset.width,
-                height: shadowOffset.height
-            },
-            shadowColor: iosDarkShadow,
-            ...shadowStyle
-        };
         return (
             <IosNeumorph 
                 style={style}
                 inner={inner}
-                darkShadowColor={iosDarkShadow.replace('#', '')}
-                lightShadowColor={iosLightShadow.replace('#', '')}
+                darkShadow={iosDarkShadow.replace('#', '')}
+                lightShadow={iosLightShadow.replace('#', '')}
                 borderRadius={borderRadius}
                 shadowOpacity={shadowOpacity}
+                shadowRadius={shadowRadius}
                 color={backgroundColor.replace('#', '')}
-            />
+            >
+                {children}
+            </IosNeumorph>
         )
     } else {
-        console.log(viewStyle.outerStyle)
+        const _lightShadowColor: rgbProps = lightShadowColor ? hexToRgb(lightShadowColor, shadowOpacity) : hexToRgb(light, shadowOpacity);
+        const _darkShadowColor: rgbProps = darkShadowColor ? hexToRgb(darkShadowColor, shadowOpacity) : hexToRgb(dark, shadowOpacity);
         return (
             <NativeNeumorph
                 inner={inner}

@@ -17,7 +17,6 @@ extension Color {
 extension Color {
     init(hex: String) {
         let scanner = Scanner(string: hex)
-        scanner.scanLocation = 0
         var rgbValue: UInt64 = 0
         scanner.scanHexInt64(&rgbValue)
 
@@ -34,9 +33,10 @@ class NeumorphProps : ObservableObject {
   @Published var onCountChange: RCTDirectEventBlock = { _ in }
   @Published var color: NSString = "ffffff"
   @Published var inner: Bool = false
-  @Published var lightShadow: NSString = "ffffff"
-  @Published var darkShadow: NSString = "000000"
+  @Published var lightShadow: NSString = ""
+  @Published var darkShadow: NSString = ""
   @Published var opacity: Double = 1
+  @Published var radius: CGFloat = 5
 }
 
 struct Neumorph : View {
@@ -49,8 +49,8 @@ struct Neumorph : View {
       RoundedRectangle(cornerRadius: self.props.borderRadius),
       darkShadow: Color(hex: self.props.darkShadow as String).opacity(self.props.opacity),
       lightShadow: Color(hex: self.props.lightShadow as String).opacity(self.props.opacity),
-      spread: 0.3,
-      radius: 15
+      spread: 0.1,
+      radius: self.props.radius
     );
   }
   
@@ -60,7 +60,7 @@ struct Neumorph : View {
       .softOuterShadow(
         darkShadow: Color(hex: self.props.darkShadow as String).opacity(self.props.opacity),
         lightShadow: Color(hex: self.props.lightShadow as String).opacity(self.props.opacity),
-        radius: 15
+        radius: self.props.radius
       );
   }
   

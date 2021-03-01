@@ -11,7 +11,6 @@
 #import "NeomorphApp-Swift.h"
 
 @interface NeumorphManager : RCTViewManager
-//  @property (nonatomic, strong) NSString *color;
 @end
 
 
@@ -25,6 +24,8 @@ RCT_EXPORT_SWIFTUI_PROPERTY(borderRadius, int, NeumorphProxy);
 RCT_EXPORT_SWIFTUI_PROPERTY(inner, bool, NeumorphProxy);
 
 RCT_EXPORT_SWIFTUI_PROPERTY(shadowOpacity, double, NeumorphProxy);
+
+RCT_EXPORT_SWIFTUI_PROPERTY(shadowRadius, float, NeumorphProxy);
 
 RCT_EXPORT_SWIFTUI_CALLBACK(onCountChange, RCTDirectEventBlock, NeumorphProxy);
 

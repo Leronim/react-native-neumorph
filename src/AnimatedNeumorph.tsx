@@ -1,11 +1,12 @@
 import React from 'react';
-import { NativeNeumorph } from './nativeComponent';
+import { NativeNeumorph, IosNeumorph } from './nativeComponent';
 import Animated from 'react-native-reanimated';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { rgbProps, NeumorphProps } from '../global';
 import { hexToHsl, hslToHex, hexToRgb, refactorHexColor } from './utils';
 
 const AnimNeumorph = Animated.createAnimatedComponent(NativeNeumorph);
+const AnimIosNeumorph = Animated.createAnimatedComponent(IosNeumorph);
 
 export const AnimatedNeumorph: React.FC<NeumorphProps> = ({
     style,
@@ -13,7 +14,8 @@ export const AnimatedNeumorph: React.FC<NeumorphProps> = ({
     basin = false,
     darkShadowColor,
     lightShadowColor,
-    swapShadow
+    swapShadow,
+    children
 }: NeumorphProps) => {
     const { 
         backgroundColor = "transparent",
@@ -24,19 +26,41 @@ export const AnimatedNeumorph: React.FC<NeumorphProps> = ({
     const { h, s, l } = hexToHsl(backgroundColor);
     const light: string = hslToHex(h - 2 < 0 ? 0 : h - 2, s, l + 5 > 100 ? 100 : l + 5);
     const dark: string = hslToHex(h, s, l - 8 < 0 ? 0 : l - 20);
-    const _lightShadowColor: rgbProps = lightShadowColor ? hexToRgb(lightShadowColor, shadowOpacity) : hexToRgb(light, shadowOpacity);
-    const _darkShadowColor: rgbProps = darkShadowColor ? hexToRgb(darkShadowColor, shadowOpacity) : hexToRgb(dark, shadowOpacity);
 
-    return (
-        <AnimNeumorph
-            inner={inner}
-            basin={basin}
-            style={style}
-            shadowRadius={shadowRadius}
-            backgroundColor={refactorHexColor(backgroundColor)}
-            borderRadius={borderRadius === 0 ? borderRadius : borderRadius * 2}
-            darkShadowColor={swapShadow ? _lightShadowColor : _darkShadowColor}
-            lightShadowColor={swapShadow ? _darkShadowColor : _lightShadowColor}
-        />
-    )
+    if(Platform.OS === 'ios') {
+        const iosLightShadow = lightShadowColor ? lightShadowColor : light;
+        const iosDarkShadow = darkShadowColor ? darkShadowColor : dark;
+        console.log(backgroundColor)
+        return (
+            <AnimIosNeumorph 
+                style={style}
+                inner={inner}
+                darkShadow={iosDarkShadow.replace('#', '')}
+                lightShadow={iosLightShadow.replace('#', '')}
+                borderRadius={borderRadius}
+                shadowOpacity={shadowOpacity}
+                shadowRadius={shadowRadius}
+                color={backgroundColor.replace('#', '')}
+            >
+                {children}
+            </AnimIosNeumorph>
+        )
+    } else {
+        const _lightShadowColor: rgbProps = lightShadowColor ? hexToRgb(lightShadowColor, shadowOpacity) : hexToRgb(light, shadowOpacity);
+        const _darkShadowColor: rgbProps = darkShadowColor ? hexToRgb(darkShadowColor, shadowOpacity) : hexToRgb(dark, shadowOpacity);
+        return (
+            <AnimNeumorph
+                inner={inner}
+                basin={basin}
+                style={style}
+                shadowRadius={shadowRadius}
+                backgroundColor={refactorHexColor(backgroundColor)}
+                borderRadius={borderRadius === 0 ? borderRadius : borderRadius * 2}
+                darkShadowColor={swapShadow ? _lightShadowColor : _darkShadowColor}
+                lightShadowColor={swapShadow ? _darkShadowColor : _lightShadowColor}
+            >
+                {children}
+            </AnimNeumorph>
+        )
+    }
 }

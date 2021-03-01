@@ -42,6 +42,11 @@ import SwiftUI
     get { return vc.rootView.props.opacity }
   }
   
+  var shadowRadius: CGFloat {
+    set { vc.rootView.props.radius = newValue }
+    get { return vc.rootView.props.radius }
+  }
+  
   var onCountChange: RCTBubblingEventBlock {
     set { vc.rootView.props.onCountChange = newValue }
     get { return vc.rootView.props.onCountChange }

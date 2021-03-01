@@ -92,7 +92,7 @@ class NeumorphViewManager : ViewGroupManager<NeumorphCardView>() {
 
     @ReactProp(name = "shadowRadius", defaultInt = 0)
     fun setShadowRadius(neumorphCardView: NeumorphCardView, shadowRadius: Int) {
-        neumorphCardView.setShadowElevation(shadowRadius.toFloat())
+        neumorphCardView.setShadowElevation(12f)
     }
 
     @ReactProp(name = "borderColor")

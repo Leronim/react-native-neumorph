@@ -25,19 +25,17 @@ import {
 import PropTypes from 'prop-types';
 import { useLazyRef } from './src/useLazyRef';
 import { Neumorph } from './src/Neumorph';
-import { NativeNeumorph, IosNeumorph } from './src/nativeComponent';
+import { AnimatedNeumorph } from './src/AnimatedNeumorph';
 // import Shadow from './src/Shadow';
 import Animated, { useSharedValue, useAnimatedStyle, Easing, withTiming, useValue, interpolateNode, interpolate } from 'react-native-reanimated';
 import { hexToRgb } from './src/utils';
-
-// const Tets = requireNativeComponent('Neumorph')
-
-const AnimIOS = Animated.createAnimatedComponent(IosNeumorph);
 
 
 const App: React.FC = () => {
 
     const [isAnim, setIsAnim] = useState<boolean>(false);
+    const [isAnim2, setIsAnim2] = useState<boolean>(false);
+    const [isAnim3, setIsAnim3] = useState<boolean>(false);
     // const width = useLazyRef(() => new Animated.Value(150));
 
     // const startAnimation = () => {
@@ -95,30 +93,30 @@ const App: React.FC = () => {
             }),
         }
     })
-    // const styleAnim2 = useAnimatedStyle(() => {
-    //     return {
-    //         width: withTiming(width.value, {
-    //             duration: 1500,
-    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    //         }),
-    //         height: withTiming(height.value, {
-    //             duration: 1500,
-    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    //         }),
-    //     }
-    // })
-    // const styleAnim3 = useAnimatedStyle(() => {
-    //     return {
-    //         width: withTiming(width.value, {
-    //             duration: 1500,
-    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    //         }),
-    //         height: withTiming(height.value, {
-    //             duration: 1500,
-    //             easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    //         }),
-    //     }
-    // })
+    const styleAnim2 = useAnimatedStyle(() => {
+        return {
+            width: withTiming(width.value, {
+                duration: 1500,
+                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+            }),
+            height: withTiming(height.value, {
+                duration: 1500,
+                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+            }),
+        }
+    })
+    const styleAnim3 = useAnimatedStyle(() => {
+        return {
+            width: withTiming(width.value, {
+                duration: 1500,
+                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+            }),
+            height: withTiming(height.value, {
+                duration: 1500,
+                easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+            }),
+        }
+    })
 
     // const styleAnim = useAnimatedStyle(() => {
     //     return {
@@ -136,74 +134,48 @@ const App: React.FC = () => {
     return (
         <SafeAreaView style={styles.container}>
                 <Button title="Toggle" onPress={() => startAnimation()}/>
-                {/* <View style={{ borderRadius: 200, backgroundColor: 'red', width: 300, height: 300 }}>
-
-                </View> */}
-                {/* <View style={{ marginLeft: 50, marginTop: 100 }}>
-                    <IosNeumorph style={{width: 150, height: 150, backgroundColor: "#ddd"}} borderRadius={100}/>
-                </View> */}
-                <View style={{ marginTop: 150, marginLeft: 50 }}>
+                <Button title="Down" onPress={() => downAnimation()}/>
+                <ScrollView contentContainerStyle={{ marginTop: 20, marginLeft: 50, flexDirection: 'row', flexWrap: "wrap" }}>
                     <Pressable onPressIn={() => setIsAnim(true)} onPressOut={() => setIsAnim(false)}>
-                        {/* <Neumorph
-                            style={{
-                                shadowOpacity: 1,
-                                shadowRadius: 12,
-                                borderRadius: 200,
-                                backgroundColor: '#ddd',
-                                width: 150,
-                                height: 150,
-                            }}
-                        > */}
-                            {/* <Neumorph
-                                inner
-                                darkShadowColor="#c3c3c3"
-                                lightShadowColor="#ffffff"
-                                style={{
-                                    shadowRadius: 8,
-                                    borderRadius: 200,
-                                    backgroundColor: '#F19F9F',
-                                    width: 180,
-                                    height: 180,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    shadowOffset: {
-                                        width: 12,
-                                        height: 12
-                                    }
-                                }}
-                            > */}
-                                {/* <Neumorph
-                                    style={{
-                                        shadowRadius: 12,
-                                        borderRadius: 200,
-                                        backgroundColor: '#DDDDDD',
-                                        width: 100,
-                                        height: 100,
-                                        shadowOffset: {
-                                            width: 20,
-                                            height: 20
-                                        }
-                                      }}
-                                />
-                            </Neumorph>
-                        </Neumorph> */}
-                        <Neumorph
+                        <AnimatedNeumorph
                             inner={isAnim}
-                            // basin
-                            // lightShadowColor="#ffffff"
-                            // darkShadowColor="#000000"
-                            // color="#c3c3c3"
-                            style={{
-                                shadowOpacity: 0.4,
-                                // shadowRadius: 12,
-                                borderRadius: 50,
+                            style={[styleAnim1,{ 
                                 backgroundColor: '#dddddd',
-                                width: 150,
-                                height: 150,
-                            }}
+                                shadowOpacity: 1,
+                                shadowRadius: 4,
+                                borderRadius: 50,
+                                marginTop: 20,
+                                marginRight: 20
+                            }]}
                         />
                     </Pressable>
-                </View>
+                    <Pressable onPressIn={() => setIsAnim2(true)} onPressOut={() => setIsAnim2(false)}>
+                        <AnimatedNeumorph
+                            inner={isAnim2}
+                            style={[styleAnim2,{ 
+                                backgroundColor: '#dddddd',
+                                shadowOpacity: 1,
+                                shadowRadius: 4,
+                                borderRadius: 50,
+                                marginTop: 20,
+                                marginRight: 20
+                            }]}
+                        />
+                    </Pressable>
+                    <Pressable onPressIn={() => setIsAnim3(true)} onPressOut={() => setIsAnim3(false)}>
+                        <AnimatedNeumorph
+                            inner={isAnim3}
+                            style={[styleAnim3,{ 
+                                backgroundColor: '#dddddd',
+                                shadowOpacity: 1,
+                                shadowRadius: 4,
+                                borderRadius: 50,
+                                marginTop: 20,
+                                marginRight: 20
+                            }]}
+                        />
+                    </Pressable>
+                </ScrollView>
         </SafeAreaView>
     );
 };

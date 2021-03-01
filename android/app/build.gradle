@@ -210,7 +210,7 @@ dependencies {
     }
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.github.tamimattafi:neumorphism:1.0.4'
+    implementation project(":neumorphism")
 
 }
 
