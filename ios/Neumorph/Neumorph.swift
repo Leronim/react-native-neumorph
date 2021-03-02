@@ -31,15 +31,42 @@ class NeumorphProps : ObservableObject {
   @Published var darkShadow: NSString = ""
   @Published var opacity: Double = 1
   @Published var radius: CGFloat = 5
+  @Published var width: CGFloat = 50
+  @Published var height: CGFloat = 50
 }
 
 struct Neumorph : View {
   @ObservedObject var props = NeumorphProps()
   
+  var circleInnerFigure: some View {
+    Circle()
+    .fill(Color(hex: self.props.color as String))
+      .frame(width: self.props.width, height: self.props.height)
+    .softInnerShadow(
+      Circle(),
+      darkShadow: Color(hex: self.props.darkShadow as String).opacity(self.props.opacity),
+      lightShadow: Color(hex: self.props.lightShadow as String).opacity(self.props.opacity),
+      spread: 0.1,
+      radius: self.props.radius
+    );
+  }
+  
+  var circleOuterFigure: some View {
+    Circle()
+      .fill(Color(hex: self.props.color as String))
+      .frame(width: self.props.width, height: self.props.height)
+      .softOuterShadow(
+        darkShadow: Color(hex: self.props.darkShadow as String).opacity(self.props.opacity),
+        lightShadow: Color(hex: self.props.lightShadow as String).opacity(self.props.opacity),
+        radius: self.props.radius
+      );
+  }
+  
   var innerFigure: some View {
     //TODO: Сделать привязку к spread
     RoundedRectangle(cornerRadius: self.props.borderRadius)
     .fill(Color(hex: self.props.color as String))
+    .frame(width: self.props.width, height: self.props.height)
     .softInnerShadow(
       RoundedRectangle(cornerRadius: self.props.borderRadius),
       darkShadow: Color(hex: self.props.darkShadow as String).opacity(self.props.opacity),
@@ -53,6 +80,7 @@ struct Neumorph : View {
     //TODO: Сделать привязку в offset
     RoundedRectangle(cornerRadius: self.props.borderRadius)
       .fill(Color(hex: self.props.color as String))
+      .frame(width: self.props.width, height: self.props.height)
       .softOuterShadow(
         darkShadow: Color(hex: self.props.darkShadow as String).opacity(self.props.opacity),
         lightShadow: Color(hex: self.props.lightShadow as String).opacity(self.props.opacity),
@@ -62,9 +90,17 @@ struct Neumorph : View {
   
   var body: some View {
     if(self.props.inner) {
-      innerFigure
+      if(self.props.borderRadius >= 100) {
+        circleInnerFigure
+      } else {
+        innerFigure
+      }
     } else {
-      outerFigure
+      if(self.props.borderRadius >= 100) {
+        circleOuterFigure
+      } else {
+        outerFigure
+      }
     }
 
   }

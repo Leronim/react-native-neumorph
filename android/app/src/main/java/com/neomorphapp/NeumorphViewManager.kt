@@ -1,6 +1,8 @@
 package com.neomorphapp
 
 import android.graphics.Color
+import android.util.Log
+import android.widget.FrameLayout
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
@@ -19,10 +21,18 @@ class NeumorphViewManager : ViewGroupManager<NeumorphCardView>() {
         return REACT_CLASS
     }
 
-    override fun createViewInstance(reactContext: ThemedReactContext): NeumorphCardView {
-        val neumorphCardView = NeumorphCardView(reactContext)
-        return neumorphCardView
-    }
+    override fun createViewInstance(reactContext: ThemedReactContext): NeumorphCardView = NeumorphCardView(reactContext)
+
+//    @ReactProp(name = "height")
+//    fun setHeight(neumorphCardView: NeumorphCardView, height: Int) {
+//        Log.d("NEUMORPH", "VALUE " + height)
+//        neumorphCardView.layoutParams = FrameLayout.LayoutParams(neumorphCardView.width, height)
+//    }
+//
+//    @ReactProp(name = "width")
+//    fun setWidth(neumorphCardView: NeumorphCardView, width: Int) {
+//        neumorphCardView.layoutParams = FrameLayout.LayoutParams(width, neumorphCardView.height)
+//    }
 
     @ReactProp(name = "backgroundColor")
     fun setBackgroundColor(neumorphCardView: NeumorphCardView, backgroundColor: String) {
@@ -35,6 +45,7 @@ class NeumorphViewManager : ViewGroupManager<NeumorphCardView>() {
 
     @ReactProp(name = "inner")
     fun setTypeShadow(neumorphCardView: NeumorphCardView, inner: Boolean) {
+        Log.d("NEUMORPH", "valie " + inner)
         if(inner) {
             neumorphCardView.setShapeType(ShapeType.PRESSED);
         } else {

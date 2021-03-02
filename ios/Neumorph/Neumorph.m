@@ -27,6 +27,9 @@ RCT_EXPORT_SWIFTUI_PROPERTY(shadowOpacity, double, NeumorphProxy);
 
 RCT_EXPORT_SWIFTUI_PROPERTY(shadowRadius, float, NeumorphProxy);
 
+RCT_EXPORT_SWIFTUI_PROPERTY(width, float, NeumorphProxy);
+RCT_EXPORT_SWIFTUI_PROPERTY(height, float, NeumorphProxy);
+
 RCT_EXPORT_SWIFTUI_CALLBACK(onCountChange, RCTDirectEventBlock, NeumorphProxy);
 
 - (UIView *)view {

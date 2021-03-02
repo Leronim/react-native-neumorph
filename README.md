@@ -3,7 +3,13 @@
 ## Installation
 
 ### Step 1
-Install <a href="https://docs.swmansion.com/react-native-reanimated/docs/installation" target="_blank">react-native-reanimated v2</a>
+```bash
+npm install react-native-neumorph
+```
+or
+```bash
+yarn add react-native-neumorph
+```
 
 ### Step 2
 
@@ -14,9 +20,9 @@ cd ios && pod install && cd ..
 ## Usage
 
 ### Neumorph
-Static Neumorph component
+Static Neumorph component (supported React Native Animation, React Native Reanimated v1, React Native Reanimated v2)
 ```jsx
-import { Neumorph } from 'library-name';
+import { Neumorph } from 'react-native-neumorph';
 
 ...
 
@@ -40,55 +46,7 @@ import { Neumorph } from 'library-name';
 </Neumorph>
 ```
 
-### AnimatedNeumorph
-Animated Neumorph component
-```jsx
-import { AnimatedNeumorph } from 'library-name';
-import { useSharedValue, useAnimatedStyle, Easing, withTiming, useValue } from 'react-native-reanimated';
-
-...
-
-const width = useSharedValue(150);
-
-...
-
-const startAnimation = () => {
-  width.value = withTiming(300, {
-      duration: 300,
-      easing: Easing.ease
-  });
-}
-
-...
-
-const animaStyle = useAnimatedStyle(() => {
-  return {
-    width: withTiming(width.value, {
-        duration: 1500,
-        easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-    })
-  }
-})
-
-...
-
-<AnimatedNeumorph
-  inner
-  style={[
-    styleAnim1,
-    { 
-      backgroundColor: '#dddddd',
-      shadowOpacity: 1,
-      shadowRadius: 4,
-      borderRadius: 50,
-      marginTop: 20,
-      height: 150,
-      marginRight: 20
-  }]}
-/>
-```
-
-## Neumorph/AnimatedNeumorph property
+## Neumorph property
 Name | Type | Default | Description
 :--- | :--- | :--- | :---
 inner | boolean | false | 	If **true**, a shadow will be inside of component
@@ -100,14 +58,11 @@ children | node | undefined |
 swapShadow | boolean | false | Swaps light and dark shadows in places
 
 ## Example
-<span style="display:block;text-align:center;">
-  <img src="assets/RectangleNeumorph.png" width="400"/>
-  <img src="assets/RectangleOuter.png" width="400">
-</span>
-<span style="display:block;text-align:center;">
-  <img src="assets/CircleInner.png" width="400"/>
-  <img src="assets/CircleOuter.png" width="400">
-</span>
+
+iOS | Android
+:--- | :---
+<img src="assets/iOS.gif" width="400" height="700"/> | <img src="assets/Android.gif" width="400" height="700"/>
+
 
 ## Supported
 

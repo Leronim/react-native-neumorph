@@ -1,7 +1,15 @@
 {
-  "name": "NeomorphApp",
-  "version": "0.0.1",
+  "name": "react-native-neumorph",
+  "description": "Neumorphism UI for Android & iOS.",
+  "version": "1.0.0",
   "private": true,
+  "author": "Nikita Podrezov",
+  "main": "index.tsx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Leronim/react-native-neumorph/issues"
+  },
+  "homepage": "https://github.com/Leronim/react-native-neumorph#readme",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",

@@ -47,6 +47,16 @@ import SwiftUI
     get { return vc.rootView.props.radius }
   }
   
+  var width: CGFloat {
+    set { vc.rootView.props.width = newValue }
+    get { return vc.rootView.props.width }
+  }
+  
+  var height: CGFloat {
+    set { vc.rootView.props.height = newValue }
+    get { return vc.rootView.props.height }
+  }
+  
   var onCountChange: RCTBubblingEventBlock {
     set { vc.rootView.props.onCountChange = newValue }
     get { return vc.rootView.props.onCountChange }
