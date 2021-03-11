@@ -7,16 +7,16 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import android.widget.FrameLayout
 import androidx.annotation.ColorInt
+import com.facebook.react.views.view.ReactViewGroup
 import soup.neumorphism.internal.util.NeumorphResources
 
 class NeumorphCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.neumorphCardViewStyle,
-    defStyleRes: Int = R.style.Widget_Neumorph_CardView
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+    defStyleRes: Int = R.style.Widget_Neumorph_CardView,
+) : ReactViewGroup(context) {
 
     private var isInitialized: Boolean = false
     private val shapeDrawable: NeumorphShapeDrawable
@@ -77,10 +77,7 @@ class NeumorphCardView @JvmOverloads constructor(
             setTranslationZ(translationZ)
         }
         internalSetInset(
-            if (insetStart >= 0) insetStart else inset,
-            if (insetTop >= 0) insetTop else inset,
-            if (insetEnd >= 0) insetEnd else inset,
-            if (insetBottom >= 0) insetBottom else inset
+        0,0,0,0
         )
         setBackgroundInternal(shapeDrawable)
         isInitialized = true
@@ -128,9 +125,9 @@ class NeumorphCardView @JvmOverloads constructor(
         shapeDrawable.setFillColor(backgroundColor)
     }
 
-    fun getBackgroundColor(): ColorStateList? {
-        return shapeDrawable.getFillColor()
-    }
+//    fun getBackgroundColor(): ColorStateList? {
+//        return shapeDrawable.getFillColor()
+//    }
 
     fun setStrokeColor(strokeColor: ColorStateList?) {
         shapeDrawable.setStrokeColor(strokeColor)
@@ -185,6 +182,10 @@ class NeumorphCardView @JvmOverloads constructor(
             requestLayout()
             invalidateOutline()
         }
+    }
+
+    fun setSwapShadow(swapShadow: Boolean) {
+        shapeDrawable.setSwapShadow(swapShadow)
     }
 
     fun setShadowElevation(shadowElevation: Float) {

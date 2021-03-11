@@ -90,18 +90,9 @@ struct Neumorph : View {
   
   var body: some View {
     if(self.props.inner) {
-      if(self.props.borderRadius >= 100) {
-        circleInnerFigure
-      } else {
         innerFigure
-      }
     } else {
-      if(self.props.borderRadius >= 100) {
-        circleOuterFigure
-      } else {
         outerFigure
-      }
     }
-
   }
 }

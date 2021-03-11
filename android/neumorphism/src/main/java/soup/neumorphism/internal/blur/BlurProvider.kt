@@ -43,8 +43,8 @@ internal class BlurProvider(context: Context) {
     }
 
     private fun blur(source: Bitmap, factor: BlurFactor): Bitmap? {
-        val width = factor.width / factor.sampling
-        val height = factor.height / factor.sampling
+        val width = (factor.width / factor.sampling)
+        val height = (factor.height / factor.sampling)
         if (width == 0 || height == 0) {
             return null
         }
@@ -84,8 +84,8 @@ internal class BlurProvider(context: Context) {
             rs = RenderScript.create(context)
             rs.messageHandler = RenderScript.RSMessageHandler()
             input = Allocation.createFromBitmap(
-                rs, bitmap, Allocation.MipmapControl.MIPMAP_NONE,
-                Allocation.USAGE_SCRIPT
+                    rs, bitmap, Allocation.MipmapControl.MIPMAP_NONE,
+                    Allocation.USAGE_SCRIPT
             )
             output = Allocation.createTyped(rs, input.type)
             blur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))

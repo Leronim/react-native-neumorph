@@ -6,10 +6,6 @@
   "author": "Nikita Podrezov",
   "main": "index.tsx",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Leronim/react-native-neumorph/issues"
-  },
-  "homepage": "https://github.com/Leronim/react-native-neumorph#readme",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -20,8 +16,7 @@
   "dependencies": {
     "@react-native-community/cli-platform-android": "^4.13.0",
     "react": "16.13.1",
-    "react-native": "0.63.4",
-    "react-native-reanimated": "file:react-native-reanimated-2.0.0-rc.3.tgz"
+    "react-native": "0.63.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",

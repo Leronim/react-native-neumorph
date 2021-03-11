@@ -250,6 +250,10 @@ class NeumorphShapeDrawable : Drawable {
         invalidateSelfIgnoreShape()
     }
 
+    fun setSwapShadow(swapShadow: Boolean) {
+        drawableState.swapShadow = swapShadow
+    }
+
     private fun hasBackgroundBitmap(): Boolean {
         return drawableState.backgroundDrawable?.let(Drawable::isVisible) ?: false
     }
@@ -439,6 +443,7 @@ class NeumorphShapeDrawable : Drawable {
         var fillColor: ColorStateList? = null
         var strokeColor: ColorStateList? = null
         var strokeWidth = 0f
+        var swapShadow: Boolean = false
 
         var alpha = 255
 
@@ -475,6 +480,7 @@ class NeumorphShapeDrawable : Drawable {
             shadowColorDark = orig.shadowColorDark
             translationZ = orig.translationZ
             paintStyle = orig.paintStyle
+            swapShadow = orig.swapShadow
         }
 
         override fun newDrawable(): Drawable {
@@ -528,6 +534,7 @@ class NeumorphShapeDrawable : Drawable {
             if (shadowColorDark != other.shadowColorDark) return false
             if (translationZ != other.translationZ) return false
             if (paintStyle != other.paintStyle) return false
+            if (swapShadow != other.swapShadow) return  false
 
             return true
         }

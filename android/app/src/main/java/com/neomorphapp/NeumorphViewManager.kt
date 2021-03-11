@@ -1,18 +1,18 @@
 package com.neomorphapp
 
 import android.graphics.Color
-import android.util.Log
-import android.widget.FrameLayout
+import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
+import com.facebook.react.views.view.ReactViewGroup
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphCardView
 import soup.neumorphism.NeumorphShapeAppearanceModel
 import soup.neumorphism.ShapeType
 
-class NeumorphViewManager : ViewGroupManager<NeumorphCardView>() {
+class NeumorphViewManager : ViewGroupManager<ReactViewGroup>() {
     companion object {
         const val REACT_CLASS = "RNCNeumorph"
     }
@@ -21,31 +21,20 @@ class NeumorphViewManager : ViewGroupManager<NeumorphCardView>() {
         return REACT_CLASS
     }
 
-    override fun createViewInstance(reactContext: ThemedReactContext): NeumorphCardView = NeumorphCardView(reactContext)
-
-//    @ReactProp(name = "height")
-//    fun setHeight(neumorphCardView: NeumorphCardView, height: Int) {
-//        Log.d("NEUMORPH", "VALUE " + height)
-//        neumorphCardView.layoutParams = FrameLayout.LayoutParams(neumorphCardView.width, height)
-//    }
-//
-//    @ReactProp(name = "width")
-//    fun setWidth(neumorphCardView: NeumorphCardView, width: Int) {
-//        neumorphCardView.layoutParams = FrameLayout.LayoutParams(width, neumorphCardView.height)
-//    }
+    override fun createViewInstance(reactContext: ThemedReactContext): ReactViewGroup {
+        val neumorphCardView = NeumorphCardView(reactContext)
+        return neumorphCardView
+    }
 
     @ReactProp(name = "backgroundColor")
     fun setBackgroundColor(neumorphCardView: NeumorphCardView, backgroundColor: String) {
-        if (backgroundColor == "transparent") {
-            neumorphCardView.setBackgroundColor(0x60FFFFFF)
-        } else {
+        if (backgroundColor !== "transparent") {
             neumorphCardView.setBackgroundColor(Color.parseColor(backgroundColor))
         }
     }
 
     @ReactProp(name = "inner")
     fun setTypeShadow(neumorphCardView: NeumorphCardView, inner: Boolean) {
-        Log.d("NEUMORPH", "valie " + inner)
         if(inner) {
             neumorphCardView.setShapeType(ShapeType.PRESSED);
         } else {
@@ -80,16 +69,31 @@ class NeumorphViewManager : ViewGroupManager<NeumorphCardView>() {
 		neumorphCardView.setShadowColorLight(Color.argb(alpha, r, g, b));
     }
 
-    @ReactProp(name = "borderRadius", defaultInt = 0)
-    fun setBorderRadiusTwo(neumorphCardView: NeumorphCardView, borderRadius: Float) {
-        val newBorderRadius: NeumorphShapeAppearanceModel = NeumorphShapeAppearanceModel.builder()
-                .setAllCorners(CornerFamily.ROUNDED, borderRadius)
-                .build();
-        neumorphCardView.setShapeAppearanceModel(newBorderRadius);
+    @ReactProp(name = "borderRadius")
+    fun setBorderRadiusTwo(neumorphCardView: NeumorphCardView, borderRadius: ReadableMap) {
+        val type = borderRadius.getBoolean("type");
+        val radius = borderRadius.getInt("radius");
+        val newBorderRadius: NeumorphShapeAppearanceModel;
+        if(type) {
+            neumorphCardView.setShapeAppearanceModel(
+                    NeumorphShapeAppearanceModel.builder().setAllCorners(CornerFamily.OVAL).build()
+            )
+        } else {
+            neumorphCardView.setShapeAppearanceModel(
+                    NeumorphShapeAppearanceModel.builder().setAllCorners(
+                            CornerFamily.ROUNDED, radius.toFloat()
+                    ).build()
+            )
+        }
     }
 
-    @ReactProp(name = "shadowRadius", defaultInt = 0)
-    fun setShadowRadius(neumorphCardView: NeumorphCardView, shadowRadius: Int) {
-        neumorphCardView.setShadowElevation(12f)
+    @ReactProp(name = "swapShadow", defaultBoolean = false)
+    fun setSwapShadow(neumorphCardView: NeumorphCardView, swapShadow: Boolean) {
+        neumorphCardView.setSwapShadow(swapShadow)
+    }
+
+    @ReactProp(name = "shadowRadius", defaultFloat = 12f)
+    fun setShadowRadius(neumorphCardView: NeumorphCardView, shadowRadius: Float) {
+        neumorphCardView.setShadowElevation(shadowRadius * 2)
     }
 }

@@ -39,6 +39,7 @@ internal class PressedShape(
 
     override fun updateShadowBitmap(bounds: Rect) {
         val shadowElevation = drawableState.shadowElevation.toInt()
+        val swapShadow = drawableState.swapShadow
         val w = bounds.width()
         val h = bounds.height()
         val width: Int = w + shadowElevation
@@ -58,7 +59,7 @@ internal class PressedShape(
                         drawableState.shapeAppearanceModel.getCornerSize()
                     )
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
+                    cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, cornerSize, cornerSize)
                 }
             }
         }
@@ -76,16 +77,24 @@ internal class PressedShape(
                         drawableState.shapeAppearanceModel.getCornerSize()
                     )
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
+                    cornerRadii = floatArrayOf(cornerSize, cornerSize, cornerSize, cornerSize, 0f, 0f, 0f, 0f)
                 }
             }
         }
 
-        lightShadowDrawable.setSize(width, height)
-        lightShadowDrawable.setBounds(0, 0, width, height)
-        darkShadowDrawable.setSize(width, height)
-        darkShadowDrawable.setBounds(0, 0, width, height)
-        shadowBitmap = generateShadowBitmap(w, h)
+        shadowBitmap = if(swapShadow) {
+            lightShadowDrawable.setSize(width, height)
+            lightShadowDrawable.setBounds(-35, -35, width, height)
+            darkShadowDrawable.setSize(width, height)
+            darkShadowDrawable.setBounds(0, 0, width, height)
+            generateShadowBitmap(w, h)
+        } else {
+            lightShadowDrawable.setSize(width, height)
+            lightShadowDrawable.setBounds(0, 0, width, height)
+            darkShadowDrawable.setSize(width, height)
+            darkShadowDrawable.setBounds(5, 5, width + 15, height + 15)
+            generateShadowBitmap(w, h)
+        }
     }
 
     private fun generateShadowBitmap(w: Int, h: Int): Bitmap? {
@@ -102,7 +111,9 @@ internal class PressedShape(
                 withTranslation(-shadowElevation, -shadowElevation) {
                     lightShadowDrawable.draw(this)
                 }
-                darkShadowDrawable.draw(this)
+//                withTranslation(8f, 8f) {
+                    darkShadowDrawable.draw(this)
+//                }
             }
             .blurred()
     }

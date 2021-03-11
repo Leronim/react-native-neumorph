@@ -8,11 +8,19 @@ interface AndroidNativeProps {
     basin?: boolean;
     darkShadowColor?: rgbProps;
     lightShadowColor?: rgbProps;
-    borderRadius?: number;
+    borderRadius: {
+        type: boolean;
+        radius: number;
+    };
     shadowRadius?: number;
     borderColor?: string;
     borderWidth?: number;
     shadowOpacity?: number;
+    swapShadow: boolean;
+    size?: {
+        width: any;
+        height: any;
+    }
 }
 
 interface IosNativeProps {
